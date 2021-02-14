@@ -4,7 +4,10 @@
   "description": "Budgeter",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watchify": "watchify ./views/js/index.js -o ./views/bundle.js",
+    "nodemon": "nodemon app.js",
+    "dev": "npm run watchify | npm run nodemon" 
   },
   "author": "Lee Morgan",
   "license": "ISC",
@@ -13,5 +16,8 @@
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.16"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0"
   }
 }
