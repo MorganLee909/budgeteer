@@ -1,6 +1,7 @@
 let home = {
     all: function(){
         document.getElementById("accountTitle").innerText = `${user.getAccount().name} account`;
+        document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("createIncome")};
 
         this.populateIncome();
     },
@@ -8,6 +9,10 @@ let home = {
     populateIncome: function(){
         let income = user.getAccount().getIncome();
         let incomeBody = document.getElementById("incomeBody");
+
+        while(incomeBody.children.length > 0){
+            incomeBody.removeChild(incomeBody.firstChild);
+        }
 
         for(let i = 0; i < income.length; i++){
             let tr = document.createElement("tr");

@@ -9,4 +9,5 @@ module.exports = function(app){
     app.get("/logout", home.logout);
     app.post("/register", home.register);
     app.post("/account/create", session, home.createAccount);
+    app.post("/income/create", session, home.createIncome);
 };

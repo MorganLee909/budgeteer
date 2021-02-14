@@ -7,6 +7,7 @@ class User{
 
         for(let i = 0; i < accounts.length; i++){
             this._accounts.push(new Account(
+                accounts[i]._id,
                 accounts[i].name,
                 accounts[i].balance,
                 accounts[i].categories
@@ -16,6 +17,7 @@ class User{
 
     addAccount(account){
         this._accounts.push(new Account(
+            account._id,
             account.name,
             account.balance,
             account.categories

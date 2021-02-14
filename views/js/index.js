@@ -1,6 +1,8 @@
+const home = require("./home.js");
+
 const enterModal = require("./modals/enter.js");
 const newAccountModal = require("./modals/newAccount.js");
-const home = require("./home.js");
+const createIncomeModal = require("./modals/createIncome.js");
 
 const User = require("./classes/user.js");
 
@@ -22,6 +24,10 @@ controller = {
             case "newAccount":
                 document.getElementById("newAccountModal").style.display = "flex";
                 newAccountModal.display();
+                break;
+            case "createIncome":
+                document.getElementById("createIncomeModal").style.display = "flex";
+                createIncomeModal.display();
                 break;
         }
     },
