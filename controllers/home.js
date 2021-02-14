@@ -24,6 +24,7 @@ module.exports = {
         password: String,
         confirmPassword: String
     }
+    response = User
     */
     register: function(req, res){
         if(req.body.password !== req.body.confirmPassword){
@@ -57,17 +58,47 @@ module.exports = {
                 return newUser.save();
             })
             .then((user)=>{
+                req.session.user = user.session.sessionId;
+
                 user.session = undefined;
                 user.password = undefined;
                 
                 return res.json(user);
             })
             .catch((err)=>{
-                console.log(err);
                 if(typeof(err) === "string"){
                     return res.json(err);
                 }
                 return res.json("ERROR: UNABLE TO CREATE NEW USER");
             })
+    },
+
+    /*
+    POST: create a new account for a user
+    req.body = {
+        name: String
+    }
+    response = Object (created account)
+    */
+    createAccount: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let newAccount = {
+            name: req.body.name,
+            balance: 0,
+            categories: []
+        };
+
+        res.locals.user.accounts.push(newAccount);
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(newAccount);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE ACCOUNT");
+            });
     }
 }

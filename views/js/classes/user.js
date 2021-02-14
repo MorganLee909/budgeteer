@@ -13,6 +13,17 @@ class User{
             ));
         }
     }
+
+    addAccount(account){
+        this._accounts.push(new Account(
+            account.name,
+            account.balance,
+            account.categories
+        ));
+
+        this._currentAccount = this._accounts.length;
+        //Update home page
+    }
 }
 
 module.exports = User;

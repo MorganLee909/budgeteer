@@ -30,12 +30,14 @@ let enter = {
             .then((response)=>{
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
+                    return;
                 }
 
                 user = new User(response.accounts);
                 controller.openModal("newAccount");
             })
             .catch((err)=>{
+                console.log(err);
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
     }

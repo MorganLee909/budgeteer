@@ -16,7 +16,7 @@ module.exports = {
                     return next();
                 }
 
-                if(user.session.expiration > new Date()){
+                if(user.session.expiration < new Date()){
                     user.session.sessionId = sessionId();
                     let newDate = new Date();
                     newDate.setDate(newDate.getDate() + 90);

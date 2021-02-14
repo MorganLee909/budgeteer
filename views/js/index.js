@@ -5,7 +5,7 @@ user = null;
 
 controller = {
     openModal: function(modal){
-        let modals = document.querySelectorAll("modal");
+        let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
             modals[i].style.display = "none";
         }
@@ -26,7 +26,7 @@ controller = {
     closeModal: function(){
         document.getElementById("modalContainer").style.display = "none";
 
-        let modals = document.querySelectorAll("modal");
+        let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
             modals[i].style.display = "none";
         }
