@@ -24,6 +24,10 @@ class User{
         this._currentAccount = this._accounts.length;
         //Update home page
     }
+
+    getAccount(){
+        return this._accounts[this._currentAccount];
+    }
 }
 
 module.exports = User;
