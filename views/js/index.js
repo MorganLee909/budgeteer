@@ -1,6 +1,8 @@
 const enterModal = require("./modals/enter.js");
 const newAccountModal = require("./modals/newAccount.js");
 
+const User = require("./classes/user.js");
+
 user = null;
 
 controller = {
@@ -51,12 +53,11 @@ fetch("/session")
     .then((response)=>{
         if(response === null){
             controller.openModal("enter");
-            return;
+        }else{
+            user = new User(response.accounts);
+            //open main
         }
-
-        user = response;
-        //open main
     })
     .catch((err)=>{
-        //create banner
+        controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
     });

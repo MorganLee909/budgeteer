@@ -18,6 +18,44 @@ module.exports = {
     },
 
     /*
+    POST: log in a user
+    req.body = {
+        email: String,
+        password: String
+    }
+    response = User
+    */
+    login: function(req, res){
+        let email = req.body.email.toLowerCase();
+
+        User.findOne({email: email})
+            .then((user)=>{
+                if(user === null){
+                    throw "USER WITH THIS EMAIL DOESN'T EXIST";
+                }
+
+                bcrypt.compare(req.body.password, user.password, (err, res)=>{
+                    if(res === false){
+                        throw "INCORRECT PASSWORD";
+                    }
+
+                    req.session.user = user.session.sessionId;
+
+                    user.password = undefined;
+                    user.session = undefined;
+
+                    return res.json(user);
+                });
+            })
+            .catch((err)=>{
+                if(typeof(err) === "string"){
+                    return res.json(err);
+                }
+                return res.json("ERROR: UNABLE TO LOGIN");
+            });
+    },
+
+    /*
     POST: register a new user
     req.body = {
         email: String

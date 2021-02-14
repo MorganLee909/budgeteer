@@ -1,4 +1,4 @@
-const User = require("../classes/user");
+const User = require("../classes/user.js");
 
 let enter = {
     display: function(){
@@ -37,9 +37,37 @@ let enter = {
                 controller.openModal("newAccount");
             })
             .catch((err)=>{
-                console.log(err);
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
+    },
+
+    login: function(){
+        event.preventDefault();
+
+        let data = {
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPass").value
+        }
+
+        fetch("/login", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then((response)=>{
+                if(typeof(response) === "string"){
+                    controller.createBanner(response, "error");
+                }else{
+                    user = new User(response.accounts);
+                    controller.closeModal();
+                }
+            })
+            .catch((err)=>{
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            });
     }
 }
 
