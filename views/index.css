@@ -5,7 +5,29 @@ body, html{
     width: 100vw;
 }
 
-.modal{
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    form h2{
+        margin: auto;
+    }
+
+    form label{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 5px;
+    }
+
+    form input[type=submit]{
+        margin: 5px;
+    }
+
+#modalContainer{
     height: 100%;
     width: 100%;
     position: fixed;
@@ -13,13 +35,13 @@ body, html{
     top: 0;
     z-index: 10;
     background: rgba(0, 0, 0, 0.25);
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-    .modal > div{
+    #modalContainer > div{
         background: white;
+        padding: 50px;
     }
 
 /*
@@ -29,3 +51,14 @@ HOME PAGE
     height: 100%;
     width: 100%;
 }
+
+/*
+ENTER MODAL
+*/
+#enterModal{
+    align-items: center;
+}
+
+    #enterModal > *{
+        margin: 25px;
+    }
