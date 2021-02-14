@@ -28,6 +28,18 @@ class Account{
         return income;
     }
 
+    getBills(){
+        let bills = [];
+
+        for(let i = 0; i < this._categories.length; i++){
+            if(this._categories[i].group === "bill"){
+                bills.push(this._categories[i]);
+            }
+        }
+
+        return bills;
+    }
+
     addCategory(category){
         this._categories.push(category);
         
@@ -35,6 +47,8 @@ class Account{
             case "income":
                 home.populateIncome();
                 break;
+            case "bill":
+                home.populateBills();
         }
     }
 }

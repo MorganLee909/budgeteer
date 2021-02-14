@@ -3,6 +3,7 @@ const home = require("./home.js");
 const enterModal = require("./modals/enter.js");
 const newAccountModal = require("./modals/newAccount.js");
 const createIncomeModal = require("./modals/createIncome.js");
+const createBillModal = require("./modals/createBill.js");
 
 const User = require("./classes/user.js");
 
@@ -28,6 +29,10 @@ controller = {
             case "createIncome":
                 document.getElementById("createIncomeModal").style.display = "flex";
                 createIncomeModal.display();
+                break;
+            case "createBill":
+                document.getElementById('createBillModal').style.display = "flex";
+                createBillModal.display();
                 break;
         }
     },
@@ -62,6 +67,7 @@ fetch("/session")
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);
+            home.all();
         }
         home.buttons();
     })

@@ -164,6 +164,10 @@ module.exports = {
     response = Object (newly created category)
     */
     createIncome: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
         let account = null;
         for(let i = 0; i < res.locals.user.accounts.length; i++){
             if(res.locals.user.accounts[i]._id.toString() === req.body.account){
@@ -190,6 +194,49 @@ module.exports = {
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO CREATE INCOME");
+            });
+    },
+
+    /*
+    POST: create a new bill category
+    req.body = {
+        name: String,
+        amount: Number,
+        account: String (id of account)
+    }
+    response = Object (newly created bill)
+    */
+    createBill: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let account = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
+                account = res.locals.user.accounts[i];
+                break;
+            }
+        }
+
+        if(account === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let newCategory = {
+            name: req.body.name,
+            group: "bill",
+            amount: req.body.amount
+        };
+
+        account.categories.push(newCategory);
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(newCategory);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE BILL");
             });
     }
 }
