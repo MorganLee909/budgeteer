@@ -1,0 +1,11 @@
+{
+  "name": "budgeteer",
+  "version": "1.0.0",
+  "description": "Budgeter",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lee Morgan",
+  "license": "ISC"
+}
