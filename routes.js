@@ -4,4 +4,5 @@ const session = require("./middleware.js").verifySession;
 
 module.exports = function(app){
     app.get("/", home.render);
+    app.get("/session", session, home.checkSession);
 }
