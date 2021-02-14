@@ -1,4 +1,5 @@
 const enterModal = require("./modals/enter.js");
+const newAccountModal = require("./modals/newAccount.js");
 
 user = null;
 
@@ -14,6 +15,10 @@ controller = {
             case "enter":
                 document.getElementById("enterModal").style.display = "flex";
                 enterModal.display();
+                break;
+            case "newAccount":
+                document.getElementById("newAccountModal").style.display = "flex";
+                newAccountModal.display();
                 break;
         }
     },
