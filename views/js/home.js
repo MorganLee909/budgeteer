@@ -27,7 +27,7 @@ let home = {
             tr.appendChild(name);
 
             let amount = document.createElement("td");
-            amount.innerText = `$${income[i].amount.toFixed(2)}`;
+            amount.innerText = `$${income[i].amount}`;
             tr.appendChild(amount);
 
             let remove = document.createElement("td");
@@ -58,7 +58,7 @@ let home = {
             tr.appendChild(name);
 
             let amount = document.createElement("td");
-            amount.innerText = `$${bills[i].amount.toFixed(2)}`;
+            amount.innerText = `$${bills[i].amount}`;
             tr.appendChild(amount);
 
             let remove = document.createElement("td");
