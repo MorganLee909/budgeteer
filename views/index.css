@@ -4,3 +4,28 @@ body, html{
     height: 100vh;
     width: 100vw;
 }
+
+.modal{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .modal > div{
+        background: white;
+    }
+
+/*
+HOME PAGE
+*/
+#home{
+    height: 100%;
+    width: 100%;
+}
