@@ -238,5 +238,23 @@ module.exports = {
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO CREATE BILL");
             });
+    },
+
+    /*
+    POST: create a new allowance category
+    req.body = {
+        name: String,
+        amount: Number,
+        account: String (id of account),
+        isPercent: Boolean
+    }
+    response = Object (newly create category)
+    */
+    createAllowance: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let account = null;
     }
 }

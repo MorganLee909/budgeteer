@@ -4,6 +4,7 @@ const enterModal = require("./modals/enter.js");
 const newAccountModal = require("./modals/newAccount.js");
 const createIncomeModal = require("./modals/createIncome.js");
 const createBillModal = require("./modals/createBill.js");
+const createAllowanceModal = require("./modals/createAllowance.js");
 
 const User = require("./classes/user.js");
 
@@ -33,6 +34,10 @@ controller = {
             case "createBill":
                 document.getElementById('createBillModal').style.display = "flex";
                 createBillModal.display();
+                break;
+            case "createAllowance":
+                document.getElementById("createAllowanceModal").style.display = "flex";
+                createAllowanceModal.display();
                 break;
         }
     },
@@ -72,6 +77,5 @@ fetch("/session")
         home.buttons();
     })
     .catch((err)=>{
-        console.log(err);
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
     });
