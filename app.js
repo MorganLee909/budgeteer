@@ -1,19 +1,20 @@
 const express = require("express");
 const session = require("cookie-session");
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const compression = require("compression");
 const https = require("https");
 const fs = require("fs");
 
 const app = express();
 
-// mongoose.connect("budgeteer", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false,
-//     useCreateIndex: true
-// });
+mongoose.connect(`${process.env.DB}/budgeteer`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+});
 
+app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
 
 let httpsServer = {};

@@ -1,5 +1,5 @@
 module.exports = {
     render: function(req, res){
-        res.sendFile("/index.html");
+        res.render("./index.ejs");
     }
 }

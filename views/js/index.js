@@ -1,1 +1,1 @@
-console.log("cock an balls")
+console.log("cock an balls");
