@@ -1,9 +1,13 @@
 let home = {
     all: function(){
         document.getElementById("accountTitle").innerText = `${user.getAccount().name} account`;
-        document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("createIncome")};
+        
 
         this.populateIncome();
+    },
+
+    buttons: function(){
+        document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("createIncome")};
     },
 
     populateIncome: function(){

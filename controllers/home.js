@@ -132,17 +132,22 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
-        let newAccount = {
+        res.locals.user.accounts.push({
             name: req.body.name,
             balance: 0,
             categories: []
-        };
-
-        res.locals.user.accounts.push(newAccount);
+        });
 
         res.locals.user.save()
             .then((user)=>{
-                return res.json(newAccount);
+                let account = {};
+                for(let i = 0; i < user.accounts.length; i++){
+                    if(user.accounts[i].name === req.body.name){
+                        account = user.accounts[i];
+                        break;
+                    }
+                }
+                return res.json(account);
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO CREATE ACCOUNT");

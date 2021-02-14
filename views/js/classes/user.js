@@ -23,8 +23,8 @@ class User{
             account.categories
         ));
 
-        this._currentAccount = this._accounts.length;
-        //Update home page
+        this._currentAccount = this._accounts.length - 1;
+        document.getElementById("accountTitle").innerText = `${account.name} account`;
     }
 
     getAccount(){
