@@ -17,6 +17,7 @@ let enter = {
             return;
         }
 
+        console.log(data);
         fetch("/register", {
             method: "post",
             headers: {
@@ -24,17 +25,20 @@ let enter = {
             },
             body: JSON.stringify(data)
         })
-            .then(response = response.json())
+            .then(response => response.json())
             .then((response)=>{
+                console.log(response);
                 if(typeof(response) === "string"){
-                    throw response;
+                    controller.createBanner(response, "error");
                 }
 
                 user = response;
-                //open create account modal
+                console.log(user);
+                controller.openModal("newAccount");
             })
             .catch((err)=>{
-                //createBanner
+                console.log(err);
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
     }
 }
