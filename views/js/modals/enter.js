@@ -3,7 +3,7 @@ const User = require("../classes/user.js");
 let enter = {
     display: function(){
         document.getElementById("registerForm").onsubmit = ()=>{this.register()};
-        document.getElementById("loginform").onsubmit = ()=>{this.login()};
+        document.getElementById("loginForm").onsubmit = ()=>{this.login()};
     },
 
     register: function(){

@@ -34,8 +34,8 @@ module.exports = {
                     throw "USER WITH THIS EMAIL DOESN'T EXIST";
                 }
 
-                bcrypt.compare(req.body.password, user.password, (err, res)=>{
-                    if(res === false){
+                bcrypt.compare(req.body.password, user.password, (err, response)=>{
+                    if(response === false){
                         throw "INCORRECT PASSWORD";
                     }
 
@@ -51,8 +51,17 @@ module.exports = {
                 if(typeof(err) === "string"){
                     return res.json(err);
                 }
-                return res.json("ERROR: UNABLE TO LOGIN");
+                return res.json("ERROR: LOGIN FAILED");
             });
+    },
+
+    /*
+    GET: log out the current user
+    redirects to "/"
+    */
+    logout: function(req, res){
+        req.session.user = undefined;
+        return res.redirect("/");
     },
 
     /*

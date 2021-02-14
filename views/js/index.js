@@ -1,5 +1,6 @@
 const enterModal = require("./modals/enter.js");
 const newAccountModal = require("./modals/newAccount.js");
+const home = require("./home.js");
 
 const User = require("./classes/user.js");
 
@@ -55,7 +56,7 @@ fetch("/session")
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);
-            //open main
+            home.all();
         }
     })
     .catch((err)=>{

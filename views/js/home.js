@@ -1,6 +1,6 @@
 let home = {
     all: function(){
-
+        
     }
 };
 
