@@ -1,18 +1,18 @@
 const express = require("express");
 const session = require("cookie-session");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const compression = require("compression");
 const https = require("https");
 const fs = require("fs");
 
 const app = express();
 
-mongoose.connect("budgeteer", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-});
+// mongoose.connect("budgeteer", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false,
+//     useCreateIndex: true
+// });
 
 app.use(express.static(__dirname + "/views"));
 
@@ -44,7 +44,7 @@ app.use(express.json());
 
 require("./routes")(app);
 
-if(process.env.NODE_ENV = "production"){
+if(process.env.NODE_ENV === "production"){
     httpsServer.listen(process.env.HTTPS_PORT, ()=>{});
 }
 app.listen(process.env.PORT, ()=>{});
