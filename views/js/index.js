@@ -11,6 +11,19 @@ controller = {
                 enterModal.display();
                 break;
         }
+    },
+
+    createBanner: function(message, type){
+        let banner = document.getElementById("banner");
+        banner.style.display = "flex";
+        banner.classList.add(`${type}Banner`);
+
+        document.getElementById("bannerText").innerText = message;
+
+        setTimeout(()=>{
+            banner.style.display = "none";
+            banner.classList = "";
+        }, 5000);
     }
 };
 

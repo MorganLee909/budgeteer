@@ -10,7 +10,7 @@ let enter = {
         let data = {
             email: document.getElementById("registerEmail").value,
             password: document.getElementById("registerPass").value,
-            confirmPassword: document.getElementById("registerConfirm").value;
+            confirmPassword: document.getElementById("registerConfirm").value
         }
 
         if(data.password !== data.confirmPassword){

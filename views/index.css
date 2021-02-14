@@ -27,6 +27,28 @@ form{
         margin: 5px;
     }
 
+#banner{
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 15px;
+    left: 25%;
+    width: 50%;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+    .errorBanner{
+        background: red;
+    }
+
+    .successBanner{
+        background: green;
+    }
+
 #modalContainer{
     height: 100%;
     width: 100%;
