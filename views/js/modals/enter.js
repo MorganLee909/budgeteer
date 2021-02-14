@@ -1,3 +1,5 @@
+const User = require("../classes/user");
+
 let enter = {
     display: function(){
         document.getElementById("registerForm").onsubmit = ()=>{this.register()};
@@ -30,7 +32,7 @@ let enter = {
                     controller.createBanner(response, "error");
                 }
 
-                user = response;
+                user = new User(response.accounts);
                 controller.openModal("newAccount");
             })
             .catch((err)=>{
