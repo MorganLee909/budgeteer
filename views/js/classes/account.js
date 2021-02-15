@@ -190,7 +190,7 @@ class Account{
     }
 
     addTransaction(transaction){
-        this._transactions.push(new Transaction(
+        let newTransaction = new Transaction(
             transaction._id,
             this,
             transaction.category,
@@ -198,11 +198,13 @@ class Account{
             transaction.location,
             transaction.date,
             transaction.note
-        ));
+        );
 
-        if(transaction.category.group === "discretionary"){
+        this._transactions.push(newTransaction);
+
+        if(newTransaction.category.group === "discretionary"){
             home.populateStats();
-        }else if(transaction.category.group === "allowance"){
+        }else if(newTransaction.category.group === "allowance"){
             home.populateAllowances();
             home.populateStats();
         }

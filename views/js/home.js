@@ -154,12 +154,12 @@ let home = {
         document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
 
         for(let i = 0; i < account.transactions.length; i++){
-            if(account.transactions[i].category.name === "discretionary"){
+            if(account.transactions[i].category.group === "discretionary"){
                 discretionary += account.transactions[i].amount;
             }
         }
 
-        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary}`;
+        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
     }
 };
 
