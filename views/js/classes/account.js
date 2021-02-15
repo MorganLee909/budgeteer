@@ -22,7 +22,51 @@ class Account{
             ));
         }
 
-        //TODO: fetch transactions
+        let from = new Date();
+        from.setDate(1);
+        from.setHours(0, 0, 0, 0);
+
+        let to = new Date();
+        to.setDate(1);
+        to.setMonth(to.getMonth() + 1);
+        to.setHours(0, 0, 0, 0);
+
+        let data = {
+            account: this._id,
+            from: from,
+            to: to
+        };
+
+        fetch("/transactions", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then((response) =>{
+                if(typeof(response) === "string"){
+                    controller.createBanner(response, "error");
+                }else{
+                    for(let i = 0; i < response.length; i++){
+                        this._transactions.push(new Transaction(
+                            response[i]._id,
+                            this,
+                            response[i].category,
+                            response[i].amount,
+                            response[i].location,
+                            response[i].date,
+                            response[i].note
+                        ));
+                    }
+
+                    home.populateTransactions();
+                }
+            })
+            .catch((err)=>{
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE");
+            });
     }
 
     //id
@@ -40,7 +84,7 @@ class Account{
     get categories(){
         return this._categories;
     }
-    
+
     getIncome(){
         let income = [];
 
@@ -128,7 +172,7 @@ class Account{
             transaction.note
         ));
 
-        this._transactions.sort((a, b) => (a.date > b.date) ? 1 : -1);
+        this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
         home.populateTransactions();
     }
 }

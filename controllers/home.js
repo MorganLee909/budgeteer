@@ -4,6 +4,7 @@ const Transaction = require("../models/transaction.js");
 const sessionId = require("../sessionId.js");
 
 const bcrypt = require("bcryptjs");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
     render: function(req, res){
@@ -337,8 +338,54 @@ module.exports = {
                 return res.json(transaction);
             })
             .catch((err)=>{
-                console.log(err);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
+            });
+    },
+
+    /*
+    POST: get transactions from a specific account for this month
+    req.body = {
+        account: String,
+        from: Date,
+        to: Date
+    }
+    response = [Transaction]
+    */
+    getTransactions: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let account = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
+                account = res.locals.user.accounts[i];
+                break;
+            }
+        }
+
+        if(account === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let from = new Date(req.body.from);
+        let to = new Date(req.body.to);
+
+        Transaction.aggregate([
+            {$match: {
+                account: ObjectId(req.body.account),
+                date: {$gte: from, $lt: to}
+            }},
+            {$sort: {
+                date: -1,
+                category: 1
+            }}
+        ])
+            .then((transactions)=>{
+                return res.json(transactions);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO RETRIEVE DATA");
             });
     }
 }
