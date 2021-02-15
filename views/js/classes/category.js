@@ -23,8 +23,8 @@ class Category{
 
     get amount(){
         if(this._isPercent === true){
-            let income = this._parent.getIncome();
-            return parseFloat(((income * (this._isPercent / 100)) / 100).toFixed(2));
+            let income = this._parent.getTotalIncome();
+            return parseFloat((income * (this._amount / 100)).toFixed(2));
         }
         return parseFloat((this._amount / 100).toFixed(2));
     }
