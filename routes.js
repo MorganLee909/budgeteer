@@ -12,4 +12,5 @@ module.exports = function(app){
     app.post("/income/create", session, home.createIncome);
     app.post("/bill/create", session, home.createBill);
     app.post("/allowance/create", session, home.createAllowance);
+    app.post("/transaction/create", session, home.createTransaction);
 };

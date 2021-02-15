@@ -1,4 +1,5 @@
 const Category = require("./category.js");
+const Transaction = require("./transaction.js");
 
 const home = require("../home.js");
 
@@ -8,6 +9,7 @@ class Account{
         this._name = name;
         this._balance = balance;
         this._categories = [];
+        this._transactions = [];
 
         for(let i = 0; i < categories.length; i++){
             this._categories.push(new Category(
@@ -19,22 +21,44 @@ class Account{
                 categories[i].isPercent
             ));
         }
+
+        //TODO: fetch transactions
     }
 
+    //id
     get id(){
         return this._id;
     }
 
+    //name
     get name(){
         return this._name;
     }
 
+    //categories
+
+    get categories(){
+        return this._categories;
+    }
+    
     getIncome(){
         let income = [];
 
         for(let i = 0; i < this._categories.length; i++){
             if(this._categories[i].group === "income"){
                 income.push(this._categories[i]);
+            }
+        }
+
+        return income;
+    }
+
+    getTotalIncome(){
+        let income = 0; 
+
+        for(let i = 0; i < this._categories.length; i++){
+            if(this._categories[i].group === "income"){
+                income += this._categories[i].amount;
             }
         }
 
@@ -88,16 +112,24 @@ class Account{
         }
     }
 
-    getTotalIncome(){
-        let income = 0; 
+    //transactions
+    get transactions(){
+        return this._transactions;
+    }
 
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "income"){
-                income += this._categories[i].amount;
-            }
-        }
+    addTransaction(transaction){
+        this._transactions.push(new Transaction(
+            transaction._id,
+            this,
+            transaction.category,
+            transaction.amount,
+            transaction.location,
+            transaction.date,
+            transaction.note
+        ));
 
-        return income;
+        this._transactions.sort((a, b) => (a.date > b.date) ? 1 : -1);
+        home.populateTransactions();
     }
 }
 

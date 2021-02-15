@@ -1,10 +1,12 @@
-const { populateAllowances } = require("../home");
-
 let createTransaction = {
     display: function(){
         document.getElementById("createTransactionForm").onsubmit = ()=>{this.submit()};
 
         let select = document.getElementById("createTransactionSelect");
+
+        while(select.children.length > 0){
+            select.removeChild(select.firstChild);
+        }
 
         let incomeGroup = document.createElement("optgroup");
         incomeGroup.label = "INCOME";
@@ -48,7 +50,35 @@ let createTransaction = {
     submit(){
         event.preventDefault();
 
-        console.log("submit new transaction");
+        let data = {
+            account: user.getAccount().id,
+            category: document.getElementById("createTransactionSelect").value,
+            amount: parseInt(document.getElementById("createTransactionAmount").value * 100),
+            location: document.getElementById("createTransactionLocation").value,
+            date: document.getElementById("createTransactionDate").valueAsDate,
+            note: document.getElementById("createTransactionNote").value
+        }
+
+        fetch("/transaction/create", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then((response)=>{
+                if(typeof(response) === "string"){
+                    controller.createBanner(response, "error");
+                }else{
+                    user.getAccount().addTransaction(response);
+                    controller.closeModal();
+                }
+            })
+            .catch((err)=>{
+                console.log(err);
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            });
     }
 };
 

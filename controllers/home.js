@@ -1,4 +1,5 @@
 const User = require("../models/user.js");
+const Transaction = require("../models/transaction.js");
 
 const sessionId = require("../sessionId.js");
 
@@ -282,6 +283,62 @@ module.exports = {
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO CREATE ALLOWANCE");
+            });
+    },
+
+    /*
+    POST: create a new transaction
+    req.body = {
+        account: String (id of account),
+        category: String,
+        amount: Number,
+        location: String,
+        date: Date,
+        note: String
+    }
+    response = Transaction
+    */
+    createTransaction: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let account = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
+                account = res.locals.user.accounts[i];
+                break;
+            }
+        }
+
+        if(account === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let category = {};
+        for(let i = 0; i < account.categories.length; i++){
+            if(account.categories[i]._id.toString() === req.body.category){
+                category = account.categories[i]._id;
+                break;
+            }
+        }
+
+        let newTransaction = new Transaction({
+            account: req.body.account,
+            category: category,
+            amount: req.body.amount,
+            location: req.body.location,
+            date: req.body.date,
+            note: req.body.note
+        });
+
+        newTransaction.save()
+            .then((transaction)=>{
+                return res.json(transaction);
+            })
+            .catch((err)=>{
+                console.log(err);
+                return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
     }
 }

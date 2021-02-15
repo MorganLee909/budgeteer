@@ -5,6 +5,7 @@ let home = {
         this.populateIncome();
         this.populateBills();
         this.populateAllowances();
+        this.populateTransactions();
     },
 
     buttons: function(){
@@ -108,6 +109,37 @@ let home = {
                 </svg>
             `;
             tr.appendChild(remove);
+        }
+    },
+
+    populateTransactions: function(){
+        let tbody = document.getElementById("transactionsBody");
+        let transactions = user.getAccount().transactions;
+
+        while(tbody.children.length > 0){
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        for(let i = 0; i < transactions.length; i++){
+            let tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            
+            let date = document.createElement("td");
+            let dateOptions = {year: "numeric", month: "short", day: "numeric"};
+            date.innerText = transactions[i].date.toLocaleDateString("en-US", dateOptions);
+            tr.appendChild(date);
+
+            let category = document.createElement("td");
+            category.innerText = transactions[i].category.name;
+            tr.appendChild(category);
+
+            let location = document.createElement("td");
+            location.innerText = transactions[i].location;
+            tr.appendChild(location);
+
+            let amount = document.createElement("td");
+            amount.innerText = `$${transactions[i].amount}`;
+            tr.appendChild(amount);
         }
     }
 };
