@@ -98,9 +98,9 @@ let home = {
             tr.appendChild(amount);
 
             //TODO: calculate remaining once transactions are included
-            let remaining = document.createElement("td");
-            remaining.innerText = "$0";
-            tr.appendChild(remaining);
+            let spent = document.createElement("td");
+            spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].id)}`;
+            tr.appendChild(spent);
 
             let remove = document.createElement("td");
             remove.innerHTML = `

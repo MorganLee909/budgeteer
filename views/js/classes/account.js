@@ -62,6 +62,8 @@ class Account{
                     }
 
                     home.populateTransactions();
+                    home.populateAllowances();
+                    home.populateStats();
                 }
             })
             .catch((err)=>{
@@ -178,6 +180,8 @@ class Account{
                 home.populateAllowances();
                 break;
         }
+
+        home.populateStats();
     }
 
     //transactions
@@ -196,6 +200,13 @@ class Account{
             transaction.note
         ));
 
+        if(transaction.category.group === "discretionary"){
+            home.populateStats();
+        }else if(transaction.category.group === "allowance"){
+            home.populateAllowances();
+            home.populateStats();
+        }
+
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
         home.populateTransactions();
     }
@@ -203,6 +214,21 @@ class Account{
     //general functions
     getDiscretionary(){
         return this.getTotalIncome() - this.getTotalBills() - this.getTotalAllowances();
+    }
+
+    getAllowanceSpent(category){
+        let spent = 0;
+        for(let i = 0; i < this._transactions.length; i++){
+            console.log(this._transactions[i].category.id);
+            console.log(category);
+            console.log();
+            if(this._transactions[i].category.id === category){
+                spent += this._transactions[i].amount;
+            }
+        }
+
+        console.log(spent);
+        return -spent;
     }
 }
 

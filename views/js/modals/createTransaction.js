@@ -53,10 +53,19 @@ let createTransaction = {
         let data = {
             account: user.getAccount().id,
             category: document.getElementById("createTransactionSelect").value,
-            amount: parseInt(document.getElementById("createTransactionAmount").value * 100),
+            amount: -parseInt(document.getElementById("createTransactionAmount").value * 100),
             location: document.getElementById("createTransactionLocation").value,
             date: document.getElementById("createTransactionDate").valueAsDate,
             note: document.getElementById("createTransactionNote").value
+        }
+
+        let account = user.getAccount();
+        let income = account.getIncome();
+        for(let i = 0; i < income.length; i++){
+            if(income[i].id === data.category){
+                data.amount = -data.amount;
+                break;
+            }
         }
 
         fetch("/transaction/create", {
