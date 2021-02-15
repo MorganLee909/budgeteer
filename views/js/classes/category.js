@@ -20,7 +20,7 @@ class Category{
             let income = this._parent.getIncome();
             return parseFloat(((income * (this._isPercent / 100)) / 100).toFixed(2));
         }
-        return parseFloat((this._amount /100).toFixed(2));
+        return parseFloat((this._amount / 100).toFixed(2));
     }
 }
 

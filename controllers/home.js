@@ -256,5 +256,32 @@ module.exports = {
         }
 
         let account = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
+                account = res.locals.user.accounts[i];
+                break;
+            }
+        }
+
+        if(account === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let newCategory = {
+            name: req.body.name,
+            group: "allowance",
+            amount: req.body.amount,
+            isPercent: req.body.isPercent
+        }
+
+        account.categories.push(newCategory);
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(newCategory);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE ALLOWANCE");
+            });
     }
 }

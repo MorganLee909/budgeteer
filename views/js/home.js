@@ -96,7 +96,7 @@ let home = {
 
             //TODO: calculate remaining once transactions are included
             let remaining = document.createElement("td");
-            remaining.innerText = 0;
+            remaining.innerText = "$0";
             tr.appendChild(remaining);
 
             let remove = document.createElement("td");

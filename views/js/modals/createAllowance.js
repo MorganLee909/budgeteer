@@ -10,7 +10,7 @@ let createAllowance = {
         let percent = document.getElementById("createAllowancePercent").value;
 
         let data = {
-            name: document.getElementById("createAllowanceName"),
+            name: document.getElementById("createAllowanceName").value,
             account: user.getAccount().id
         }
 
@@ -19,15 +19,16 @@ let createAllowance = {
                 controller.createBanner("PLEASE ENTER EITHER AN AMOUNT OR A PERCENT OF INCOME");
                 return;
             }else{
-                data.amount = percent;
+                data.amount = parseInt(percent);
                 data.isPercent = true;
             }
             
         }else{
             if(percent !== ""){
                 controller.createBanner("CHOOSE AMOUNT OR PERCENT. NOT BOTH");
+                return;
             }else{
-                data.amount = amount;
+                data.amount = parseInt(amount * 100);
                 data.isPercent = false;
             }
         }
@@ -35,7 +36,7 @@ let createAllowance = {
         fetch("/allowance/create", {
             method: "post",
             headers: {
-                "Content-Type": "application/json:charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(data)
         })
@@ -49,7 +50,6 @@ let createAllowance = {
                 }
             })
             .catch((err)=>{
-                console.log(err);
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             });
     }
