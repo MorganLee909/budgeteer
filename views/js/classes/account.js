@@ -121,12 +121,36 @@ class Account{
         return bills;
     }
 
+    getTotalBills(){
+        let bills = 0;
+
+        for(let i = 0; i < this._categories.length; i++){
+            if(this._categories[i].group === "bill"){
+                bills += this.categories[i].amount;
+            }
+        }
+
+        return bills;
+    }
+
     getAllowances(){
         let allowances = [];
 
         for(let i = 0; i < this._categories.length; i++){
             if(this._categories[i].group === "allowance"){
                 allowances.push(this._categories[i]);
+            }
+        }
+
+        return allowances;
+    }
+
+    getTotalAllowances(){
+        let allowances = 0;
+
+        for(let i = 0; i < this._categories.length; i++){
+            if(this._categories[i].group === "allowance"){
+                allowances += this.categories[i].amount;
             }
         }
 
@@ -174,6 +198,11 @@ class Account{
 
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
         home.populateTransactions();
+    }
+
+    //general functions
+    getDiscretionary(){
+        return this.getTotalIncome() - this.getTotalBills() - this.getTotalAllowances();
     }
 }
 

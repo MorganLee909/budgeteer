@@ -6,6 +6,7 @@ let home = {
         this.populateBills();
         this.populateAllowances();
         this.populateTransactions();
+        this.populateStats();
     },
 
     buttons: function(){
@@ -141,6 +142,24 @@ let home = {
             amount.innerText = `$${transactions[i].amount}`;
             tr.appendChild(amount);
         }
+    },
+
+    populateStats: function(){
+        let account = user.getAccount();
+        let discretionary = account.getDiscretionary();
+
+        document.getElementById("statsDiscretionary").innerText = `$${discretionary}`;
+        document.getElementById("statsIncome").innerText = `$${account.getTotalIncome()}`;
+        document.getElementById("statsBills").innerText = `$${account.getTotalBills()}`;
+        document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
+
+        for(let i = 0; i < account.transactions.length; i++){
+            if(account.transactions[i].category.name === "discretionary"){
+                discretionary += account.transactions[i].amount;
+            }
+        }
+
+        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary}`;
     }
 };
 
