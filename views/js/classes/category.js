@@ -13,6 +13,7 @@ class Category{
     }
 
     get name(){
+        if(this._name === "discretionary") return "Discretionary";
         return this._name;
     }
 

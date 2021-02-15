@@ -42,8 +42,14 @@ let createTransaction = {
         }
 
         let option = document.createElement("option");
-        option.value = "discretionary";
         option.innerText = "Discretionary";
+        let categories = user.getAccount().categories;
+        for(let i = 0; i < categories.length; i++){
+            if(categories[i].group === "discretionary"){
+                option.value = categories[i].id;
+                break;
+            }
+        }
         select.appendChild(option);
     },
 
@@ -68,6 +74,7 @@ let createTransaction = {
             }
         }
 
+        console.log(data);
         fetch("/transaction/create", {
             method: "post",
             headers: {

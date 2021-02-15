@@ -137,7 +137,10 @@ module.exports = {
         res.locals.user.accounts.push({
             name: req.body.name,
             balance: 0,
-            categories: []
+            categories: [{
+                name: "discretionary",
+                group: "discretionary",
+            }]
         });
 
         res.locals.user.save()
@@ -324,6 +327,8 @@ module.exports = {
             }
         }
 
+        console.log(req.body);
+
         let newTransaction = new Transaction({
             account: req.body.account,
             category: category,
@@ -338,6 +343,7 @@ module.exports = {
                 return res.json(transaction);
             })
             .catch((err)=>{
+                console.log(err);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
     },
