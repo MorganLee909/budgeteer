@@ -5,6 +5,7 @@ const newAccountModal = require("./modals/newAccount.js");
 const createIncomeModal = require("./modals/createIncome.js");
 const createBillModal = require("./modals/createBill.js");
 const createAllowanceModal = require("./modals/createAllowance.js");
+const createTransactionModal = require("./modals/createTransaction.js");
 
 const User = require("./classes/user.js");
 
@@ -38,6 +39,10 @@ controller = {
             case "createAllowance":
                 document.getElementById("createAllowanceModal").style.display = "flex";
                 createAllowanceModal.display();
+                break;
+            case "createTransaction":
+                document.getElementById("createTransactionModal").style.display = "flex";
+                createTransactionModal.display();
                 break;
         }
     },

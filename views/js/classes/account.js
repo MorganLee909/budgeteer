@@ -12,6 +12,7 @@ class Account{
         for(let i = 0; i < categories.length; i++){
             this._categories.push(new Category(
                 this,
+                categories[i]._id,
                 categories[i].name,
                 categories[i].group,
                 categories[i].amount,
@@ -67,6 +68,7 @@ class Account{
     addCategory(category){
         this._categories.push(new Category(
             this,
+            category._id,
             category.name,
             category.group,
             category.amount,

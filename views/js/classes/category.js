@@ -1,10 +1,15 @@
 class Category{
-    constructor(parent, name, group, amount, isPercent){
+    constructor(parent, id, name, group, amount, isPercent){
+        this._id = id;
         this._parent = parent;
         this._name = name;
         this._group = group;
         this._amount = amount;
         this._isPercent = isPercent;
+    }
+
+    get id(){
+        return this._id;
     }
 
     get name(){
