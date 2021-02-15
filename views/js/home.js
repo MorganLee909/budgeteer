@@ -147,7 +147,10 @@ let home = {
     populateStats: function(){
         let account = user.getAccount();
         let discretionary = account.getDiscretionary();
+        let now = new Date();
 
+        document.getElementById("statsBalance").innerText = `$${account.balance}`;
+        document.getElementById("statsMonth").innerText = now.toLocaleDateString("en-US", {month: "long"});
         document.getElementById("statsDiscretionary").innerText = `$${discretionary}`;
         document.getElementById("statsIncome").innerText = `$${account.getTotalIncome()}`;
         document.getElementById("statsBills").innerText = `$${account.getTotalBills()}`;

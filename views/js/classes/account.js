@@ -81,8 +81,12 @@ class Account{
         return this._name;
     }
 
-    //categories
+    //balance
+    get balance(){
+        return parseFloat((this._balance / 100).toFixed(2));
+    }
 
+    //categories
     get categories(){
         return this._categories;
     }
@@ -201,16 +205,15 @@ class Account{
         );
 
         this._transactions.push(newTransaction);
+        this._balance += transaction.amount;
 
-        if(newTransaction.category.group === "discretionary"){
-            home.populateStats();
-        }else if(newTransaction.category.group === "allowance"){
+        if(newTransaction.category.group === "allowance"){
             home.populateAllowances();
-            home.populateStats();
         }
 
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
         home.populateTransactions();
+        home.populateStats();
     }
 
     //general functions

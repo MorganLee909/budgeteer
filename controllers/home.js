@@ -256,9 +256,11 @@ module.exports = {
             note: req.body.note
         });
 
-        newTransaction.save()
-            .then((transaction)=>{
-                return res.json(transaction);
+        account.balance += newTransaction.amount;
+
+        Promise.all([newTransaction.save(), res.locals.user.save()])
+            .then((response)=>{
+                return res.json(response[0]);
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
