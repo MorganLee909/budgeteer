@@ -9,9 +9,7 @@ module.exports = function(app){
     app.get("/logout", home.logout);
     app.post("/register", home.register);
     app.post("/account/create", session, home.createAccount);
-    app.post("/income/create", session, home.createIncome);
-    app.post("/bill/create", session, home.createBill);
-    app.post("/allowance/create", session, home.createAllowance);
+    app.post("/category/create", session, home.createCategory);
     app.post("/transaction/create", session, home.createTransaction);
     app.post("/transactions", session, home.getTransactions);
 }

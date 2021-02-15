@@ -8,11 +8,12 @@ let createIncome = {
 
         let data = {
             name: document.getElementById("createIncomeName").value,
+            group: "income",
             amount: parseInt(document.getElementById("createIncomeAmount").value * 100),
             account: user.getAccount().id
         };
 
-        fetch("/income/create", {
+        fetch("/category/create", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"

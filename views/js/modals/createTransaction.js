@@ -74,7 +74,6 @@ let createTransaction = {
             }
         }
 
-        console.log(data);
         fetch("/transaction/create", {
             method: "post",
             headers: {

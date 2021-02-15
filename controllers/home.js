@@ -160,15 +160,16 @@ module.exports = {
     },
 
     /*
-    POST: create a new income category
+    POST: create a new category for an account
     req.body = {
-        name: String
-        amount: Number
+        name: String,
+        group: String,
+        amount: Number,
+        isPercent: Boolean,
         account: String (id of account)
     }
-    response = Object (newly created category)
     */
-    createIncome: function(req, res){
+    createCategory: function(req, res){
         if(res.locals.user === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
@@ -185,108 +186,27 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
-        let newCategory = {
+        account.categories.push({
             name: req.body.name,
-            group: "income",
-            amount: req.body.amount
-        }
-
-        account.categories.push(newCategory);
-
-        res.locals.user.save()
-            .then((user)=>{
-                return res.json(newCategory);
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO CREATE INCOME");
-            });
-    },
-
-    /*
-    POST: create a new bill category
-    req.body = {
-        name: String,
-        amount: Number,
-        account: String (id of account)
-    }
-    response = Object (newly created bill)
-    */
-    createBill: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
-        if(account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let newCategory = {
-            name: req.body.name,
-            group: "bill",
-            amount: req.body.amount
-        };
-
-        account.categories.push(newCategory);
-
-        res.locals.user.save()
-            .then((user)=>{
-                return res.json(newCategory);
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO CREATE BILL");
-            });
-    },
-
-    /*
-    POST: create a new allowance category
-    req.body = {
-        name: String,
-        amount: Number,
-        account: String (id of account),
-        isPercent: Boolean
-    }
-    response = Object (newly create category)
-    */
-    createAllowance: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
-        if(account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let newCategory = {
-            name: req.body.name,
-            group: "allowance",
+            group: req.body.group,
             amount: req.body.amount,
             isPercent: req.body.isPercent
-        }
-
-        account.categories.push(newCategory);
+        });
 
         res.locals.user.save()
             .then((user)=>{
-                return res.json(newCategory);
+                for(let i = 0; i < user.accounts.length; i++){
+                    if(user.accounts[i]._id.toString() === req.body.account){
+                        for(let j = 0; j < user.accounts[i].categories.length; j++){
+                            if(user.accounts[i].categories[j].name === req.body.name){
+                                return res.json(user.accounts[i].categories[j]);
+                            }
+                        }
+                    }
+                }
             })
             .catch((err)=>{
-                return res.json("ERROR: UNABLE TO CREATE ALLOWANCE");
+                return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
     },
 
@@ -327,8 +247,6 @@ module.exports = {
             }
         }
 
-        console.log(req.body);
-
         let newTransaction = new Transaction({
             account: req.body.account,
             category: category,
@@ -343,7 +261,6 @@ module.exports = {
                 return res.json(transaction);
             })
             .catch((err)=>{
-                console.log(err);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
     },

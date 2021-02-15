@@ -11,7 +11,8 @@ let createAllowance = {
 
         let data = {
             name: document.getElementById("createAllowanceName").value,
-            account: user.getAccount().id
+            account: user.getAccount().id,
+            group: "allowance"
         }
 
         if(amount === ""){
@@ -33,7 +34,7 @@ let createAllowance = {
             }
         }
 
-        fetch("/allowance/create", {
+        fetch("/category/create", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
