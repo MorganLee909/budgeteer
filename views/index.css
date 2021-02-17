@@ -122,7 +122,16 @@ HOME PAGE
         justify-content: space-around;
     }
 
-    
+    #stats > label{
+        display: flex;
+        margin: 5px;
+        justify-content: space-between;
+    }
+
+    .bigLabel{
+        font-size: 25px;
+        font-weight: bold;
+    }
 
 /*
 ENTER MODAL
