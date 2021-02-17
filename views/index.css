@@ -98,6 +98,12 @@ form{
         padding: 50px;
     }
 
+.lineyBoi{
+    border: 2px solid black;
+    width: 100%;
+    margin: 10px 0;
+}
+
 /* Tables */
 table{
     margin: 0 0 50px 0;
