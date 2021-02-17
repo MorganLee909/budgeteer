@@ -1,6 +1,14 @@
 let createTransaction = {
     display: function(){
         document.getElementById("createTransactionForm").onsubmit = ()=>{this.submit()};
+        document.getElementById("createTransactionCancel").onclick = ()=>{
+            document.getElementById("createTransactionAmount").value = "";
+            document.getElementById("createTransactionLocation").value = "";
+            document.getElementById("createTransactionNote").value = "";
+
+            controller.closeModal();
+        }
+        document.getElementById("createTransactionDate").valueAsDate = new Date();
 
         let select = document.getElementById("createTransactionSelect");
 
