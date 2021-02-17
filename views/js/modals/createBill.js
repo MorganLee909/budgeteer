@@ -1,6 +1,12 @@
 let createBill = {
     display: function(){
         document.getElementById("createBillForm").onsubmit = ()=>{this.submit()};
+        document.getElementById("createBillCancel").onclick = ()=>{
+            document.getElementById("createBillName").value = "";
+            document.getElementById("createBillAmount").value = "";
+
+            controller.closeModal();
+        }
     },
 
     submit: function(){
