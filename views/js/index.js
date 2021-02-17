@@ -6,13 +6,14 @@ const createIncomeModal = require("./modals/createIncome.js");
 const createBillModal = require("./modals/createBill.js");
 const createAllowanceModal = require("./modals/createAllowance.js");
 const createTransactionModal = require("./modals/createTransaction.js");
+const transactionModal = require("./modals/transaction.js");
 
 const User = require("./classes/user.js");
 
 user = null;
 
 controller = {
-    openModal: function(modal){
+    openModal: function(modal, data = {}){
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
             modals[i].style.display = "none";
@@ -44,6 +45,10 @@ controller = {
                 document.getElementById("createTransactionModal").style.display = "flex";
                 createTransactionModal.display();
                 break;
+            case "transaction":
+                document.getElementById("transactionModal").style.display = "flex";
+                transactionModal.display(data);
+                break;
         }
     },
 
@@ -57,6 +62,7 @@ controller = {
     },
 
     createBanner: function(message, type){
+        console.log(message);
         let banner = document.getElementById("banner");
         banner.style.display = "flex";
         banner.classList.add(`${type}Banner`);

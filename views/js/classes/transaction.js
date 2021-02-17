@@ -33,6 +33,24 @@ class Transaction{
     get date(){
         return this._date;
     }
+
+    formattedDate(length){
+        let options;
+        if(length === "short"){
+            options = {month: "short", day: "numeric", year: "numeric"};
+        }else if(length === "long"){
+            options = {weekday: "long", month: "long", day: "numeric", year: "numeric"};
+        }
+
+        return this._date.toLocaleDateString("en-US", options);
+    }
+
+    //note
+    get note(){
+        return this._note;
+    }
+
+    
 }
 
 module.exports = Transaction;

@@ -129,6 +129,8 @@ let home = {
 
         for(let i = 0; i < transactions.length; i++){
             let tr = document.createElement("tr");
+            tr.classList.add("actionable");
+            tr.onclick = ()=>{controller.openModal("transaction", transactions[i])};
             tbody.appendChild(tr);
             
             let date = document.createElement("td");
@@ -183,7 +185,7 @@ let home = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE.");
-            })
+            });
     }
 };
 
