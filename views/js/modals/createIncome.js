@@ -1,6 +1,12 @@
 let createIncome = {
     display: function(){
         document.getElementById("createIncomeForm").onsubmit = ()=>{this.submit()};
+        document.getElementById("createIncomeCancel").onclick = ()=>{
+            document.getElementById("createIncomeName").value = "";
+            document.getElementById("createIncomeAmount").value = "";
+
+            controller.closeModal();
+        }
     },
 
     submit: function(){
