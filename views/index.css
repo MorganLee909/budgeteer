@@ -171,6 +171,14 @@ HOME PAGE
         font-weight: bold;
     }
 
+    .actionable{
+        cursor: pointer;
+    }
+
+        .actionable:hover{
+            box-shadow: 0 0 5px black;
+        }
+
 /*
 ENTER MODAL
 */

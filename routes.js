@@ -10,6 +10,7 @@ module.exports = function(app){
     app.post("/register", home.register);
     app.post("/account/create", session, home.createAccount);
     app.post("/category/create", session, home.createCategory);
+    app.delete("/category/:account/:category", session, home.removeCategory);
     app.post("/transaction/create", session, home.createTransaction);
     app.post("/transactions", session, home.getTransactions);
 }

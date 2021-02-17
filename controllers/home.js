@@ -312,5 +312,46 @@ module.exports = {
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO RETRIEVE DATA");
             });
+    },
+
+    /*
+    DELETE: remove a category
+    req.params.account = id of account
+    req.params.category = id of category to remove
+    response = {}
+    */
+    removeCategory: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let account = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.params.account){
+                account = res.locals.user.accounts[i];
+                break;
+            }
+        }
+
+        if(account === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        
+
+        for(let i = 0; i < account.categories.length; i++){
+            if(req.params.category === account.categories[i]._id.toString()){
+                account.categories.splice(i, 1);
+                break;
+            }
+        }
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO REMOVE DATA");
+            });
     }
 }

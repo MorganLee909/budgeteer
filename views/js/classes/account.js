@@ -188,6 +188,22 @@ class Account{
         home.populateStats();
     }
 
+    removeCategory(category){
+        for(let i = 0; i < this._categories.length; i++){
+            if(category === this._categories[i]){
+                this._categories.splice(i, 1);
+            }
+        }
+
+        switch(category.group){
+            case "income": home.populateIncome(); break;
+            case "bill": home.populateBills(); break;
+            case "allowance": home.populateAllowances(); break;
+        }
+
+        home.populateStats();
+    }
+
     //transactions
     get transactions(){
         return this._transactions;

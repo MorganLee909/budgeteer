@@ -36,6 +36,8 @@ let home = {
             tr.appendChild(amount);
 
             let remove = document.createElement("td");
+            remove.classList.add("actionable");
+            remove.onclick = ()=>{this.removeCategory(income[i])};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -67,6 +69,8 @@ let home = {
             tr.appendChild(amount);
 
             let remove = document.createElement("td");
+            remove.classList.add("actionable");
+            remove.onclick = ()=>{this.removeCategory(bills[i])};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -103,6 +107,8 @@ let home = {
             tr.appendChild(spent);
 
             let remove = document.createElement("td");
+            remove.classList.add("actionable");
+            remove.onclick = ()=>{this.removeCategory(allowances[i])};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -163,6 +169,21 @@ let home = {
         }
 
         document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
+    },
+
+    removeCategory: function(category){
+        fetch(`/category/${user.getAccount().id}/${category.id}`, {method: "delete"})
+            .then(response => response.json())
+            .then((response) =>{
+                if(typeof(response) === "string"){
+                    controller.createBanner(response, "error");
+                }else{
+                    user.getAccount().removeCategory(category);
+                }
+            })
+            .catch((err)=>{
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE.");
+            })
     }
 };
 
