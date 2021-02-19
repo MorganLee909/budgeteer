@@ -19,37 +19,43 @@ controller = {
             modals[i].style.display = "none";
         }
 
-        document.getElementById("modalContainer").style.display = "flex";
+        let container = document.getElementById("modalContainer");
+        container.style.display = "flex";
+        container.onclick = ()=>{controller.closeModal()};
+
         switch(modal){
             case "enter":
-                document.getElementById("enterModal").style.display = "flex";
+                modal = document.getElementById("enterModal");
                 enterModal.display();
                 break;
             case "newAccount":
-                document.getElementById("newAccountModal").style.display = "flex";
+                modal = document.getElementById("newAccountModal");
                 newAccountModal.display();
                 break;
             case "createIncome":
-                document.getElementById("createIncomeModal").style.display = "flex";
+                modal = document.getElementById("createIncomeModal");
                 createIncomeModal.display();
                 break;
             case "createBill":
-                document.getElementById('createBillModal').style.display = "flex";
+                modal = document.getElementById("createBillModal");
                 createBillModal.display();
                 break;
             case "createAllowance":
-                document.getElementById("createAllowanceModal").style.display = "flex";
+                modal = document.getElementById("createAllowanceModal");
                 createAllowanceModal.display();
                 break;
             case "createTransaction":
-                document.getElementById("createTransactionModal").style.display = "flex";
+                modal = document.getElementById("createTransactionModal");
                 createTransactionModal.display();
                 break;
             case "transaction":
-                document.getElementById("transactionModal").style.display = "flex";
+                modal = document.getElementById("transactionModal");
                 transactionModal.display(data);
                 break;
         }
+
+        modal.style.display = "flex";
+        modal.onclick = ()=>{event.stopPropagation()};
     },
 
     closeModal: function(){

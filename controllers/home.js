@@ -281,8 +281,6 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
-        console.log("something");
-        console.log(res.locals.user.accounts);
         let account = null;
         for(let i = 0; i < res.locals.user.accounts.length; i++){
             if(res.locals.user.accounts[i]._id.toString() === req.body.account){
@@ -387,7 +385,6 @@ module.exports = {
                 return res.json({});
             })
             .catch((err)=>{
-                console.log(err);
                 return res.json("ERROR: UNABLE TO DELETE TRANSACTION");
             });
     }
