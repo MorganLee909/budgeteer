@@ -15,6 +15,7 @@ let home = {
         document.getElementById("createAllowanceBtn").onclick = ()=>{controller.openModal("createAllowance")};
         document.getElementById("createTransactionBtn").onclick = ()=>{controller.openModal("createTransaction")};
         document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
+        document.getElementById("addAccountButton").onclick = ()=>{controller.openModal("newAccount")};
     },
 
     populateIncome: function(){
