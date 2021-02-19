@@ -14,6 +14,7 @@ let home = {
         document.getElementById("createBillBtn").onclick = ()=>{controller.openModal("createBill")};
         document.getElementById("createAllowanceBtn").onclick = ()=>{controller.openModal("createAllowance")};
         document.getElementById("createTransactionBtn").onclick = ()=>{controller.openModal("createTransaction")};
+        document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
     },
 
     populateIncome: function(){
@@ -186,6 +187,21 @@ let home = {
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE.", "error");
             });
+    },
+
+    showMenu: function(){
+        document.getElementById("dropdownContent").style.display = "flex";
+
+        setTimeout(()=>{
+            window.onclick = ()=>{this.hideMenu()};
+            document.getElementById("dropdownButton").onclick = ()=>{this.hideMenu()};
+        }, 0);
+    },
+
+    hideMenu: function(){
+        document.getElementById("dropdownContent").style.display = "none";
+        window.onclick = undefined;
+        document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
     }
 };
 
