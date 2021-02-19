@@ -62,7 +62,6 @@ controller = {
     },
 
     createBanner: function(message, type){
-        console.log(message);
         let banner = document.getElementById("banner");
         banner.style.display = "flex";
         banner.classList.add(`${type}Banner`);

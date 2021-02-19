@@ -281,6 +281,8 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
+        console.log("something");
+        console.log(res.locals.user.accounts);
         let account = null;
         for(let i = 0; i < res.locals.user.accounts.length; i++){
             if(res.locals.user.accounts[i]._id.toString() === req.body.account){
@@ -337,8 +339,6 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
-        
-
         for(let i = 0; i < account.categories.length; i++){
             if(req.params.category === account.categories[i]._id.toString()){
                 account.categories.splice(i, 1);
@@ -352,6 +352,43 @@ module.exports = {
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO REMOVE DATA");
+            });
+    },
+
+    /*
+    DELETE: remove a transaction
+    req.params.account = id of account
+    req.params.transaction = id of transaction to delete
+    */
+    deleteTransaction: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let account = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.params.account){
+                account = res.locals.user.accounts[i];
+                break;
+            }
+        }
+
+        if(account === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        Transaction.findOne({_id: req.params.transaction})
+            .then((transaction)=>{
+                account.balance -= transaction.amount;
+
+                return Promise.all([Transaction.deleteOne({_id: req.params.transaction}), res.locals.user.save()]);
+            })
+            .then((response)=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                console.log(err);
+                return res.json("ERROR: UNABLE TO DELETE TRANSACTION");
             });
     }
 }

@@ -67,7 +67,7 @@ class Account{
                 }
             })
             .catch((err)=>{
-                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE");
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             });
     }
 
@@ -228,6 +228,16 @@ class Account{
         }
 
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
+        home.populateTransactions();
+        home.populateStats();
+    }
+
+    removeTransaction(transaction){
+        let index = this._transactions.indexOf(transaction);
+        this._transactions.splice(index, 1);
+
+        this._balance -= parseInt(transaction.amount * 100);
+
         home.populateTransactions();
         home.populateStats();
     }

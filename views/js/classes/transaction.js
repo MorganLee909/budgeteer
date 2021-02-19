@@ -14,6 +14,11 @@ class Transaction{
         }
     }
 
+    //id
+    get id(){
+        return this._id;
+    }
+
     //category
     get category(){
         return this._category;

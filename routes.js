@@ -13,4 +13,5 @@ module.exports = function(app){
     app.delete("/category/:account/:category", session, home.removeCategory);
     app.post("/transaction/create", session, home.createTransaction);
     app.post("/transactions", session, home.getTransactions);
+    app.delete("/transactions/:account/:transaction", session, home.deleteTransaction);
 }

@@ -24,7 +24,7 @@ let createAllowance = {
 
         if(amount === ""){
             if(percent === ""){
-                controller.createBanner("PLEASE ENTER EITHER AN AMOUNT OR A PERCENT OF INCOME");
+                controller.createBanner("PLEASE ENTER EITHER AN AMOUNT OR A PERCENT OF INCOME", "error");
                 return;
             }else{
                 data.amount = parseInt(percent);
@@ -33,7 +33,7 @@ let createAllowance = {
             
         }else{
             if(percent !== ""){
-                controller.createBanner("CHOOSE AMOUNT OR PERCENT. NOT BOTH");
+                controller.createBanner("CHOOSE AMOUNT OR PERCENT. NOT BOTH", "error");
                 return;
             }else{
                 data.amount = parseInt(amount * 100);

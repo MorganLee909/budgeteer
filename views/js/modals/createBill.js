@@ -36,7 +36,7 @@ let createBill = {
                 }
             })
             .catch((err)=>{
-                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE");
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
     }
 }

@@ -71,6 +71,7 @@ form{
     text-align: center;
     font-size: 25px;
     font-weight: bold;
+    z-index: 10;
 }
 
     .errorBanner{
@@ -103,6 +104,38 @@ form{
     width: 100%;
     margin: 10px 0;
 }
+
+.closeModal{
+    color: rgb(200, 0, 0);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+    .closeModal:hover{
+        transform: translateY(1px);
+        color:rgb(235, 0, 0);
+    }
+
+    .button{
+        border: none;
+        height: 35px;
+        margin: 5px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .red{
+            background: rgb(200, 0, 0);
+            color: white;
+        }
+
+        .button.red:hover{
+            transform: translateY(1px);
+            background: rgb(235, 0, 0);
+        }
 
 /* Tables */
 table{
@@ -194,6 +227,7 @@ ENTER MODAL
 TRANSACTION MODAL
 */
 #transactionModal{
+    position: relative;
     display: flex;
     flex-direction: column;
     max-width: 50%;
