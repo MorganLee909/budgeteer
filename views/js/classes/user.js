@@ -1,5 +1,7 @@
 const Account = require("./account.js");
 
+const home = require("../home.js");
+
 class User{
     constructor(accounts){
         this._accounts = [];
@@ -13,6 +15,14 @@ class User{
                 accounts[i].categories
             ));
         }
+    }
+
+    get accounts(){
+        return this._accounts;
+    }
+
+    get currentAccount(){
+        return this._currentAccount;
     }
 
     addAccount(account){
@@ -29,6 +39,11 @@ class User{
 
     getAccount(){
         return this._accounts[this._currentAccount];
+    }
+
+    setAccount(index){
+        this._currentAccount = index;
+        home.all();
     }
 }
 

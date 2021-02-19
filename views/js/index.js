@@ -7,6 +7,7 @@ const createBillModal = require("./modals/createBill.js");
 const createAllowanceModal = require("./modals/createAllowance.js");
 const createTransactionModal = require("./modals/createTransaction.js");
 const transactionModal = require("./modals/transaction.js");
+const switchAccountModal = require("./modals/switchAccount.js");
 
 const User = require("./classes/user.js");
 
@@ -51,6 +52,10 @@ controller = {
             case "transaction":
                 modal = document.getElementById("transactionModal");
                 transactionModal.display(data);
+                break;
+            case "switchAccount":
+                modal = document.getElementById("switchAccountModal");
+                switchAccountModal.display();
                 break;
         }
 

@@ -99,6 +99,10 @@ form{
         padding: 50px;
     }
 
+    .modal{
+        flex-direction: column;
+    }
+
 .lineyBoi{
     border: 2px solid black;
     width: 100%;
@@ -135,6 +139,16 @@ form{
         .button.red:hover{
             transform: translateY(1px);
             background: rgb(235, 0, 0);
+        }
+
+        .green{
+            background: rgb(0, 150, 0);
+            color: white;
+        }
+
+        .button.green:hover{
+            transform: translateY(1px);
+            background: rgb(0, 225, 0);
         }
 
 /* Tables */
@@ -278,8 +292,6 @@ TRANSACTION MODAL
 */
 #transactionModal{
     position: relative;
-    display: flex;
-    flex-direction: column;
     max-width: 50%;
     font-weight: bold;
 }
@@ -301,4 +313,18 @@ TRANSACTION MODAL
 
     #transactionModal .bold{
         font-weight: bold;
+    }
+
+/*
+SWITCH ACCOUNT MODAL
+*/
+#switchAccountButtons{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+    #switchAccountModal h2{
+        width: 100%;
+        text-align: center;
     }
