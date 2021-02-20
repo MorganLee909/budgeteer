@@ -22,7 +22,9 @@ controller = {
 
         let container = document.getElementById("modalContainer");
         container.style.display = "flex";
-        container.onclick = ()=>{controller.closeModal()};
+        if(user !== null && user.getAccount() !== undefined){
+            container.onclick = ()=>{controller.closeModal()};
+        }
 
         switch(modal){
             case "enter":
