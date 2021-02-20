@@ -104,7 +104,6 @@ let home = {
             amount.innerText = `$${allowances[i].amount}`;
             tr.appendChild(amount);
 
-            //TODO: calculate remaining once transactions are included
             let spent = document.createElement("td");
             spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].id)}`;
             tr.appendChild(spent);

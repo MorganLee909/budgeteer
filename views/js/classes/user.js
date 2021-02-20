@@ -45,6 +45,10 @@ class User{
         this._currentAccount = index;
         home.all();
     }
+
+    updateAll(){
+        home.all();
+    }
 }
 
 module.exports = User;

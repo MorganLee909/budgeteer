@@ -62,6 +62,7 @@ let enter = {
                     controller.createBanner(response, "error");
                 }else{
                     user = new User(response.accounts);
+                    user.updateAll();
                     controller.closeModal();
                 }
             })
