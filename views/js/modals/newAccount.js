@@ -1,6 +1,13 @@
 let newAccount = {
     display: function(){
         document.getElementById("newAccountForm").onsubmit = ()=>{this.submit()};
+        let cancelButton = document.getElementById("newAccountCancel");
+        if(user.getAccount() === undefined){
+            cancelButton.style.display = "none";
+        }else{
+            cancelButton.style.display = "block";
+            cancelButton.onclick = ()=>{controller.closeModal()};
+        }
     },
 
     submit: function(){
