@@ -19,6 +19,9 @@ let createBill = {
             account: user.getAccount().id
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/category/create", {
             method: "post",
             headers: {
@@ -38,6 +41,9 @@ let createBill = {
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
+            .finally(()=>{
+                loader.style.display = "none";
+            });
     }
 }
 

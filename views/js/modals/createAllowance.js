@@ -41,6 +41,9 @@ let createAllowance = {
             }
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/category/create", {
             method: "post",
             headers: {
@@ -59,6 +62,9 @@ let createAllowance = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 };

@@ -186,6 +186,9 @@ let home = {
     },
 
     removeCategory: function(category){
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch(`/category/${user.getAccount().id}/${category.id}`, {method: "delete"})
             .then(response => response.json())
             .then((response) =>{
@@ -197,6 +200,9 @@ let home = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE.", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     },
 

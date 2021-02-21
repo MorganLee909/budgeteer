@@ -19,6 +19,9 @@ let newAccount = {
             balance: parseInt(document.getElementById("newAccountBalance").value * 100)
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/account/create", {
             method: "post",
             headers: {
@@ -37,6 +40,9 @@ let newAccount = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 }

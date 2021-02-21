@@ -37,6 +37,9 @@ class Account{
             to: to
         };
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/transactions", {
             method: "post",
             headers: {
@@ -68,6 +71,9 @@ class Account{
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 

@@ -82,6 +82,10 @@ let createTransaction = {
             }
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+        console.log(loader);
+
         fetch("/transaction/create", {
             method: "post",
             headers: {
@@ -100,6 +104,9 @@ let createTransaction = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 };

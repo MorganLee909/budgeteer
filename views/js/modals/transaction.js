@@ -10,6 +10,9 @@ let transaction = {
     },
 
     delete: function(transaction){
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch(`/transactions/${user.getAccount().id}/${transaction.id}`, {method: "delete"})
             .then(response => response.json())
             .then((response)=>{
@@ -22,6 +25,9 @@ let transaction = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 };

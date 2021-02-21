@@ -19,6 +19,9 @@ let enter = {
             return;
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/register", {
             method: "post",
             headers: {
@@ -39,6 +42,9 @@ let enter = {
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
+            .finally(()=>{
+                loader.style.display = "none";
+            });
     },
 
     login: function(){
@@ -48,6 +54,9 @@ let enter = {
             email: document.getElementById("loginEmail").value,
             password: document.getElementById("loginPass").value
         }
+
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
 
         fetch("/login", {
             method: "post",
@@ -68,6 +77,9 @@ let enter = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 }

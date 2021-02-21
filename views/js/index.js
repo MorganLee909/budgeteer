@@ -98,6 +98,9 @@ controller = {
     }
 };
 
+let loader = document.getElementById("loaderContainer");
+loader.style.display = "flex";
+
 fetch("/session")
     .then(response => response.json())
     .then((response)=>{
@@ -111,4 +114,7 @@ fetch("/session")
     })
     .catch((err)=>{
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+    })
+    .finally(()=>{
+        loader.style.display = "none";
     });

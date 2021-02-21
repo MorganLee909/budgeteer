@@ -72,6 +72,9 @@ let transfer = {
             note: document.getElementById("transferNote").value
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/transactions/transfer", {
             method: "post",
             headers: {
@@ -92,6 +95,9 @@ let transfer = {
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
+            .finally(()=>{
+                loader.style.display = "none";
+            });
     }
 };
 
