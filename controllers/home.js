@@ -5,6 +5,7 @@ const helper = require("./helper.js");
 
 const bcrypt = require("bcryptjs");
 const ObjectId = require("mongoose").Types.ObjectId;
+const ValidationError = require("mongoose").Error.ValidationError;
 
 module.exports = {
     render: function(req, res){
@@ -156,6 +157,9 @@ module.exports = {
                 return res.json(account);
             })
             .catch((err)=>{
+                if(err instanceof ValidationError){
+                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
+                }
                 return res.json("ERROR: UNABLE TO CREATE ACCOUNT");
             });
     },
@@ -196,6 +200,9 @@ module.exports = {
                 }
             })
             .catch((err)=>{
+                if(err instanceof ValidationError){
+                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
+                }
                 return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
     },
@@ -242,6 +249,9 @@ module.exports = {
                 return res.json(response[0]);
             })
             .catch((err)=>{
+                if(err instanceof ValidationError){
+                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
+                }
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
     },
@@ -384,6 +394,9 @@ module.exports = {
                 return res.json({from: response[0], to: response[1]});
             })
             .catch((err)=>{
+                if(err instanceof ValidationError){
+                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
+                }
                 return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
     }
