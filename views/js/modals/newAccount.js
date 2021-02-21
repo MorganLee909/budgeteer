@@ -19,7 +19,6 @@ let newAccount = {
             balance: parseInt(document.getElementById("newAccountBalance").value * 100)
         }
 
-        console.log(data);
         fetch("/account/create", {
             method: "post",
             headers: {

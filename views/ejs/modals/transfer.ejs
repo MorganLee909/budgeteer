@@ -1,0 +1,45 @@
+<div id="transferModal" class="modal" style="display:none;">
+    <form id="transferForm">
+        <h2>Transfer Between Accounts</h2>
+
+        <h3>Transfer from</h3>
+        <label>Account:
+            <p id="transferFrom"></p>
+        </label>
+
+        <label class="indent">Category:
+            <select id="fromCategory"></select>
+        </label>
+
+        <div class="lineyBoi"></div>
+
+        <h3>Transfer to</h3>
+        <label>Account:
+            <select id="transferSelect"></select>
+        </label>
+
+        <label class="indent">Category:
+            <select id="toCategory"></select>
+        </label>
+
+        <div class="lineyBoi"></div>
+
+        <label>Date:
+            <input id="transferDate" type="date" required>
+        </label>
+
+        <label>Amount:
+            <input id="transferAmount" type="number" min="0" step="0.01" required>
+        </label>
+
+        <label>Note:
+            <textarea id="transferNote"></textarea>
+        </label>
+
+        <div class="formButton">
+            <input type="submit" value="Submit">
+
+            <button id="transferCancel" type="button">Cancel</button>
+        </div>
+    </form>
+</div>

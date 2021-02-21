@@ -135,7 +135,6 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
-        console.log(req.body.balance);
         res.locals.user.accounts.push({
             name: req.body.name,
             balance: req.body.balance,
@@ -388,6 +387,76 @@ module.exports = {
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO DELETE TRANSACTION");
+            });
+    },
+
+    /*
+    POST: transfer money between accounts
+    req.body = {
+        from: String (id of account),
+        fromCategory: String (id of category),
+        to: String (id of account),
+        toCategory: String (id of category),
+        date: String,
+        amount: Number,
+        note: String
+    }
+    response = {
+        from: Transaction,
+        to: Transaction
+    }
+    */
+    transfer: function(req, res){
+        if(res.locals.user === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        let fromAccount = null;
+        let toAccount = null;
+        for(let i = 0; i < res.locals.user.accounts.length; i++){
+            if(res.locals.user.accounts[i]._id.toString() === req.body.from){
+                fromAccount = res.locals.user.accounts[i];
+            }
+            if(res.locals.user.accounts[i]._id.toString() === req.body.to){
+                toAccount = res.locals.user.accounts[i];
+            }
+        }
+
+        if(fromAccount === null){
+            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
+        }
+
+        if(toAccount === null){
+            return res.json("YOU MUST CHOOSE AN ACCOUNT TO TRANSFER TO");
+        }
+
+        let fromTransaction = new Transaction({
+            account: fromAccount._id,
+            category: req.body.fromCategory,
+            amount: -req.body.amount,
+            location: toAccount.name,
+            date: new Date(req.body.date),
+            note: req.body.note
+        });
+
+        let toTransaction = new Transaction({
+            account: toAccount._id,
+            category: req.body.toCategory,
+            amount: req.body.amount,
+            location: fromAccount.name,
+            date: new Date(req.body.date),
+            note: req.body.note
+        });
+
+        fromAccount.balance -= req.body.amount;
+        toAccount.balance += req.body.amount;
+
+        Promise.all([fromTransaction.save(), toTransaction.save(), res.locals.user.save()])
+            .then((response)=>{
+                return res.json({from: response[0], to: response[1]});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
     }
 }

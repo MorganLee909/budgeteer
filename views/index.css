@@ -382,3 +382,10 @@ HELP MODAL
         font-weight: bold;
         text-align: center;
     }
+
+/*
+TRANSFER MODAL
+*/
+#transferModal h2{
+    margin-bottom: 25px;
+}

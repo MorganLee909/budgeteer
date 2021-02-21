@@ -9,6 +9,7 @@ const createTransactionModal = require("./modals/createTransaction.js");
 const transactionModal = require("./modals/transaction.js");
 const switchAccountModal = require("./modals/switchAccount.js");
 const helpModal = require("./modals/help.js");
+const transferModal = require("./modals/transfer.js");
 
 const User = require("./classes/user.js");
 
@@ -63,6 +64,10 @@ controller = {
             case "help":
                 modal = document.getElementById("helpModal");
                 helpModal.display();
+                break;
+            case "transfer":
+                modal = document.getElementById("transferModal");
+                transferModal.display();
                 break;
         }
 
