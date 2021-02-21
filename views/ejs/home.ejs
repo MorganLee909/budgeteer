@@ -21,6 +21,17 @@
         <div id="tables">
             <div class="tableHead">
                 <h2>Income</h2>
+                <div class="infoPopup">
+                    <button id="incomeInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+                    
+                    <p id="incomeInfoText" class="infoText" style="display:none;">Each income source is considered once a month. This will not affect the actual money in your account, it will only affect projections</p>
+                </div>
                 <button id="createIncomeBtn" class="addButton">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -42,6 +53,17 @@
 
             <div class="tableHead">
                 <h2>Bills</h2>
+                <div class="infoPopup">
+                    <button id="billsInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+  
+                    <p id="billsInfoText" class="infoText" style="display:none;">Each bill is considered to be once a month.  This will not affect the actual money in your account, it will only affect projections</p>
+                </div>
                 <button id="createBillBtn" class="addButton">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -63,6 +85,17 @@
 
             <div class="tableHead">
             <h2>Allowances</h2>
+                <div class="infoPopup">
+                    <button id="allowancesInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+
+                    <p id="allowancesInfoText" class="infoText" style="display:none;">An allowance is a bit of money set aside from your budget each month to spend on a specific item.  For example: groceries or clothes.</p>
+                </div>
                 <button id="createAllowanceBtn" class="addButton">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -116,26 +149,86 @@
             </label>
 
             <h3 id="statsMonth"></h3>
-            
-            <label>Discretionary:
+
+            <div class="statsItem">
+                <div class="infoPopup">
+                    <button id="discretionaryInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+  
+                    <p id="discretionaryInfoText" class="infoText" style="display:none;">Discretionary is your total money after all bills and allowances.  Simply: income - bills - allowances</p>
+                </div>
+                <p>Discretionary:</p>
                 <p id="statsDiscretionary"></p>
-            </label>
+            </div>
 
-            <label>Remaining Discretionary:
+            <div class="statsItem">
+                <div class="infoPopup">
+                    <button id="remainingDiscretionaryInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+  
+                    <p id="remainingDiscretionaryInfoText" class="infoText" style="display:none;">Remaining discretionary is your discretionary minus money that you have spent on discretionary.</p>
+                </div>
+                <p id="remaining">Remaining:</p>
                 <p id="statsRemainingDiscretionary"></p>
-            </label>
+            </div>
 
-            <label>Income:
+            <div class="statsItem">
+                <div class="infoPopup">
+                    <button id="statsIncomeInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+  
+                    <p id="statsIncomeInfoText" class="infoText" style="display:none;">The total of all of your income.</p>
+                </div>
+                <p>Income:</p>
                 <p id="statsIncome"></p>
-            </label>
+            </div>
 
-            <label>Bills:
+            <div class="statsItem">
+                <div class="infoPopup">
+                    <button id="statsBillsInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+  
+                    <p id="statsBillsInfoText" class="infoText" style="display:none;">The total of all of your bills.</p>
+                </div>
+                <p>Bills:</p>
                 <p id="statsBills"></p>
-            </label>
+            </div>
 
-            <label>Allowances:
+            <div class="statsItem">
+                <div class="infoPopup">
+                    <button id="statsAllowancesInfoButton" class="infoButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </button>
+  
+                    <p id="statsAllowancesInfoText" class="infoText" style="display:none;">The total of all of your allowances.</p>
+                </div>
+                <p>Allowances:</p>
                 <p id="statsAllowances"></p>
-            </label>
+            </div>
         </div>
     </div>
 </div>

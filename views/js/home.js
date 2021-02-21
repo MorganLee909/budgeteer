@@ -17,6 +17,14 @@ let home = {
         document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
         document.getElementById("addAccountButton").onclick = ()=>{controller.openModal("newAccount")};
         document.getElementById("switchAccountButton").onclick = ()=>{controller.openModal("switchAccount")};
+        document.getElementById("incomeInfoButton").onclick = ()=>{this.showInfo("income")};
+        document.getElementById("billsInfoButton").onclick = ()=>{this.showInfo("bills")};
+        document.getElementById("allowancesInfoButton").onclick = ()=>{this.showInfo("allowances")};
+        document.getElementById("discretionaryInfoButton").onclick = ()=>{this.showInfo("discretionary")};
+        document.getElementById("remainingDiscretionaryInfoButton").onclick = ()=>{this.showInfo("remaining")};
+        document.getElementById("statsIncomeInfoButton").onclick = ()=>{this.showInfo("statsIncome")};
+        document.getElementById("statsBillsInfoButton").onclick = ()=>{this.showInfo("statsBills")};
+        document.getElementById("statsAllowancesInfoButton").onclick = ()=>{this.showInfo("statsAllowances")};
     },
 
     populateIncome: function(){
@@ -159,12 +167,12 @@ let home = {
         let discretionary = account.getDiscretionary();
         let now = new Date();
 
-        document.getElementById("statsBalance").innerText = `$${account.balance}`;
+        document.getElementById("statsBalance").innerText = `$${account.balance.toFixed(2)}`;
         document.getElementById("statsMonth").innerText = now.toLocaleDateString("en-US", {month: "long"});
-        document.getElementById("statsDiscretionary").innerText = `$${discretionary}`;
-        document.getElementById("statsIncome").innerText = `$${account.getTotalIncome()}`;
-        document.getElementById("statsBills").innerText = `$${account.getTotalBills()}`;
-        document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
+        document.getElementById("statsDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
+        document.getElementById("statsIncome").innerText = `$${account.getTotalIncome().toFixed(2)}`;
+        document.getElementById("statsBills").innerText = `$${account.getTotalBills().toFixed(2)}`;
+        document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances().toFixed(2)}`;
 
         for(let i = 0; i < account.transactions.length; i++){
             if(account.transactions[i].category.group === "discretionary"){
@@ -203,6 +211,56 @@ let home = {
         document.getElementById("dropdownContent").style.display = "none";
         window.onclick = undefined;
         document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
+    },
+
+    showInfo: function(type){
+        let element = {};
+        let button = {};
+
+        switch(type){
+            case "income":
+                element = document.getElementById("incomeInfoText");
+                button = document.getElementById("incomeInfoButton");
+                break;
+            case "bills":
+                element = document.getElementById("billsInfoText");
+                button = document.getElementById("billsInfoButton");
+                break;
+            case "allowances":
+                element = document.getElementById("allowancesInfoText");
+                button = document.getElementById("allowancesInfoButton");
+                break;
+            case "discretionary":
+                element = document.getElementById("discretionaryInfoText");
+                button = document.getElementById("discretionaryInfoButton");
+                break;
+            case "remaining":
+                element = document.getElementById("remainingDiscretionaryInfoText");
+                button = document.getElementById("remainingDiscretionaryInfoButton");
+                break;
+            case "statsIncome":
+                element = document.getElementById("statsIncomeInfoText");
+                button = document.getElementById("statsIncomeInfoButton");
+                break;
+            case "statsBills":
+                element = document.getElementById("statsBillsInfoText");
+                button = document.getElementById("statsBillsInfoButton");
+                break;
+            case "statsAllowances":
+                element = document.getElementById("statsAllowancesInfoText");
+                button = document.getElementById("statsAllowancesInfoButton");
+                break;
+        }
+
+        element.style.display = "flex";
+        button.onclick = undefined;
+        setTimeout(()=>{
+            window.onclick = ()=>{
+                element.style.display = "none";
+                button.onclick = ()=>{this.showInfo(type)};
+                window.onclick = undefined
+            }
+        }, 0);
     }
 };
 

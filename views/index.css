@@ -152,6 +152,47 @@ form{
         }
 
 /* Tables */
+.addButton{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(0, 150, 0);
+    border-radius: 100%;
+    margin-left: auto;
+}
+
+    .addButton:hover{
+        color: rgb(0, 225, 0);
+        transform: translateY(1px);
+    }
+
+
+.infoPopup{
+    position: relative;
+}
+
+    .infoButton{
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+        .infoButton:hover{
+            color: rgb(150, 150, 150);
+        }
+
+    .infoText{
+        background: white;
+        position: absolute;
+        left: 10px;
+        width: 300px;
+        box-shadow: 0 0 5px black;
+        padding: 5px;
+        font-size: 14px;
+        text-align: justify;
+        z-index: 2;
+    }
+
 table{
     margin: 0 0 50px 0;
 }
@@ -159,23 +200,6 @@ table{
 .tableHead{
     display: flex;
 }
-
-    .tableHead h2{
-        margin-right: 25px;
-    }
-
-    .addButton{
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: rgb(0, 150, 0);
-        border-radius: 100%;
-    }
-
-        .addButton:hover{
-            color: rgb(0, 225, 0);
-            transform: translateY(1px);
-        }
 
 th{
     border-bottom: 1px solid black;
@@ -257,24 +281,28 @@ HOME PAGE
         justify-content: space-around;
     }
 
-    #stats > label{
+    .statsItem{
         display: flex;
         margin: 5px;
-        justify-content: space-between;
     }
+
+        #remaining{
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
 
     .bigLabel{
         font-size: 25px;
         font-weight: bold;
     }
 
-    .actionable{
-        cursor: pointer;
-    }
+.actionable{
+    cursor: pointer;
+}
 
-        .actionable:hover{
-            box-shadow: 0 0 5px black;
-        }
+    .actionable:hover{
+        box-shadow: 0 0 5px black;
+    }
 
 /*
 ENTER MODAL
