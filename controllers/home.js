@@ -125,7 +125,8 @@ module.exports = {
     /*
     POST: create a new account for a user
     req.body = {
-        name: String
+        name: String,
+        balance: Number
     }
     response = Object (created account)
     */
@@ -134,9 +135,10 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
+        console.log(req.body.balance);
         res.locals.user.accounts.push({
             name: req.body.name,
-            balance: 0,
+            balance: req.body.balance,
             categories: [{
                 name: "discretionary",
                 group: "discretionary",

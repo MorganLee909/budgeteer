@@ -1,6 +1,7 @@
 let newAccount = {
     display: function(){
-        document.getElementById("newAccountForm").onsubmit = ()=>{this.submit()};
+        document.getElementById("newAccountForm").onsubmit = ()=>{
+            this.submit()};
         let cancelButton = document.getElementById("newAccountCancel");
         if(user.getAccount() === undefined){
             cancelButton.style.display = "none";
@@ -14,9 +15,11 @@ let newAccount = {
         event.preventDefault();
 
         let data = {
-            name: document.getElementById("newAccountName").value
+            name: document.getElementById("newAccountName").value,
+            balance: parseInt(document.getElementById("newAccountBalance").value * 100)
         }
 
+        console.log(data);
         fetch("/account/create", {
             method: "post",
             headers: {
