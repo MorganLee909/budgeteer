@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 
-const sessionId = require("../sessionId.js");
+const helper = require("./helper.js");
 
 const bcrypt = require("bcryptjs");
 const ObjectId = require("mongoose").Types.ObjectId;
@@ -99,7 +99,7 @@ module.exports = {
                     password: hash,
                     accounts: [],
                     session: {
-                        sessionId: sessionId(),
+                        sessionId: helper.generateId(25),
                         expiration: newDate
                     }
                 });
@@ -171,18 +171,7 @@ module.exports = {
     }
     */
     createCategory: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
+        let account = helper.findAccount(res.locals.user, req.body.account);
         if(res.locals.user === null || account === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
@@ -224,19 +213,8 @@ module.exports = {
     response = Transaction
     */
     createTransaction: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
-        if(account === null){
+        let account = helper.findAccount(res.locals.user, req.body.account);
+        if(res.locals.user === null || account === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
@@ -278,19 +256,8 @@ module.exports = {
     response = [Transaction]
     */
     getTransactions: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.body.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
-        if(account === null){
+        let account = helper.findAccount(res.locals.user, req.body.account);
+        if(res.locals.user === null || account === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
@@ -322,19 +289,8 @@ module.exports = {
     response = {}
     */
     removeCategory: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.params.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
-        if(account === null){
+        let account = helper.findAccount(res.locals.user, req.params.account);
+        if(res.locals.user === null || account === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
@@ -360,19 +316,8 @@ module.exports = {
     req.params.transaction = id of transaction to delete
     */
     deleteTransaction: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let account = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.params.account){
-                account = res.locals.user.accounts[i];
-                break;
-            }
-        }
-
-        if(account === null){
+        let account = helper.findAccount(res.locals.user, req.params.transaction);
+        if(res.locals.user === null || account === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
@@ -407,27 +352,10 @@ module.exports = {
     }
     */
     transfer: function(req, res){
-        if(res.locals.user === null){
+        let fromAccount = helper.findAccount(res.locals.user, req.body.from);
+        let toAccount = helper.findAccount(res.locals.user, req.body.to);
+        if(res.locals.user === null || fromAccount === null || toAccount === null){
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        let fromAccount = null;
-        let toAccount = null;
-        for(let i = 0; i < res.locals.user.accounts.length; i++){
-            if(res.locals.user.accounts[i]._id.toString() === req.body.from){
-                fromAccount = res.locals.user.accounts[i];
-            }
-            if(res.locals.user.accounts[i]._id.toString() === req.body.to){
-                toAccount = res.locals.user.accounts[i];
-            }
-        }
-
-        if(fromAccount === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        if(toAccount === null){
-            return res.json("YOU MUST CHOOSE AN ACCOUNT TO TRANSFER TO");
         }
 
         let fromTransaction = new Transaction({

@@ -1,6 +1,6 @@
 const User = require("./models/user.js");
 
-const sessionId = require("./sessionId.js");
+const helper = require("./controllers/helper.js");
 
 module.exports = {
     verifySession: function(req, res, next){
@@ -17,7 +17,7 @@ module.exports = {
                 }
 
                 if(user.session.expiration < new Date()){
-                    user.session.sessionId = sessionId();
+                    user.session.sessionId = helper.generateId();
                     let newDate = new Date();
                     newDate.setDate(newDate.getDate() + 90);
                     user.session.expiration = newDate;

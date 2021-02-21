@@ -84,7 +84,6 @@ let createTransaction = {
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
-        console.log(loader);
 
         fetch("/transaction/create", {
             method: "post",
