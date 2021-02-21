@@ -25,6 +25,7 @@ let home = {
         document.getElementById("statsIncomeInfoButton").onclick = ()=>{this.showInfo("statsIncome")};
         document.getElementById("statsBillsInfoButton").onclick = ()=>{this.showInfo("statsBills")};
         document.getElementById("statsAllowancesInfoButton").onclick = ()=>{this.showInfo("statsAllowances")};
+        document.getElementById("helpButton").onclick = ()=>{controller.openModal("help")};
     },
 
     populateIncome: function(){

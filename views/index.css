@@ -291,7 +291,8 @@ HOME PAGE
             margin-bottom: 20px;
         }
 
-    .bigLabel{
+    .balance{
+        display: flex;
         font-size: 25px;
         font-weight: bold;
     }
@@ -356,3 +357,10 @@ SWITCH ACCOUNT MODAL
         width: 100%;
         text-align: center;
     }
+
+/*
+HELP MODAL
+*/
+#helpModal{
+    position: relative;
+}

@@ -8,6 +8,7 @@ const createAllowanceModal = require("./modals/createAllowance.js");
 const createTransactionModal = require("./modals/createTransaction.js");
 const transactionModal = require("./modals/transaction.js");
 const switchAccountModal = require("./modals/switchAccount.js");
+const helpModal = require("./modals/help.js");
 
 const User = require("./classes/user.js");
 
@@ -59,6 +60,10 @@ controller = {
                 modal = document.getElementById("switchAccountModal");
                 switchAccountModal.display();
                 break;
+            case "help":
+                modal = document.getElementById("helpModal");
+                helpModal.display();
+                break;
         }
 
         modal.style.display = "flex";
@@ -100,6 +105,5 @@ fetch("/session")
         home.buttons();
     })
     .catch((err)=>{
-        console.log(err);
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
     });
