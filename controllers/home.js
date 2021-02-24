@@ -225,17 +225,9 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
-        let category = {};
-        for(let i = 0; i < account.categories.length; i++){
-            if(account.categories[i]._id.toString() === req.body.category){
-                category = account.categories[i]._id;
-                break;
-            }
-        }
-
         let newTransaction = new Transaction({
             account: req.body.account,
-            category: category,
+            category: req.body.category,
             amount: req.body.amount,
             location: req.body.location,
             date: req.body.date,

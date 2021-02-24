@@ -115,7 +115,7 @@ let home = {
             tr.appendChild(amount);
 
             let spent = document.createElement("td");
-            spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].id)}`;
+            spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].name)}`;
             tr.appendChild(spent);
 
             let remove = document.createElement("td");
@@ -151,7 +151,7 @@ let home = {
             tr.appendChild(date);
 
             let category = document.createElement("td");
-            category.innerText = transactions[i].category.name;
+            category.innerText = transactions[i].category;
             tr.appendChild(category);
 
             let location = document.createElement("td");
@@ -177,7 +177,7 @@ let home = {
         document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances().toFixed(2)}`;
 
         for(let i = 0; i < account.transactions.length; i++){
-            if(account.transactions[i].category.group === "discretionary"){
+            if(account.getCategoryGroup(account.transactions[i].category) === "discretionary"){
                 discretionary += account.transactions[i].amount;
             }
         }

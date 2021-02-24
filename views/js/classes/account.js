@@ -55,7 +55,6 @@ class Account{
                     for(let i = 0; i < response.length; i++){
                         this._transactions.push(new Transaction(
                             response[i]._id,
-                            this,
                             response[i].category,
                             response[i].amount,
                             response[i].location,
@@ -95,6 +94,14 @@ class Account{
     //categories
     get categories(){
         return this._categories;
+    }
+
+    getCategoryGroup(name){
+        for(let i = 0; i < this._categories.length; i++){
+            if(this._categories[i].name === name){
+                return this._categories[i].group;
+            }
+        }
     }
 
     getIncome(){
@@ -218,7 +225,6 @@ class Account{
     addTransaction(transaction){
         let newTransaction = new Transaction(
             transaction._id,
-            this,
             transaction.category,
             transaction.amount,
             transaction.location,
@@ -229,7 +235,7 @@ class Account{
         this._transactions.push(newTransaction);
         this._balance += transaction.amount;
 
-        if(newTransaction.category.group === "allowance"){
+        if(this.getCategoryGroup(transaction.category) === "allowance"){
             home.populateAllowances();
         }
 
@@ -256,7 +262,7 @@ class Account{
     getAllowanceSpent(category){
         let spent = 0;
         for(let i = 0; i < this._transactions.length; i++){
-            if(this._transactions[i].category.id === category){
+            if(this._transactions[i].category === category){
                 spent += this._transactions[i].amount;
             }
         }

@@ -22,7 +22,7 @@ let createTransaction = {
         let income = user.getAccount().getIncome();
         for(let i = 0; i < income.length; i++){
             let option = document.createElement("option");
-            option.value = income[i].id;
+            option.value = income[i].name;
             option.innerText = income[i].name;
             incomeGroup.appendChild(option);
         }
@@ -33,7 +33,7 @@ let createTransaction = {
         let bills = user.getAccount().getBills();
         for(let i = 0; i < bills.length; i++){
             let option = document.createElement("option");
-            option.value = bills[i].id;
+            option.value = bills[i].name;
             option.innerText = bills[i].name;
             billGroup.appendChild(option);
         }
@@ -44,7 +44,7 @@ let createTransaction = {
         let allowances = user.getAccount().getAllowances();
         for(let i = 0; i < allowances.length; i++){
             let option = document.createElement("option");
-            option.value = allowances[i].id;
+            option.value = allowances[i].name;
             option.innerText = allowances[i].name;
             allowanceGroup.appendChild(option);
         }
@@ -54,7 +54,7 @@ let createTransaction = {
         let categories = user.getAccount().categories;
         for(let i = 0; i < categories.length; i++){
             if(categories[i].group === "discretionary"){
-                option.value = categories[i].id;
+                option.value = categories[i].name;
                 break;
             }
         }
@@ -76,7 +76,7 @@ let createTransaction = {
         let account = user.getAccount();
         let income = account.getIncome();
         for(let i = 0; i < income.length; i++){
-            if(income[i].id === data.category){
+            if(income[i].name === data.category){
                 data.amount = -data.amount;
                 break;
             }
