@@ -34,7 +34,7 @@ class User{
         ));
 
         this._currentAccount = this._accounts.length - 1;
-        document.getElementById("accountTitle").innerText = `${account.name} account`;
+        home.all();
     }
 
     getAccount(){
