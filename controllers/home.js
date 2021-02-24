@@ -180,6 +180,16 @@ module.exports = {
             return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
         }
 
+        for(let i = 0; i < account.categories.length; i++){
+            let existingName = account.categories[i].name.toLowerCase();
+            let existingGroup = account.categories[i].group.toLowerCase();
+            let newName = req.body.name.toLowerCase();
+            let newGroup = req.body.group.toLowerCase();
+            if(existingName === newName && existingGroup === newGroup){
+                return res.json(`YOU ALREADY HAVE ${req.body.name.toUpperCase()} IN ${req.body.group.toUpperCase()}`);
+            }
+        }
+
         account.categories.push({
             name: req.body.name,
             group: req.body.group,
