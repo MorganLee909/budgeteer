@@ -63,6 +63,8 @@ class Account{
                         ));
                     }
 
+                    home.populateIncome();
+                    home.populateBills();
                     home.populateTransactions();
                     home.populateAllowances();
                     home.populateStats();
@@ -220,6 +222,19 @@ class Account{
     //transactions
     get transactions(){
         return this._transactions;
+    }
+
+    getTransactions(category){
+        if(category === undefined) return [];
+        let transactions = [];
+
+        for(let i = 0; i < this._transactions.length; i++){
+            if(this._transactions[i].category === category){
+                transactions.push(this._transactions[i]);
+            }
+        }
+
+        return transactions;
     }
 
     addTransaction(transaction){

@@ -91,6 +91,19 @@ let home = {
                 </svg>
             `;
             tr.appendChild(remove);
+
+            if(user.getAccount().getTransactions(bills[i].name).length === 0){
+                let status = document.createElement("td");
+                status.classList.add("actionable");
+                status.classList.add("statusButton");
+                status.innerText = "unpaid";
+                tr.appendChild(status);
+            }else{
+                let status = document.createElement("td");
+                status.innerText = "paid";
+                status.classList.add("statusText");
+                tr.appendChild(status);
+            }
         }
     },
 

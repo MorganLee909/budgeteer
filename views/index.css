@@ -214,6 +214,19 @@ tbody tr:nth-child(even){
     background: lightgray;
 }
 
+.statusButton{
+    background: red;
+    cursor: pointer;
+    box-shadow: 0 0 2px black;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.statusText{
+    color: green;
+}
+
 /*
 HOME PAGE
 */
