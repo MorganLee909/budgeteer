@@ -104,7 +104,7 @@ loader.style.display = "flex";
 fetch("/session")
     .then(response => response.json())
     .then((response)=>{
-        if(response === null){
+        if(typeof(response) === "string"){
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);

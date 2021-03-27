@@ -3,24 +3,32 @@ const Transaction = require("./transaction.js");
 
 const home = require("../home.js");
 
+class IncomeBill{
+    constructor(id, name, amount){
+        this._id = id;
+        this._name = name;
+        this._amount = amount
+    }
+}
+
+class Allowance{
+    constructor(id, name, amount, isPercent){
+        this._id = id;
+        this._name = name;
+        this._amount = amount;
+        this._isPercent = isPercent;
+    }
+}
+
 class Account{
-    constructor(id, name, balance, categories){
+    constructor(id, name, balance, income, bills, allowances){
         this._id = id;
         this._name = name;
         this._balance = balance;
-        this._categories = [];
+        this._income = [];
+        this._bills = [];
+        this._allowances = [];
         this._transactions = [];
-
-        for(let i = 0; i < categories.length; i++){
-            this._categories.push(new Category(
-                this,
-                categories[i]._id,
-                categories[i].name,
-                categories[i].group,
-                categories[i].amount,
-                categories[i].isPercent
-            ));
-        }
 
         let from = new Date();
         from.setDate(1);
@@ -74,6 +82,31 @@ class Account{
             .finally(()=>{
                 loader.style.display = "none";
             });
+
+        for(let i = 0; i < income.length; i++){
+            this._income.push(new IncomeBill(
+                income[i]._id,
+                income[i].name,
+                income[i].amount
+            ));
+        }
+
+        for(let i = 0; i < bills.length; i++){
+            this._bills.push(new IncomeBill(
+                bills[i]._id,
+                bills[i].name,
+                bills[i].amount
+            ));
+        }
+
+        for(let i = 0; i < allowances.length; i++){
+            this._allowances.push(new Allowance(
+                allowances[i]._id,
+                allowances[i].name,
+                allowances[i].amount,
+                allowances[i].isPercent
+            ));
+        }
     }
 
     //id

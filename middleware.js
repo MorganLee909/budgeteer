@@ -4,7 +4,7 @@ const helper = require("./controllers/helper.js");
 
 module.exports = {
     verifySession: function(req, res, next){
-        if(req.session.user === undefined) return res.redirect("/");
+        if(req.session.user === undefined) return res.json("error");
 
         User.findOne({"session.sessionId": req.session.user})
             .then((user)=>{
@@ -23,7 +23,7 @@ module.exports = {
                 return next();
             })
             .catch((err)=>{
-                if(err === "login") return res.redirect("/");
+                if(err === "login") return res.json("error");
                 return res.json("ERROR: UNABLE TO VALIDATE USER");
             });
     }

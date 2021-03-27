@@ -128,8 +128,6 @@ module.exports = {
     response = Object (created account)
     */
     createAccount: function(req, res){
-        if(res.locals.user === null) return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-
         let account = new Account({
             name: req.body.name,
             balance: req.body.balance,
@@ -174,7 +172,6 @@ module.exports = {
                 return res.json(income);
             })
             .catch((err)=>{
-                console.log(err);
                 return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
             });
     },
