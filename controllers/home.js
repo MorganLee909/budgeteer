@@ -1,6 +1,8 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 const Account = require("../models/account.js").Account;
+const IncomeBill = require("../models/account.js").IncomeBill;
+const Allowance = require("../models/account.js").Allowance;
 
 const helper = require("./helper.js");
 
@@ -160,15 +162,15 @@ module.exports = {
     createIncome: function(req, res){
         let account = res.locals.user.accounts.id(req.body.account);
 
-        let income = {
+        let income = new IncomeBill({
             name: req.body.name,
             amount: req.body.amount
-        };
+        });
 
         account.income.push(income);
 
         res.locals.user.save()
-            .then(()=>{
+            .then((user)=>{
                 return res.json(income);
             })
             .catch((err)=>{
@@ -180,27 +182,63 @@ module.exports = {
     /*
     DELETE: remove an income source from an account
     req.params.account = String (account id)
-    req.params.income = String (name of income)
+    req.params.income = String (id of income)
     response = {}
     */
     deleteIncome: function(req, res){
-        let account = res.locals.user.accounts.id(req.params.account);
-
+        res.locals.user.accounts.id(req.params.account).income.id(req.params.income).remove();
         
-        for(let i = 0; i < account.income.length; i++){
-            if(account.income[i].name === req.params.income){
-                console.log("iffed");
-                account.income.splice(i, 1);
-                break;
-            }
-        }
+        res.locals.user.save()
+            .then(()=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO DELETE INCOME");
+            });
+    },
+
+    /*
+    POST: create a new bill
+    req.body = {
+        account: String(id of account),
+        name: String,
+        amount: number
+    }
+    response = Object (bill)
+    */
+    createBill: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        let bill = new IncomeBill({
+            name: req.body.name,
+            amount: req.body.amount
+        });
+
+        account.bills.push(bill);
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json(bill);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
+            });
+    },
+
+    /*
+    DELETE: remove a bill from an account
+    req.params.account = String (account id)
+    req.params.bill = String (id of bill)
+    response = {}
+    */
+    deleteBill: function(req, res){
+        res.locals.user.accounts.id(req.params.account).bills.id(req.params.bill).remove()
 
         res.locals.user.save()
             .then(()=>{
                 return res.json({});
             })
             .catch((err)=>{
-                console.log(err);
                 return res.json("ERROR: UNABLE TO DELETE INCOME");
             });
     },

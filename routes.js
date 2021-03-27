@@ -13,6 +13,10 @@ module.exports = function(app){
     //INCOME
     app.post("/income", session, home.createIncome);
     app.delete("/income/:account/:income", session, home.deleteIncome);
+
+    //BILLS
+    app.post("/bills", session, home.createBill);
+    app.delete("/bills/:account/:bill", session, home.deleteBill);
     
     app.delete("/category/:account/:category", session, home.removeCategory);
     app.post("/transaction/create", session, home.createTransaction);

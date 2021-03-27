@@ -12,6 +12,40 @@ let isSanitary = (str)=>{
     return true;
 }
 
+const IncomeBillSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, "MUST HAVE A NAME"],
+        validate: {
+            validator: isSanitary,
+            message: "NAME CONTAINS ILLEGAL CHARACTERS"
+        }
+    },
+    amount: {
+        type: Number,
+        required: [true, "MUST CONTAIN AN AMOUNT"]
+    }
+});
+
+const AllowanceSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, "MUST HAVE A NAME"],
+        validate: {
+            validator: isSanitary,
+            message: "NAME CONTAINS ILLEGAL CHARACTERS"
+        },
+    },
+    amount: {
+        type: Number,
+        required: [true, "ALLOWANCE MUST CONTAIN AN AMOUNT"]
+    },
+    isPercent: {
+        type: Boolean,
+        required: true
+    }
+});
+
 const AccountSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -21,56 +55,18 @@ const AccountSchema = new mongoose.Schema({
             message: "ACCOUNT NAME CONTAINS ILLEGAL CHARACTERS"
         }
     },
-    balance: Number,
-    income: [{
-        name: {
-            type: String,
-            required: [true, "MUST HAVE A NAME"],
-            validate: {
-                validator: isSanitary,
-                message: "NAME CONTAINS ILLEGAL CHARACTERS"
-            }
-        },
-        amount: {
-            type: Number,
-            required: [true, "INCOME MUST CONTAIN AN AMOUNT"]
-        },
-    }],
-    bills: [{
-        name: {
-            type: String,
-            required: [true, "MUST HAVE A NAME"],
-            validate: {
-                validator: isSanitary,
-                message: "NAME CONTAINS ILLEGAL CHARACTERS"
-            }
-        },
-        amount: {
-            type: Number,
-            required: [true, "BILL MUST CONTAIN AN AMOUNT"]
-        }
-    }],
-    allowances: [{
-        name: {
-            type: String,
-            required: [true, "MUST HAVE A NAME"],
-            validate: {
-                validator: isSanitary,
-                message: "NAME CONTAINS ILLEGAL CHARACTERS"
-            },
-        },
-        amount: {
-            type: Number,
-            required: [true, "ALLOWANCE MUST CONTAIN AN AMOUNT"]
-        },
-        isPercent: {
-            type: Boolean,
-            required: true
-        }
-    }]
+    balance: {
+        type: Number,
+        required: [true, "ACCOUNT MUST CONTAIN A BALANCE"]
+    },
+    income: [IncomeBillSchema],
+    bills: [IncomeBillSchema],
+    allowances: [AllowanceSchema]
 });
 
 module.exports = {
     AccountSchema: AccountSchema,
-    Account: mongoose.model("account", AccountSchema)
+    Account: mongoose.model("account", AccountSchema),
+    IncomeBill: mongoose.model("incomeBill", IncomeBillSchema),
+    Allowance: mongoose.model("allowance", AllowanceSchema)
 }
