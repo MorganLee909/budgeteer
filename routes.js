@@ -3,6 +3,7 @@ const home = require("./controllers/home.js");
 const session = require("./middleware.js").verifySession;
 
 module.exports = function(app){
+    //USER MANAGEMENT
     app.get("/", home.render);
     app.get("/session", session, home.checkSession);
     app.post("/login", home.login);
@@ -26,9 +27,9 @@ module.exports = function(app){
 
     //TRANSACTIONS
     app.post("/transactions", session, home.createTransaction);
-
-    app.delete("/category/:account/:category", session, home.removeCategory);
     app.post("/transactions", session, home.getTransactions);
     app.delete("/transactions/:account/:transaction", session, home.deleteTransaction);
+
+    //OTHER
     app.post("/transactions/transfer", session, home.transfer);
 }

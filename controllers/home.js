@@ -365,43 +365,12 @@ module.exports = {
     },
 
     /*
-    DELETE: remove a category
-    req.params.account = id of account
-    req.params.category = id of category to remove
-    response = {}
-    */
-    removeCategory: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.params.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        for(let i = 0; i < account.categories.length; i++){
-            if(req.params.category === account.categories[i]._id.toString()){
-                account.categories.splice(i, 1);
-                break;
-            }
-        }
-
-        res.locals.user.save()
-            .then((user)=>{
-                return res.json({});
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO REMOVE DATA");
-            });
-    },
-
-    /*
     DELETE: remove a transaction
     req.params.account = id of account
     req.params.transaction = id of transaction to delete
     */
     deleteTransaction: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.params.transaction);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        let account = res.locals.user.accounts.id(req.params.account);
 
         Transaction.findOne({_id: req.params.transaction})
             .then((transaction)=>{
@@ -421,9 +390,9 @@ module.exports = {
     POST: transfer money between accounts
     req.body = {
         from: String (id of account),
-        fromCategory: String (id of category),
+        fromLabels: [String] (optional)
         to: String (id of account),
-        toCategory: String (id of category),
+        toLabels: [String] (optional)
         date: String,
         amount: Number,
         note: String
@@ -434,15 +403,11 @@ module.exports = {
     }
     */
     transfer: function(req, res){
-        let fromAccount = helper.findAccount(res.locals.user, req.body.from);
-        let toAccount = helper.findAccount(res.locals.user, req.body.to);
-        if(res.locals.user === null || fromAccount === null || toAccount === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        let fromAccount = res.locals.user.accounts.id(req.body.from);
+        let toAccount = res.locals.user.accounts.id(req.body.to);
 
         let fromTransaction = new Transaction({
             account: fromAccount._id,
-            category: req.body.fromCategory,
             amount: -req.body.amount,
             location: toAccount.name,
             date: new Date(req.body.date),
@@ -451,24 +416,24 @@ module.exports = {
 
         let toTransaction = new Transaction({
             account: toAccount._id,
-            category: req.body.toCategory,
             amount: req.body.amount,
             location: fromAccount.name,
             date: new Date(req.body.date),
             note: req.body.note
         });
 
+        if(req.body.fromLabels !== undefined) fromTransaction.labels = req.body.fromLabels;
+        if(req.body.toLabels !== undefined) toTransaction.labels = req.body.toLabels;
+
         fromAccount.balance -= req.body.amount;
         toAccount.balance += req.body.amount;
 
         Promise.all([fromTransaction.save(), toTransaction.save(), res.locals.user.save()])
             .then((response)=>{
-                return res.json({from: response[0], to: response[1]});
+                return res.json(response[0]);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
+                if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
     }
