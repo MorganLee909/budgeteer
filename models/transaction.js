@@ -19,13 +19,10 @@ let TransactionSchema = new mongoose.Schema({
         required: [true, "TRANSACTION MUST BE ASSOCIATED WITH AN ACCOUNT"]
     },
     category: {
-        type: String,
-        required: [true, "TRANSACTION MUST HAVE A CATEGORY"],
-        validate: {
-            validator: isSanitary,
-            message: "CATEGORY CONTAINS ILLEGAL CHARACTERS"
-        }
+        type: {type: String},
+        id: String
     },
+    labels: [String],
     amount: {
         type: Number,
         required: [true, "TRANSACTION MUST HAVE AN AMOUNT"]

@@ -295,7 +295,11 @@ module.exports = {
     POST: create a new transaction
     req.body = {
         account: String (id of account),
-        category: String,
+        category: {
+            type: String,
+            id: String
+        }, (optional)
+        labels: [String] (optional)
         amount: Number,
         location: String,
         date: Date,
@@ -304,19 +308,18 @@ module.exports = {
     response = Transaction
     */
     createTransaction: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.body.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        let account = res.locals.user.accounts.id(req.body.account);
 
         let newTransaction = new Transaction({
             account: req.body.account,
-            category: req.body.category,
             amount: req.body.amount,
             location: req.body.location,
             date: req.body.date,
             note: req.body.note
         });
+
+        if(req.body.category !== undefined) newTransaction.category = req.body.category;
+        if(req.body.labels !== undefined) newTransaction.labels = req.body.labels;
 
         account.balance += newTransaction.amount;
 
@@ -325,9 +328,7 @@ module.exports = {
                 return res.json(response[0]);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
+                if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
     },
@@ -342,11 +343,6 @@ module.exports = {
     response = [Transaction]
     */
     getTransactions: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.body.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
         let from = new Date(req.body.from);
         let to = new Date(req.body.to);
 
