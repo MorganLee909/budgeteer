@@ -33,9 +33,7 @@ module.exports = {
 
         User.findOne({email: email})
             .then((user)=>{
-                if(user === null){
-                    throw "USER WITH THIS EMAIL DOESN'T EXIST";
-                }
+                if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
 
                 bcrypt.compare(req.body.password, user.password, (err, response)=>{
                     if(response === false){
@@ -51,9 +49,7 @@ module.exports = {
                 });
             })
             .catch((err)=>{
-                if(typeof(err) === "string"){
-                    return res.json(err);
-                }
+                if(typeof(err) === "string") return res.json(err);
                 return res.json("ERROR: LOGIN FAILED");
             });
     },
@@ -77,17 +73,13 @@ module.exports = {
     response = User
     */
     register: function(req, res){
-        if(req.body.password !== req.body.confirmPassword){
-            return res.json("PASSWORDS DO NOT MATCH");
-        }
+        if(req.body.password !== req.body.confirmPassword) return res.json("PASSWORDS DO NOT MATCH");
 
         let email = req.body.email.toLowerCase();
 
         User.findOne({email: email})
             .then((user)=>{
-                if(user !== null){
-                    throw "USER WITH THIS EMAIL ADDRESS ALREADY EXISTS";
-                }
+                if(user !== null) throw "USER WITH THIS EMAIL ADDRESS ALREADY EXISTS";
 
                 let salt = bcrypt.genSaltSync(10);
                 let hash = bcrypt.hashSync(req.body.password, salt);
@@ -116,11 +108,9 @@ module.exports = {
                 return res.json(user);
             })
             .catch((err)=>{
-                if(typeof(err) === "string"){
-                    return res.json(err);
-                }
+                if(typeof(err) === "string") return res.json(err);
                 return res.json("ERROR: UNABLE TO CREATE NEW USER");
-            })
+            });
     },
 
     /*
@@ -132,17 +122,14 @@ module.exports = {
     response = Object (created account)
     */
     createAccount: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        if(res.locals.user === null) return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
 
         res.locals.user.accounts.push({
             name: req.body.name,
             balance: req.body.balance,
-            categories: [{
-                name: "discretionary",
-                group: "discretionary",
-            }]
+            income: [],
+            bills: [],
+            allowances: []
         });
 
         res.locals.user.save()

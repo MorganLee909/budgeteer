@@ -1,3 +1,5 @@
+const Account = required("./account.js");;
+
 const mongoose = require("mongoose");
 
 let emailValid = (email)=>{
@@ -29,33 +31,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "MUST PROVIDE A PASSWORD"]
     },
-    accounts: [{
-        name: {
-            type: String,
-            required: [true, "ACCOUNT MUST HAVE A NAME"],
-            validate: {
-                validator: isSanitary,
-                message: "ACCOUNT NAME CONTAINS ILLEGAL CHARACTERS"
-            }
-        },
-        balance: Number,
-        categories: [{
-            name: {
-                type: String,
-                required: [true, "MUST HAVE A NAME"],
-                validate: {
-                    validator: isSanitary,
-                    message: "NAME CONTAINS ILLEGAL CHARACTERS"
-                }
-            },
-            group: {
-                type: String,
-                required: [true, "MUST BE PART OF A GROUP"]
-            },
-            amount: Number,
-            isPercent: Boolean
-        }]
-    }],
+    accounts: [Account],
     session: {
         sessionId: String,
         expiration: Date
