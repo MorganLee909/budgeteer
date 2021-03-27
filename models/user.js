@@ -1,4 +1,4 @@
-const Account = required("./account.js");;
+const Account = require("./account.js").AccountSchema;
 
 const mongoose = require("mongoose");
 

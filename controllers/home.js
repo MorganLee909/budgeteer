@@ -1,5 +1,6 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
+const Account = require("../models/account.js").Account;
 
 const helper = require("./helper.js");
 
@@ -36,9 +37,7 @@ module.exports = {
                 if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
 
                 bcrypt.compare(req.body.password, user.password, (err, response)=>{
-                    if(response === false){
-                        throw "INCORRECT PASSWORD";
-                    }
+                    if(response === false) throw "INCORRECT PASSWORD";
 
                     req.session.user = user.session.sessionId;
 
@@ -124,7 +123,7 @@ module.exports = {
     createAccount: function(req, res){
         if(res.locals.user === null) return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
 
-        res.locals.user.accounts.push({
+        let account = new Account({
             name: req.body.name,
             balance: req.body.balance,
             income: [],
@@ -132,76 +131,29 @@ module.exports = {
             allowances: []
         });
 
+        res.locals.user.accounts.push(account);
+
         res.locals.user.save()
             .then((user)=>{
-                let account = {};
-                for(let i = 0; i < user.accounts.length; i++){
-                    if(user.accounts[i].name === req.body.name){
-                        account = user.accounts[i];
-                        break;
-                    }
-                }
                 return res.json(account);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
+                if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE ACCOUNT");
             });
     },
 
     /*
-    POST: create a new category for an account
+    POST: create a new income source
     req.body = {
+        account: String(id of account),
         name: String,
-        group: String,
-        amount: Number,
-        isPercent: Boolean,
-        account: String (id of account)
+        amount: number
     }
+    response = Object (income)
     */
-    createCategory: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.body.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        for(let i = 0; i < account.categories.length; i++){
-            let existingName = account.categories[i].name.toLowerCase();
-            let existingGroup = account.categories[i].group.toLowerCase();
-            let newName = req.body.name.toLowerCase();
-            let newGroup = req.body.group.toLowerCase();
-            if(existingName === newName && existingGroup === newGroup){
-                return res.json(`YOU ALREADY HAVE ${req.body.name.toUpperCase()} IN ${req.body.group.toUpperCase()}`);
-            }
-        }
-
-        account.categories.push({
-            name: req.body.name,
-            group: req.body.group,
-            amount: req.body.amount,
-            isPercent: req.body.isPercent
-        });
-
-        res.locals.user.save()
-            .then((user)=>{
-                for(let i = 0; i < user.accounts.length; i++){
-                    if(user.accounts[i]._id.toString() === req.body.account){
-                        for(let j = 0; j < user.accounts[i].categories.length; j++){
-                            if(user.accounts[i].categories[j].name === req.body.name){
-                                return res.json(user.accounts[i].categories[j]);
-                            }
-                        }
-                    }
-                }
-            })
-            .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
-                return res.json("ERROR: UNABLE TO UPDATE DATA");
-            });
+    createIncome: function(req, res){
+        
     },
 
     /*
