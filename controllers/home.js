@@ -155,7 +155,7 @@ module.exports = {
     req.body = {
         account: String(id of account),
         name: String,
-        amount: number
+        amount: Number
     }
     response = Object (income)
     */
@@ -202,7 +202,7 @@ module.exports = {
     req.body = {
         account: String(id of account),
         name: String,
-        amount: number
+        amount: Number
     }
     response = Object (bill)
     */
@@ -240,6 +240,54 @@ module.exports = {
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO DELETE INCOME");
+            });
+    },
+
+    /*
+    POST: create a new allowance
+    req.body = {
+        account: String(id of account),
+        name: String,
+        amount: Number,
+        isPercent: Boolean
+    }
+    response = Object (allowance)
+    */
+    createAllowance: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        let allowance = new Allowance({
+            name: req.body.name,
+            amount: req.body.amount,
+            isPercent: req.body.isPercent
+        });
+
+        account.allowances.push(allowance);
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json(allowance);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE NEW BILL");
+            });
+    },
+
+    /*
+    DELETE: remove an allowance from an account
+    req.params.account = String (account id)
+    req.params.allowance = String (id of allowance)
+    response = {}
+    */
+    deleteAllowance: function(req, res){
+        res.locals.user.accounts.id(req.params.account).allowances.id(req.params.allowance).remove()
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO DELETE ALLOWANCE");
             });
     },
 

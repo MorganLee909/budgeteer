@@ -17,6 +17,10 @@ module.exports = function(app){
     //BILLS
     app.post("/bills", session, home.createBill);
     app.delete("/bills/:account/:bill", session, home.deleteBill);
+
+    //ALLOWANCES
+    app.post("/allowances", session, home.createAllowance);
+    app.delete("/allowances/:account/:allowance", session, home.deleteAllowance);
     
     app.delete("/category/:account/:category", session, home.removeCategory);
     app.post("/transaction/create", session, home.createTransaction);
