@@ -18,7 +18,12 @@ module.exports = {
     response = Vendor || null
     */
     checkSession: function(req, res){
-        return res.json(res.locals.user);
+        if(res.locals.user === null) return res.json(res.locals.user);
+
+        return res.json({
+            email: res.locals.user.email,
+            accounts: res.locals.user.accounts
+        });
     },
 
     /*
@@ -153,7 +158,51 @@ module.exports = {
     response = Object (income)
     */
     createIncome: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        let income = {
+            name: req.body.name,
+            amount: req.body.amount
+        };
+
+        account.income.push(income);
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json(income);
+            })
+            .catch((err)=>{
+                console.log(err);
+                return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
+            });
+    },
+
+    /*
+    DELETE: remove an income source from an account
+    req.params.account = String (account id)
+    req.params.income = String (name of income)
+    response = {}
+    */
+    deleteIncome: function(req, res){
+        let account = res.locals.user.accounts.id(req.params.account);
+
         
+        for(let i = 0; i < account.income.length; i++){
+            if(account.income[i].name === req.params.income){
+                console.log("iffed");
+                account.income.splice(i, 1);
+                break;
+            }
+        }
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                console.log(err);
+                return res.json("ERROR: UNABLE TO DELETE INCOME");
+            });
     },
 
     /*
