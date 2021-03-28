@@ -1,7 +1,5 @@
 const Transaction = require("./transaction.js");
 
-const home = require("../home.js");
-
 class IncomeBill{
     constructor(id, name, amount){
         this._id = id;
@@ -85,6 +83,7 @@ class Account{
                         this._transactions.push(new Transaction(
                             response[i]._id,
                             response[i].category,
+                            response[i].labels,
                             response[i].amount,
                             response[i].location,
                             response[i].date,
@@ -92,9 +91,7 @@ class Account{
                         ));
                     }
 
-                    home.populateTransactions();
-                    home.populateAllowances();
-                    home.populateStats();
+                    state.transactions();
                 }
             })
             .catch((err)=>{
@@ -234,6 +231,7 @@ class Account{
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,
+            transaction.labels,
             transaction.amount,
             transaction.location,
             transaction.date,

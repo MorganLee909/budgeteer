@@ -16,6 +16,7 @@ class Transaction{
 
     //category
     get category(){
+        if(this._category === undefined) return "Discretionary";
         return this._category;
     }
 

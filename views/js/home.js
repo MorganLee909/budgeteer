@@ -169,20 +169,18 @@ let home = {
         let discretionary = account.getDiscretionary();
         let now = new Date();
 
-        document.getElementById("statsBalance").innerText = `$${account.balance.toFixed(2)}`;
+        document.getElementById("statsBalance").innerText = `$${account.balance}`;
         document.getElementById("statsMonth").innerText = now.toLocaleDateString("en-US", {month: "long"});
-        document.getElementById("statsDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
-        document.getElementById("statsIncome").innerText = `$${account.getTotalIncome().toFixed(2)}`;
-        document.getElementById("statsBills").innerText = `$${account.getTotalBills().toFixed(2)}`;
-        document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances().toFixed(2)}`;
+        document.getElementById("statsDiscretionary").innerText = `$${discretionary}`;
+        document.getElementById("statsIncome").innerText = `$${account.getTotalIncome()}`;
+        document.getElementById("statsBills").innerText = `$${account.getTotalBills()}`;
+        document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
 
         for(let i = 0; i < account.transactions.length; i++){
-            if(account.getCategoryGroup(account.transactions[i].category) === "discretionary"){
-                discretionary += account.transactions[i].amount;
-            }
+            if(account.category === undefined) discretionary += account.transactions[i].amount;
         }
 
-        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
+        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary}`;
     },
 
     removeCategory: function(category){

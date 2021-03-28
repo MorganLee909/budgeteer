@@ -112,6 +112,11 @@ window.state = {
     allowances: function(){
         home.populateAllowances();
         home.populateStats();
+    },
+
+    transactions: function(){
+        home.populateTransactions();
+        home.populateStats();
     }
 }
 
