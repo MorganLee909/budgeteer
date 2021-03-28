@@ -19,7 +19,7 @@ let createTransaction = {
         let incomeGroup = document.createElement("optgroup");
         incomeGroup.label = "INCOME";
         select.appendChild(incomeGroup);
-        let income = user.getAccount().getIncome();
+        let income = user.getAccount().income;
         for(let i = 0; i < income.length; i++){
             let option = document.createElement("option");
             option.value = income[i].name;
@@ -30,7 +30,7 @@ let createTransaction = {
         let billGroup = document.createElement("optgroup");
         billGroup.label = "BILLS";
         select.appendChild(billGroup);
-        let bills = user.getAccount().getBills();
+        let bills = user.getAccount().bills;
         for(let i = 0; i < bills.length; i++){
             let option = document.createElement("option");
             option.value = bills[i].name;
@@ -41,7 +41,7 @@ let createTransaction = {
         let allowanceGroup = document.createElement("optgroup");
         allowanceGroup.label = "ALLOWANCES";
         select.appendChild(allowanceGroup);
-        let allowances = user.getAccount().getAllowances();
+        let allowances = user.getAccount().allowances;
         for(let i = 0; i < allowances.length; i++){
             let option = document.createElement("option");
             option.value = allowances[i].name;
@@ -74,7 +74,7 @@ let createTransaction = {
         }
 
         let account = user.getAccount();
-        let income = account.getIncome();
+        let income = account.income;
         for(let i = 0; i < income.length; i++){
             if(income[i].name === data.category){
                 data.amount = -data.amount;

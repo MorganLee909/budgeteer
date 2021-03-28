@@ -30,7 +30,7 @@ let home = {
     },
 
     populateIncome: function(){
-        let income = user.getAccount().getIncome();
+        let income = user.getAccount().income;
         let incomeBody = document.getElementById("incomeBody");
         while(incomeBody.children.length > 0){
             incomeBody.removeChild(incomeBody.firstChild);
@@ -62,7 +62,7 @@ let home = {
     },
 
     populateBills: function(){
-        let bills = user.getAccount().getBills();
+        let bills = user.getAccount().bills;
         let billsBody = document.getElementById("billsBody");
 
         while(billsBody.children.length > 0){
@@ -95,7 +95,7 @@ let home = {
     },
 
     populateAllowances: function(){
-        let allowances = user.getAccount().getAllowances();
+        let allowances = user.getAccount().allowances;
         let allowancesBody = document.getElementById("allowancesBody");
 
         while(allowancesBody.children.length > 0){
