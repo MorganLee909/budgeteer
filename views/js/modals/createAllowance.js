@@ -19,7 +19,7 @@ let createAllowance = {
         let data = {
             name: document.getElementById("createAllowanceName").value,
             account: user.getAccount().id,
-            group: "allowance"
+            
         }
 
         if(amount === ""){
@@ -30,7 +30,6 @@ let createAllowance = {
                 data.amount = parseInt(percent);
                 data.isPercent = true;
             }
-            
         }else{
             if(percent !== ""){
                 controller.createBanner("CHOOSE AMOUNT OR PERCENT. NOT BOTH", "error");
@@ -44,7 +43,7 @@ let createAllowance = {
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/category/create", {
+        fetch("/allowances", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -56,7 +55,8 @@ let createAllowance = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().addCategory(response);
+                    user.getAccount().addAllowance(response);
+                    state.allowances();
                     controller.closeModal();
                 }
             })

@@ -98,13 +98,35 @@ controller = {
     }
 };
 
+window.state = {
+    income: function(){
+        home.populateIncome();
+        home.populateStats();
+    },
+
+    bills: function(){
+        home.populateBills();
+        home.populateStats();
+    },
+
+    allowances: function(){
+        home.populateAllowances();
+        home.populateStats();
+    },
+
+    transactions: function(){
+        home.populateTransactions();
+        home.populateStats();
+    }
+}
+
 let loader = document.getElementById("loaderContainer");
 loader.style.display = "flex";
 
 fetch("/session")
     .then(response => response.json())
     .then((response)=>{
-        if(response === null){
+        if(typeof(response) === "string"){
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);

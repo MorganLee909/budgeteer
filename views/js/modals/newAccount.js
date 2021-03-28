@@ -17,7 +17,7 @@ let newAccount = {
         let data = {
             name: document.getElementById("newAccountName").value,
             balance: parseInt(document.getElementById("newAccountBalance").value * 100)
-        }
+        };
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";

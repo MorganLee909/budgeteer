@@ -12,7 +12,9 @@ class User{
                 accounts[i]._id,
                 accounts[i].name,
                 accounts[i].balance,
-                accounts[i].categories
+                accounts[i].income,
+                accounts[i].bills,
+                accounts[i].allowances
             ));
         }
     }
@@ -30,7 +32,9 @@ class User{
             account._id,
             account.name,
             account.balance,
-            account.categories
+            account.income,
+            account.bills,
+            account.allowances
         ));
 
         this._currentAccount = this._accounts.length - 1;

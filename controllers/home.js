@@ -1,5 +1,8 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
+const Account = require("../models/account.js").Account;
+const IncomeBill = require("../models/account.js").IncomeBill;
+const Allowance = require("../models/account.js").Allowance;
 
 const helper = require("./helper.js");
 
@@ -17,7 +20,12 @@ module.exports = {
     response = Vendor || null
     */
     checkSession: function(req, res){
-        return res.json(res.locals.user);
+        if(res.locals.user === null) return res.json(res.locals.user);
+
+        return res.json({
+            email: res.locals.user.email,
+            accounts: res.locals.user.accounts
+        });
     },
 
     /*
@@ -33,14 +41,10 @@ module.exports = {
 
         User.findOne({email: email})
             .then((user)=>{
-                if(user === null){
-                    throw "USER WITH THIS EMAIL DOESN'T EXIST";
-                }
+                if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
 
                 bcrypt.compare(req.body.password, user.password, (err, response)=>{
-                    if(response === false){
-                        throw "INCORRECT PASSWORD";
-                    }
+                    if(response === false) throw "INCORRECT PASSWORD";
 
                     req.session.user = user.session.sessionId;
 
@@ -51,9 +55,7 @@ module.exports = {
                 });
             })
             .catch((err)=>{
-                if(typeof(err) === "string"){
-                    return res.json(err);
-                }
+                if(typeof(err) === "string") return res.json(err);
                 return res.json("ERROR: LOGIN FAILED");
             });
     },
@@ -77,17 +79,13 @@ module.exports = {
     response = User
     */
     register: function(req, res){
-        if(req.body.password !== req.body.confirmPassword){
-            return res.json("PASSWORDS DO NOT MATCH");
-        }
+        if(req.body.password !== req.body.confirmPassword) return res.json("PASSWORDS DO NOT MATCH");
 
         let email = req.body.email.toLowerCase();
 
         User.findOne({email: email})
             .then((user)=>{
-                if(user !== null){
-                    throw "USER WITH THIS EMAIL ADDRESS ALREADY EXISTS";
-                }
+                if(user !== null) throw "USER WITH THIS EMAIL ADDRESS ALREADY EXISTS";
 
                 let salt = bcrypt.genSaltSync(10);
                 let hash = bcrypt.hashSync(req.body.password, salt);
@@ -116,11 +114,9 @@ module.exports = {
                 return res.json(user);
             })
             .catch((err)=>{
-                if(typeof(err) === "string"){
-                    return res.json(err);
-                }
+                if(typeof(err) === "string") return res.json(err);
                 return res.json("ERROR: UNABLE TO CREATE NEW USER");
-            })
+            });
     },
 
     /*
@@ -132,88 +128,163 @@ module.exports = {
     response = Object (created account)
     */
     createAccount: function(req, res){
-        if(res.locals.user === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        res.locals.user.accounts.push({
+        let account = new Account({
             name: req.body.name,
             balance: req.body.balance,
-            categories: [{
-                name: "discretionary",
-                group: "discretionary",
-            }]
+            income: [],
+            bills: [],
+            allowances: []
         });
+
+        res.locals.user.accounts.push(account);
 
         res.locals.user.save()
             .then((user)=>{
-                let account = {};
-                for(let i = 0; i < user.accounts.length; i++){
-                    if(user.accounts[i].name === req.body.name){
-                        account = user.accounts[i];
-                        break;
-                    }
-                }
                 return res.json(account);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
+                if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE ACCOUNT");
             });
     },
 
     /*
-    POST: create a new category for an account
+    POST: create a new income source
     req.body = {
+        account: String(id of account),
         name: String,
-        group: String,
-        amount: Number,
-        isPercent: Boolean,
-        account: String (id of account)
+        amount: Number
     }
+    response = Object (income)
     */
-    createCategory: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.body.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+    createIncome: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
 
-        for(let i = 0; i < account.categories.length; i++){
-            let existingName = account.categories[i].name.toLowerCase();
-            let existingGroup = account.categories[i].group.toLowerCase();
-            let newName = req.body.name.toLowerCase();
-            let newGroup = req.body.group.toLowerCase();
-            if(existingName === newName && existingGroup === newGroup){
-                return res.json(`YOU ALREADY HAVE ${req.body.name.toUpperCase()} IN ${req.body.group.toUpperCase()}`);
-            }
-        }
-
-        account.categories.push({
+        let income = new IncomeBill({
             name: req.body.name,
-            group: req.body.group,
+            amount: req.body.amount
+        });
+
+        account.income.push(income);
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(income);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
+            });
+    },
+
+    /*
+    DELETE: remove an income source from an account
+    req.params.account = String (account id)
+    req.params.income = String (id of income)
+    response = {}
+    */
+    deleteIncome: function(req, res){
+        res.locals.user.accounts.id(req.params.account).income.id(req.params.income).remove();
+        
+        res.locals.user.save()
+            .then(()=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO DELETE INCOME");
+            });
+    },
+
+    /*
+    POST: create a new bill
+    req.body = {
+        account: String(id of account),
+        name: String,
+        amount: Number
+    }
+    response = Object (bill)
+    */
+    createBill: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        let bill = new IncomeBill({
+            name: req.body.name,
+            amount: req.body.amount
+        });
+
+        account.bills.push(bill);
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json(bill);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
+            });
+    },
+
+    /*
+    DELETE: remove a bill from an account
+    req.params.account = String (account id)
+    req.params.bill = String (id of bill)
+    response = {}
+    */
+    deleteBill: function(req, res){
+        res.locals.user.accounts.id(req.params.account).bills.id(req.params.bill).remove()
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO DELETE INCOME");
+            });
+    },
+
+    /*
+    POST: create a new allowance
+    req.body = {
+        account: String(id of account),
+        name: String,
+        amount: Number,
+        isPercent: Boolean
+    }
+    response = Object (allowance)
+    */
+    createAllowance: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        let allowance = new Allowance({
+            name: req.body.name,
             amount: req.body.amount,
             isPercent: req.body.isPercent
         });
 
+        account.allowances.push(allowance);
+
         res.locals.user.save()
-            .then((user)=>{
-                for(let i = 0; i < user.accounts.length; i++){
-                    if(user.accounts[i]._id.toString() === req.body.account){
-                        for(let j = 0; j < user.accounts[i].categories.length; j++){
-                            if(user.accounts[i].categories[j].name === req.body.name){
-                                return res.json(user.accounts[i].categories[j]);
-                            }
-                        }
-                    }
-                }
+            .then(()=>{
+                return res.json(allowance);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
-                return res.json("ERROR: UNABLE TO UPDATE DATA");
+                return res.json("ERROR: UNABLE TO CREATE NEW BILL");
+            });
+    },
+
+    /*
+    DELETE: remove an allowance from an account
+    req.params.account = String (account id)
+    req.params.allowance = String (id of allowance)
+    response = {}
+    */
+    deleteAllowance: function(req, res){
+        res.locals.user.accounts.id(req.params.account).allowances.id(req.params.allowance).remove()
+
+        res.locals.user.save()
+            .then(()=>{
+                return res.json({});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO DELETE ALLOWANCE");
             });
     },
 
@@ -221,7 +292,11 @@ module.exports = {
     POST: create a new transaction
     req.body = {
         account: String (id of account),
-        category: String,
+        category: {
+            type: String,
+            id: String
+        }, (optional)
+        labels: [String] (optional)
         amount: Number,
         location: String,
         date: Date,
@@ -230,19 +305,18 @@ module.exports = {
     response = Transaction
     */
     createTransaction: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.body.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        let account = res.locals.user.accounts.id(req.body.account);
 
         let newTransaction = new Transaction({
             account: req.body.account,
-            category: req.body.category,
             amount: req.body.amount,
             location: req.body.location,
             date: req.body.date,
             note: req.body.note
         });
+
+        if(req.body.category !== undefined) newTransaction.category = req.body.category;
+        if(req.body.labels !== undefined) newTransaction.labels = req.body.labels;
 
         account.balance += newTransaction.amount;
 
@@ -251,9 +325,7 @@ module.exports = {
                 return res.json(response[0]);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
+                if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
     },
@@ -268,11 +340,6 @@ module.exports = {
     response = [Transaction]
     */
     getTransactions: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.body.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
         let from = new Date(req.body.from);
         let to = new Date(req.body.to);
 
@@ -295,43 +362,12 @@ module.exports = {
     },
 
     /*
-    DELETE: remove a category
-    req.params.account = id of account
-    req.params.category = id of category to remove
-    response = {}
-    */
-    removeCategory: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.params.account);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
-
-        for(let i = 0; i < account.categories.length; i++){
-            if(req.params.category === account.categories[i]._id.toString()){
-                account.categories.splice(i, 1);
-                break;
-            }
-        }
-
-        res.locals.user.save()
-            .then((user)=>{
-                return res.json({});
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO REMOVE DATA");
-            });
-    },
-
-    /*
     DELETE: remove a transaction
     req.params.account = id of account
     req.params.transaction = id of transaction to delete
     */
     deleteTransaction: function(req, res){
-        let account = helper.findAccount(res.locals.user, req.params.transaction);
-        if(res.locals.user === null || account === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        let account = res.locals.user.accounts.id(req.params.account);
 
         Transaction.findOne({_id: req.params.transaction})
             .then((transaction)=>{
@@ -351,28 +387,21 @@ module.exports = {
     POST: transfer money between accounts
     req.body = {
         from: String (id of account),
-        fromCategory: String (id of category),
+        fromLabels: [String] (optional)
         to: String (id of account),
-        toCategory: String (id of category),
+        toLabels: [String] (optional)
         date: String,
         amount: Number,
         note: String
     }
-    response = {
-        from: Transaction,
-        to: Transaction
-    }
+    response = [Transaction (from account), Transaction (to account)]
     */
     transfer: function(req, res){
-        let fromAccount = helper.findAccount(res.locals.user, req.body.from);
-        let toAccount = helper.findAccount(res.locals.user, req.body.to);
-        if(res.locals.user === null || fromAccount === null || toAccount === null){
-            return res.json("YOU DO NOT HAVE PERMISSION TO DO THAT");
-        }
+        let fromAccount = res.locals.user.accounts.id(req.body.from);
+        let toAccount = res.locals.user.accounts.id(req.body.to);
 
         let fromTransaction = new Transaction({
             account: fromAccount._id,
-            category: req.body.fromCategory,
             amount: -req.body.amount,
             location: toAccount.name,
             date: new Date(req.body.date),
@@ -381,24 +410,24 @@ module.exports = {
 
         let toTransaction = new Transaction({
             account: toAccount._id,
-            category: req.body.toCategory,
             amount: req.body.amount,
             location: fromAccount.name,
             date: new Date(req.body.date),
             note: req.body.note
         });
 
+        if(req.body.fromLabels !== undefined) fromTransaction.labels = req.body.fromLabels;
+        if(req.body.toLabels !== undefined) toTransaction.labels = req.body.toLabels;
+
         fromAccount.balance -= req.body.amount;
         toAccount.balance += req.body.amount;
 
         Promise.all([fromTransaction.save(), toTransaction.save(), res.locals.user.save()])
             .then((response)=>{
-                return res.json({from: response[0], to: response[1]});
+                return res.json([response[0], response[1]]);
             })
             .catch((err)=>{
-                if(err instanceof ValidationError){
-                    return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
-                }
+                if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
     }

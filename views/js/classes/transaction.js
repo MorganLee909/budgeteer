@@ -1,7 +1,8 @@
 class Transaction{
-    constructor(id, category, amount, location, date, note){
+    constructor(id, category, labels, amount, location, date, note){
         this._id = id;
         this._category = category;
+        this._labels = labels;
         this._amount = amount;
         this._location = location;
         this._date = new Date(date);
@@ -15,6 +16,7 @@ class Transaction{
 
     //category
     get category(){
+        if(this._category === undefined) return "Discretionary";
         return this._category;
     }
 

@@ -1,26 +1,53 @@
-const Category = require("./category.js");
 const Transaction = require("./transaction.js");
 
-const home = require("../home.js");
+class IncomeBill{
+    constructor(id, name, amount){
+        this._id = id;
+        this._name = name;
+        this._amount = amount;
+    }
+
+    get name(){
+        return this._name;
+    }
+
+    get amount(){
+        return parseFloat((this._amount / 100).toFixed(2));
+    }
+}
+
+class Allowance{
+    constructor(id, name, amount, isPercent, parent){
+        this._id = id;
+        this._name = name;
+        this._amount = amount;
+        this._isPercent = isPercent;
+        this._parent = parent;
+    }
+
+    get id(){
+        return this._id;
+    }
+
+    get name(){
+        return this._name;
+    }
+
+    get amount(){
+        if(this._isPercent === true) return parseFloat((this._parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
+        return parseFloat((this._amount / 100).toFixed(2));
+    }
+}
 
 class Account{
-    constructor(id, name, balance, categories){
+    constructor(id, name, balance, income, bills, allowances){
         this._id = id;
         this._name = name;
         this._balance = balance;
-        this._categories = [];
+        this._income = [];
+        this._bills = [];
+        this._allowances = [];
         this._transactions = [];
-
-        for(let i = 0; i < categories.length; i++){
-            this._categories.push(new Category(
-                this,
-                categories[i]._id,
-                categories[i].name,
-                categories[i].group,
-                categories[i].amount,
-                categories[i].isPercent
-            ));
-        }
 
         let from = new Date();
         from.setDate(1);
@@ -40,7 +67,7 @@ class Account{
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/transactions", {
+        fetch("/transactions/get", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -56,6 +83,7 @@ class Account{
                         this._transactions.push(new Transaction(
                             response[i]._id,
                             response[i].category,
+                            response[i].labels,
                             response[i].amount,
                             response[i].location,
                             response[i].date,
@@ -63,11 +91,7 @@ class Account{
                         ));
                     }
 
-                    home.populateIncome();
-                    home.populateBills();
-                    home.populateTransactions();
-                    home.populateAllowances();
-                    home.populateStats();
+                    state.transactions();
                 }
             })
             .catch((err)=>{
@@ -76,6 +100,32 @@ class Account{
             .finally(()=>{
                 loader.style.display = "none";
             });
+
+        for(let i = 0; i < income.length; i++){
+            this._income.push(new IncomeBill(
+                income[i]._id,
+                income[i].name,
+                income[i].amount
+            ));
+        }
+
+        for(let i = 0; i < bills.length; i++){
+            this._bills.push(new IncomeBill(
+                bills[i]._id,
+                bills[i].name,
+                bills[i].amount
+            ));
+        }
+
+        for(let i = 0; i < allowances.length; i++){
+            this._allowances.push(new Allowance(
+                allowances[i]._id,
+                allowances[i].name,
+                allowances[i].amount,
+                allowances[i].isPercent,
+                this
+            ));
+        }
     }
 
     //id
@@ -93,130 +143,83 @@ class Account{
         return parseFloat((this._balance / 100).toFixed(2));
     }
 
-    //categories
-    get categories(){
-        return this._categories;
+    get income(){
+        return this._income;
     }
 
-    getCategoryGroup(name){
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].name === name){
-                return this._categories[i].group;
-            }
-        }
-    }
-
-    getIncome(){
-        let income = [];
-
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "income"){
-                income.push(this._categories[i]);
-            }
-        }
-
-        return income;
+    addIncome(income){
+        this._income.push(new IncomeBill(
+            income._id,
+            income.name,
+            income.amount
+        ));
     }
 
     getTotalIncome(){
-        let income = 0; 
+        let income = 0;
 
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "income"){
-                income += this._categories[i].amount;
-            }
+        for(let i = 0; i < this._income.length; i++){
+            income += this._income[i].amount;
         }
 
         return income;
     }
 
-    getBills(){
-        let bills = [];
+    get bills(){
+        return this._bills;
+    }
 
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "bill"){
-                bills.push(this._categories[i]);
-            }
-        }
-
-        return bills;
+    addBill(bill){
+        this._bills.push(new IncomeBill(
+            bill._id,
+            bill.name,
+            bill.amount
+        ));
     }
 
     getTotalBills(){
         let bills = 0;
 
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "bill"){
-                bills += this.categories[i].amount;
-            }
+        for(let i = 0; i < this._bills.length; i++){
+            bills += this._bills[i].amount;
         }
 
         return bills;
     }
 
-    getAllowances(){
-        let allowances = [];
+    get allowances(){
+        return this._allowances;
+    }
 
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "allowance"){
-                allowances.push(this._categories[i]);
-            }
-        }
-
-        return allowances;
+    addAllowance(allowance){
+        this._allowances.push(new Allowance(
+            allowance.id,
+            allowance.name,
+            allowance.amount,
+            allowance.isPercent,
+            this
+        ));
     }
 
     getTotalAllowances(){
         let allowances = 0;
 
-        for(let i = 0; i < this._categories.length; i++){
-            if(this._categories[i].group === "allowance"){
-                allowances += this.categories[i].amount;
-            }
+        for(let i = 0; i < this._allowances.length; i++){
+            allowances += this._allowances[i].amount;
         }
 
         return allowances;
     }
 
-    addCategory(category){
-        this._categories.push(new Category(
-            this,
-            category._id,
-            category.name,
-            category.group,
-            category.amount,
-            category.isPercent
-        ));
-        
-        switch(category.group){
-            case "income":
-                home.populateIncome();
-                break;
-            case "bill":
-                home.populateBills();
-                break;
-            case "allowance":
-                home.populateAllowances();
-                break;
-        }
-
-        home.populateStats();
-    }
-
-    removeCategory(category){
-        for(let i = 0; i < this._categories.length; i++){
-            if(category === this._categories[i]){
-                this._categories.splice(i, 1);
+    getAllowanceSpent(id){
+        let spent = 0;
+        for(let i = 0; i < this._transactions.length; i++){
+            if(this._transactions[i].category !== undefined && this._transactions[i].category.id === id){
+                spent += this._transactions[i].amount;
             }
         }
 
-        switch(category.group){
-            case "income": home.populateIncome(); break;
-            case "bill": home.populateBills(); break;
-            case "allowance": home.populateAllowances(); break;
-        }
-
-        home.populateStats();
+        return spent;
     }
 
     //transactions
@@ -241,6 +244,7 @@ class Account{
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,
+            transaction.labels,
             transaction.amount,
             transaction.location,
             transaction.date,
@@ -250,13 +254,7 @@ class Account{
         this._transactions.push(newTransaction);
         this._balance += transaction.amount;
 
-        if(this.getCategoryGroup(transaction.category) === "allowance"){
-            home.populateAllowances();
-        }
-
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
-        home.populateTransactions();
-        home.populateStats();
     }
 
     removeTransaction(transaction){
@@ -264,25 +262,11 @@ class Account{
         this._transactions.splice(index, 1);
 
         this._balance -= parseInt(transaction.amount * 100);
-
-        home.populateTransactions();
-        home.populateStats();
     }
 
     //general functions
     getDiscretionary(){
         return this.getTotalIncome() - this.getTotalBills() - this.getTotalAllowances();
-    }
-
-    getAllowanceSpent(category){
-        let spent = 0;
-        for(let i = 0; i < this._transactions.length; i++){
-            if(this._transactions[i].category === category){
-                spent += this._transactions[i].amount;
-            }
-        }
-
-        return -spent;
     }
 }
 
