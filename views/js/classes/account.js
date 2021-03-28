@@ -214,7 +214,7 @@ class Account{
     getAllowanceSpent(id){
         let spent = 0;
         for(let i = 0; i < this._transactions.length; i++){
-            if(this._transaction[i].category !== undefined && this._transactions[i].category.id === id){
+            if(this._transactions[i].category !== undefined && this._transactions[i].category.id === id){
                 spent += this._transactions[i].amount;
             }
         }

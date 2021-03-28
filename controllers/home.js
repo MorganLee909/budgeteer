@@ -394,10 +394,7 @@ module.exports = {
         amount: Number,
         note: String
     }
-    response = {
-        from: Transaction,
-        to: Transaction
-    }
+    response = [Transaction (from account), Transaction (to account)]
     */
     transfer: function(req, res){
         let fromAccount = res.locals.user.accounts.id(req.body.from);
@@ -427,7 +424,7 @@ module.exports = {
 
         Promise.all([fromTransaction.save(), toTransaction.save(), res.locals.user.save()])
             .then((response)=>{
-                return res.json(response[0]);
+                return res.json([response[0], response[1]]);
             })
             .catch((err)=>{
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);

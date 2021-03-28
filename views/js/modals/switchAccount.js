@@ -1,5 +1,3 @@
-const User = require("../classes/user");
-
 let switchAccount = {
     display: function(){
         let buttons = document.getElementById("switchAccountButtons");

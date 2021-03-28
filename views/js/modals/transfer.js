@@ -22,38 +22,6 @@ let transfer = {
             option.value = i;
             select.appendChild(option);
         }
-
-        let fromCategory = document.getElementById("fromCategory");
-
-        while(fromCategory.children.length > 0){
-            fromCategory.removeChild(fromCategory.firstChild);
-        }
-
-        let categories = user.getAccount().categories;
-        for(let i = 0; i < categories.length; i++){
-            let option = document.createElement("option");
-            option.innerText = categories[i].name;
-            option.value = categories[i].id;
-            fromCategory.appendChild(option);
-        }
-
-        this.updateCategories();
-    },
-
-    updateCategories: function(){
-        let account = user.accounts[document.getElementById("transferSelect").value];
-        let select = document.getElementById("toCategory");
-
-        while(select.children.length > 0){
-            select.removeChild(select.firstChild);
-        }
-
-        for(let i = 0; i < account.categories.length; i++){
-            let option = document.createElement("option");
-            option.innerText = account.categories[i].name;
-            option.value = account.categories[i].id;
-            select.appendChild(option);
-        }
     },
 
     submit: function(){
@@ -64,9 +32,7 @@ let transfer = {
 
         let data = {
             from: fromAccount.id,
-            fromCategory: document.getElementById("fromCategory").value,
             to: toAccount.id,
-            toCategory: document.getElementById("toCategory").value,
             date : document.getElementById("transferDate").valueAsDate,
             amount: parseInt(document.getElementById("transferAmount").value * 100),
             note: document.getElementById("transferNote").value
@@ -87,8 +53,9 @@ let transfer = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    fromAccount.addTransaction(response.from);
-                    toAccount.addTransaction(response.to);
+                    fromAccount.addTransaction(response[0]);
+                    toAccount.addTransaction(response[1]);
+                    state.transactions();
                     controller.closeModal();
                 }
             })
