@@ -115,7 +115,7 @@ let home = {
             tr.appendChild(amount);
 
             let spent = document.createElement("td");
-            spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].name)}`;
+            spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].id)}`;
             tr.appendChild(spent);
 
             let remove = document.createElement("td");

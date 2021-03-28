@@ -27,8 +27,16 @@ class Allowance{
         this._parent = parent;
     }
 
+    get id(){
+        return this._id;
+    }
+
+    get name(){
+        return this._name;
+    }
+
     get amount(){
-        if(isPercent === true) return parseFloat((this._parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
+        if(this._isPercent === true) return parseFloat((this._parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
         return parseFloat((this._amount / 100).toFixed(2));
     }
 }
@@ -186,6 +194,16 @@ class Account{
         return this._allowances;
     }
 
+    addAllowance(allowance){
+        this._allowances.push(new Allowance(
+            allowance.id,
+            allowance.name,
+            allowance.amount,
+            allowance.isPercent,
+            this
+        ));
+    }
+
     getTotalAllowances(){
         let allowances = 0;
 
@@ -194,6 +212,17 @@ class Account{
         }
 
         return allowances;
+    }
+
+    getAllowanceSpent(id){
+        let spent = 0;
+        for(let i = 0; i < this._transactions.length; i++){
+            if(this._transaction[i].category !== undefined && this._transactions[i].category.id === id){
+                spent += this._transactions[i].amount;
+            }
+        }
+
+        return spent;
     }
 
     //transactions

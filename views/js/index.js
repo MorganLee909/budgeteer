@@ -107,6 +107,11 @@ window.state = {
     bills: function(){
         home.populateBills();
         home.populateStats();
+    },
+
+    allowances: function(){
+        home.populateAllowances();
+        home.populateStats();
     }
 }
 
