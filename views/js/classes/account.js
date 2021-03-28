@@ -164,6 +164,14 @@ class Account{
         return this._bills;
     }
 
+    addBill(bill){
+        this._bills.push(new IncomeBill(
+            bill._id,
+            bill.name,
+            bill.amount
+        ));
+    }
+
     getTotalBills(){
         let bills = 0;
 

@@ -102,6 +102,11 @@ window.state = {
     income: function(){
         home.populateIncome();
         home.populateStats();
+    },
+
+    bills: function(){
+        home.populateBills();
+        home.populateStats();
     }
 }
 

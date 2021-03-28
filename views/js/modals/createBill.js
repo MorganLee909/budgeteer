@@ -14,7 +14,6 @@ let createBill = {
 
         let data = {
             name: document.getElementById("createBillName").value,
-            group: "bill",
             amount: parseInt(document.getElementById("createBillAmount").value * 100),
             account: user.getAccount().id
         }
@@ -22,7 +21,7 @@ let createBill = {
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/category/create", {
+        fetch("/bills", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -34,7 +33,8 @@ let createBill = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().addCategory(response);
+                    user.getAccount().addBill(response);
+                    state.bills();
                     controller.closeModal();
                 }
             })
