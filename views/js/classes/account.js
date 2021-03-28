@@ -9,6 +9,10 @@ class IncomeBill{
         this._amount = amount;
     }
 
+    get name(){
+        return this._name;
+    }
+
     get amount(){
         return parseFloat((this._amount / 100).toFixed(2));
     }
@@ -136,6 +140,14 @@ class Account{
 
     get income(){
         return this._income;
+    }
+
+    addIncome(income){
+        this._income.push(new IncomeBill(
+            income._id,
+            income.name,
+            income.amount
+        ));
     }
 
     getTotalIncome(){

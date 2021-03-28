@@ -14,7 +14,6 @@ let createIncome = {
 
         let data = {
             name: document.getElementById("createIncomeName").value,
-            group: "income",
             amount: parseInt(document.getElementById("createIncomeAmount").value * 100),
             account: user.getAccount().id
         };
@@ -22,7 +21,7 @@ let createIncome = {
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/category/create", {
+        fetch("/income", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -34,7 +33,8 @@ let createIncome = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().addCategory(response);
+                    user.getAccount().addIncome(response);
+                    state.income();
                     controller.closeModal();
                 }
             })

@@ -98,6 +98,13 @@ controller = {
     }
 };
 
+window.state = {
+    income: function(){
+        home.populateIncome();
+        home.populateStats();
+    }
+}
+
 let loader = document.getElementById("loaderContainer");
 loader.style.display = "flex";
 
