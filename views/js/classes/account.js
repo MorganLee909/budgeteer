@@ -7,6 +7,10 @@ class IncomeBill{
         this._amount = amount;
     }
 
+    get id(){
+        return this._id;
+    }
+
     get name(){
         return this._name;
     }
@@ -155,6 +159,15 @@ class Account{
         ));
     }
 
+    deleteIncome(id){
+        for(let i = 0; i < this._income.length; i++){
+            if(this._income[i].id === id){
+                this._income.splice(i, 1);
+                break;
+            }
+        }
+    }
+
     getTotalIncome(){
         let income = 0;
 
@@ -175,6 +188,15 @@ class Account{
             bill.name,
             bill.amount
         ));
+    }
+
+    deleteBill(id){
+        for(let i = 0; i < this._bills.length; i++){
+            if(this._bills[i].id === id){
+                this._bills.splice(i, 1);
+                break;
+            }
+        }
     }
 
     getTotalBills(){
@@ -201,6 +223,15 @@ class Account{
         ));
     }
 
+    deleteAllowance(id){
+        for(let i = 0; i < this._allowances.length; i++){
+            if(this._allowances[i].id === id){
+                this._allowances.splice(i, 1);
+                break;
+            }
+        }
+    }
+
     getTotalAllowances(){
         let allowances = 0;
 
@@ -214,12 +245,12 @@ class Account{
     getAllowanceSpent(id){
         let spent = 0;
         for(let i = 0; i < this._transactions.length; i++){
-            if(this._transactions[i].category !== undefined && this._transactions[i].category.id === id){
+            if(this._transactions[i]._category !== undefined && this._transactions[i].category.id === id){
                 spent += this._transactions[i].amount;
             }
         }
 
-        return spent;
+        return -spent;
     }
 
     //transactions

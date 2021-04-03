@@ -101,6 +101,7 @@ controller = {
 window.state = {
     income: function(){
         home.populateIncome();
+        home.populateAllowances();
         home.populateStats();
     },
 
@@ -132,6 +133,7 @@ fetch("/session")
             user = new User(response.accounts);
         }
         home.buttons();
+        home.all();
     })
     .catch((err)=>{
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");

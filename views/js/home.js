@@ -50,7 +50,7 @@ let home = {
 
             let remove = document.createElement("td");
             remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory(income[i])};
+            remove.onclick = ()=>{this.removeCategory("income", income[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -83,7 +83,7 @@ let home = {
 
             let remove = document.createElement("td");
             remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory(bills[i])};
+            remove.onclick = ()=>{this.removeCategory("bills", bills[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -133,7 +133,7 @@ let home = {
 
             let remove = document.createElement("td");
             remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory(allowances[i])};
+            remove.onclick = ()=>{this.removeCategory("allowances", allowances[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -196,20 +196,37 @@ let home = {
         document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary}`;
     },
 
-    removeCategory: function(category){
+    removeCategory: function(type, id){
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch(`/category/${user.getAccount().id}/${category.id}`, {method: "delete"})
+        let thing = `/${type}/${user.getAccount().id}/${id}`;
+        fetch(thing, {method: "delete"})
             .then(response => response.json())
             .then((response) =>{
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().removeCategory(category);
+                    let account = user.getAccount();
+
+                    switch(type){
+                        case "income":
+                            account.deleteIncome(id);
+                            state.income();
+                            break;
+                        case "bills":
+                            account.deleteBill(id);
+                            state.bills();
+                            break;
+                        case "allowances":
+                            account.deleteAllowance(id);
+                            state.allowances();
+                            break;
+                    }
                 }
             })
             .catch((err)=>{
+                console.log(err);
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE.", "error");
             })
             .finally(()=>{
