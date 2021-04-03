@@ -64,7 +64,6 @@ class Account{
                 loader.style.display = "none";
             });
 
-        console.log(income);
         for(let i = 0; i < income.length; i++){
             this._income.push(new Category.Income(
                 income[i]._id,
@@ -72,8 +71,6 @@ class Account{
                 income[i].amount
             ));
         }
-        console.log(this._income);
-        console.log(this._income[0].constructor.name);
 
         for(let i = 0; i < bills.length; i++){
             this._bills.push(new Category.Bill(
@@ -121,6 +118,12 @@ class Account{
         ));
     }
 
+    findIncome(id){
+        for(let i = 0; i < this._income.length; i++){
+            if(this._income[i].id === id) return this._income[i];
+        }
+    }
+
     deleteIncome(id){
         for(let i = 0; i < this._income.length; i++){
             if(this._income[i].id === id){
@@ -150,6 +153,12 @@ class Account{
             bill.name,
             bill.amount
         ));
+    }
+
+    findBill(id){
+        for(let i = 0; i < this._bills.length; i++){
+            if(this._bills[i].id === id) return this._bills[i].id;
+        }
     }
 
     deleteBill(id){
@@ -183,6 +192,12 @@ class Account{
             allowance.isPercent,
             this
         ));
+    }
+
+    findAllowance(id){
+        for(let i = 0; i < this._allowances.length; i++){
+            if(this._allowances[i].id === id) return this._allowances[i];
+        }
     }
 
     deleteAllowance(id){
@@ -229,9 +244,7 @@ class Account{
 
             
             if(cat === undefined) continue;
-            if(cat.category.name === category){
-                transactions.push(this._transactions[i]);
-            }
+            if(cat.name === category) transactions.push(this._transactions[i]);
         }
 
         return transactions;
@@ -262,8 +275,8 @@ class Account{
         this._balance -= parseInt(transaction.amount * 100);
 
         if(transaction.category === undefined) return;
-        transaction.category.category._amount = transaction.category.category._oldAmount;
-        transaction.category.category._oldAmount = 0;
+        transaction._category._amount = transaction._category._oldAmount;
+        transaction._category._oldAmount = 0;
     }
 
     //general functions

@@ -97,7 +97,7 @@ let home = {
                 status.classList.add("actionable");
                 status.classList.add("statusButton");
                 status.innerText = "unpaid";
-                status.onclick = ()=>{controller.openModal("createTransaction", {type: "bills", category: bills[i]})};
+                status.onclick = ()=>{controller.openModal("createTransaction", bills[i])};
                 tr.appendChild(status);
             }else{
                 let status = document.createElement("td");

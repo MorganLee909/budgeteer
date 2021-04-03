@@ -12,17 +12,14 @@ let createTransaction = {
             amount.value = 0;
             form.onsubmit = ()=>{this.submit()};
         }else{
-            amount.value = data.category.amount;
-            form.onsubmit = ()=>{this.submit({
-                type: data.type,
-                id: data.category.id
-            })};
+            amount.value = data.amount;
+            form.onsubmit = ()=>{this.submit(data.id)};
         }
 
         document.getElementById("createTransactionCancel").onclick = ()=>{controller.closeModal()};
     },
 
-    submit(category){
+    submit(id){
         event.preventDefault();
 
         let data = {
@@ -33,7 +30,7 @@ let createTransaction = {
             note: document.getElementById("createTransactionNote").value
         }
 
-        if(category !== undefined) data.category = category;
+        if(id !== undefined) data.category = id;
 
         let account = user.getAccount();
         let income = account.income;

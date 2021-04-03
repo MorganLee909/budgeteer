@@ -29,7 +29,6 @@ module.exports = {
                 });
             })
             .catch((err)=>{
-                console.log(err);
                 return res.json("ERROR: UNABLE TO RETRIEVE YOU DATA");
             });
     },
@@ -356,7 +355,6 @@ module.exports = {
             }},
             {$sort: {
                 date: -1,
-                category: 1
             }}
         ])
             .then((transactions)=>{

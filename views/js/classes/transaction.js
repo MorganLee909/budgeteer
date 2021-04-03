@@ -8,27 +8,19 @@ class Transaction{
         this._note = note;
         this._parent = parent;
 
-        if(category !== undefined){
-            this._category = {
-                type: category.type,
-            }
+        if(category === undefined) return;
+        let arrays = [this._parent.income, this._parent.bills, this._parent.allowances];
+        let categories = [].concat(...arrays);
 
-            let categories = [];
-            switch(this._category.type){
-                case "income": categories = this._parent.income; break;
-                case "bills": categories = this._parent.bills; break;
-                case "allowances": categories = this._parent.allowances; break;
-            }
-
-            for(let i = 0; i < categories.length; i++){
-                if(categories[i].id === category.id){
-                    this._category.category = categories[i];
-                    categories[i]._oldAmount = categories[i]._amount;
-                    categories[i]._amount = -this._amount;
-                    break;
-                }
+        for(let i = 0; i < categories.length; i++){
+            if(categories[i].id === category){
+                this._category = categories[i];
+                break;
             }
         }
+
+        this._category._oldAmount = this._category._amount;
+        this._category._amount = -this._amount;
     }
 
     //id
@@ -39,7 +31,7 @@ class Transaction{
     //category
     get category(){
         if(this._category === undefined) return "Discretionary";
-        return this._category.category.name;
+        return this._category.name;
     }
 
     //amount
