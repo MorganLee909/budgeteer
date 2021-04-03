@@ -1,47 +1,5 @@
 const Transaction = require("./transaction.js");
-
-class IncomeBill{
-    constructor(id, name, amount){
-        this._id = id;
-        this._name = name;
-        this._amount = amount;
-    }
-
-    get id(){
-        return this._id;
-    }
-
-    get name(){
-        return this._name;
-    }
-
-    get amount(){
-        return parseFloat((this._amount / 100).toFixed(2));
-    }
-}
-
-class Allowance{
-    constructor(id, name, amount, isPercent, parent){
-        this._id = id;
-        this._name = name;
-        this._amount = amount;
-        this._isPercent = isPercent;
-        this._parent = parent;
-    }
-
-    get id(){
-        return this._id;
-    }
-
-    get name(){
-        return this._name;
-    }
-
-    get amount(){
-        if(this._isPercent === true) return parseFloat((this._parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
-        return parseFloat((this._amount / 100).toFixed(2));
-    }
-}
+const Category = require("./category.js");
 
 class Account{
     constructor(id, name, balance, income, bills, allowances){
@@ -106,16 +64,19 @@ class Account{
                 loader.style.display = "none";
             });
 
+        console.log(income);
         for(let i = 0; i < income.length; i++){
-            this._income.push(new IncomeBill(
+            this._income.push(new Category.Income(
                 income[i]._id,
                 income[i].name,
                 income[i].amount
             ));
         }
+        console.log(this._income);
+        console.log(this._income[0].constructor.name);
 
         for(let i = 0; i < bills.length; i++){
-            this._bills.push(new IncomeBill(
+            this._bills.push(new Category.Bill(
                 bills[i]._id,
                 bills[i].name,
                 bills[i].amount
@@ -123,7 +84,7 @@ class Account{
         }
 
         for(let i = 0; i < allowances.length; i++){
-            this._allowances.push(new Allowance(
+            this._allowances.push(new Category.Allowance(
                 allowances[i]._id,
                 allowances[i].name,
                 allowances[i].amount,

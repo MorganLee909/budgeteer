@@ -21,10 +21,17 @@ module.exports = {
     checkSession: function(req, res){
         if(res.locals.user === null) return res.json(res.locals.user);
 
-        return res.json({
-            email: res.locals.user.email,
-            accounts: res.locals.user.accounts
-        });
+        res.locals.user.populate("accounts.income").populate("accounts.bills").populate("accounts.allowances").execPopulate()
+            .then(()=>{
+                return res.json({
+                    email: res.locals.user.email,
+                    accounts: res.locals.user.accounts
+                });
+            })
+            .catch((err)=>{
+                console.log(err);
+                return res.json("ERROR: UNABLE TO RETRIEVE YOU DATA");
+            });
     },
 
     /*
@@ -324,7 +331,6 @@ module.exports = {
                 return res.json(response[0]);
             })
             .catch((err)=>{
-                console.log(err);
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });
