@@ -91,7 +91,8 @@ class Account{
                             response[i].amount,
                             response[i].location,
                             response[i].date,
-                            response[i].note
+                            response[i].note,
+                            this
                         ));
                     }
 
@@ -263,7 +264,8 @@ class Account{
         let transactions = [];
 
         for(let i = 0; i < this._transactions.length; i++){
-            if(this._transactions[i].category === category){
+            if(this._transactions[i].category === undefined) continue;
+            if(this._transactions[i].category.type === category){
                 transactions.push(this._transactions[i]);
             }
         }
@@ -279,7 +281,8 @@ class Account{
             transaction.amount,
             transaction.location,
             transaction.date,
-            transaction.note
+            transaction.note,
+            this
         );
 
         this._transactions.push(newTransaction);

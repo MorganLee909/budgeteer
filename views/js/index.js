@@ -16,7 +16,7 @@ const User = require("./classes/user.js");
 user = null;
 
 controller = {
-    openModal: function(modal, data = {}){
+    openModal: function(modal, data){
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
             modals[i].style.display = "none";
@@ -51,7 +51,7 @@ controller = {
                 break;
             case "createTransaction":
                 modal = document.getElementById("createTransactionModal");
-                createTransactionModal.display();
+                createTransactionModal.display(data);
                 break;
             case "transaction":
                 modal = document.getElementById("transactionModal");

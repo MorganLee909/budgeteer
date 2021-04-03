@@ -1,17 +1,30 @@
 let createTransaction = {
-    display: function(){
-        document.getElementById("createTransactionForm").onsubmit = ()=>{this.submit()};
-        document.getElementById("createTransactionCancel").onclick = ()=>{
-            document.getElementById("createTransactionAmount").value = "";
-            document.getElementById("createTransactionLocation").value = "";
-            document.getElementById("createTransactionNote").value = "";
+    display: function(data){
+        let form = document.getElementById("createTransactionForm");
+        let amount = document.getElementById("createTransactionAmount");
 
-            controller.closeModal();
-        }
+        
+        document.getElementById("createTransactionNote").innerText = "";
+        document.getElementById("createTransactionLocation").value = "";
         document.getElementById("createTransactionDate").valueAsDate = new Date();
+        
+        console.log(data);
+
+        if(data === undefined){
+            amount.value = 0;
+            form.onsubmit = ()=>{this.submit()};
+        }else{
+            amount.value = data.category.amount;
+            form.onsubmit = ()=>{this.submit({
+                type: data.type,
+                id: data.category.id
+            })};
+        }
+
+        document.getElementById("createTransactionCancel").onclick = ()=>{controller.closeModal()};
     },
 
-    submit(){
+    submit(category){
         event.preventDefault();
 
         let data = {
@@ -21,6 +34,8 @@ let createTransaction = {
             date: document.getElementById("createTransactionDate").valueAsDate,
             note: document.getElementById("createTransactionNote").value
         }
+
+        if(category !== undefined) data.category = category;
 
         let account = user.getAccount();
         let income = account.income;

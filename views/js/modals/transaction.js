@@ -20,6 +20,7 @@ let transaction = {
                     controller.createBanner(response, "error");
                 }else{
                     user.getAccount().removeTransaction(transaction);
+                    state.transactions();
                     controller.closeModal();
                 }
             })
