@@ -8,8 +8,6 @@ let createTransaction = {
         document.getElementById("createTransactionLocation").value = "";
         document.getElementById("createTransactionDate").valueAsDate = new Date();
         
-        console.log(data);
-
         if(data === undefined){
             amount.value = 0;
             form.onsubmit = ()=>{this.submit()};

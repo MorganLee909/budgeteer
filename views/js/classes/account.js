@@ -264,8 +264,11 @@ class Account{
         let transactions = [];
 
         for(let i = 0; i < this._transactions.length; i++){
-            if(this._transactions[i].category === undefined) continue;
-            if(this._transactions[i].category.type === category){
+            let cat = this._transactions[i]._category;
+
+            
+            if(cat === undefined) continue;
+            if(cat.category.name === category){
                 transactions.push(this._transactions[i]);
             }
         }
@@ -296,6 +299,10 @@ class Account{
         this._transactions.splice(index, 1);
 
         this._balance -= parseInt(transaction.amount * 100);
+
+        if(transaction.category === undefined) return;
+        transaction.category.category._amount = transaction.category.category._oldAmount;
+        transaction.category.category._oldAmount = 0;
     }
 
     //general functions

@@ -1,50 +1,16 @@
+const Category = require("./category.js");
+
 const mongoose = require("mongoose");
 
 let isSanitary = (str)=>{
     let disallowed = ["\\", "<", ">", "$", "{", "}", "(", ")"];
 
     for(let j = 0; j < disallowed.length; j++){
-        if(str.includes(disallowed[j])){
-            return false;
-        }
+        if(str.includes(disallowed[j])) return false;
     }
 
     return true;
 }
-
-const IncomeBillSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, "MUST HAVE A NAME"],
-        validate: {
-            validator: isSanitary,
-            message: "NAME CONTAINS ILLEGAL CHARACTERS"
-        }
-    },
-    amount: {
-        type: Number,
-        required: [true, "MUST CONTAIN AN AMOUNT"]
-    }
-});
-
-const AllowanceSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, "MUST HAVE A NAME"],
-        validate: {
-            validator: isSanitary,
-            message: "NAME CONTAINS ILLEGAL CHARACTERS"
-        },
-    },
-    amount: {
-        type: Number,
-        required: [true, "ALLOWANCE MUST CONTAIN AN AMOUNT"]
-    },
-    isPercent: {
-        type: Boolean,
-        required: true
-    }
-});
 
 const AccountSchema = new mongoose.Schema({
     name: {
@@ -59,14 +25,24 @@ const AccountSchema = new mongoose.Schema({
         type: Number,
         required: [true, "ACCOUNT MUST CONTAIN A BALANCE"]
     },
-    income: [IncomeBillSchema],
-    bills: [IncomeBillSchema],
-    allowances: [AllowanceSchema]
+    income: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        kind: "IncomeBill"
+    }],
+    bills: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        kind: "IncomeBill"
+    }],
+    allowances: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        kind: "Allowance"
+    }]
 });
 
 module.exports = {
     AccountSchema: AccountSchema,
-    Account: mongoose.model("account", AccountSchema),
-    IncomeBill: mongoose.model("incomeBill", IncomeBillSchema),
-    Allowance: mongoose.model("allowance", AllowanceSchema)
+    Account: mongoose.model("account", AccountSchema)
 }

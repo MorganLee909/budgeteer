@@ -23,6 +23,8 @@ class Transaction{
             for(let i = 0; i < categories.length; i++){
                 if(categories[i].id === category.id){
                     this._category.category = categories[i];
+                    categories[i]._oldAmount = categories[i]._amount;
+                    categories[i]._amount = -this._amount;
                     break;
                 }
             }

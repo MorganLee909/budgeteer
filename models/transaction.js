@@ -19,8 +19,9 @@ let TransactionSchema = new mongoose.Schema({
         required: [true, "TRANSACTION MUST BE ASSOCIATED WITH AN ACCOUNT"]
     },
     category: {
-        type: {type: String},
-        id: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        required: false
     },
     labels: [String],
     amount: {

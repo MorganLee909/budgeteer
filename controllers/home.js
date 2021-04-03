@@ -1,8 +1,7 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 const Account = require("../models/account.js").Account;
-const IncomeBill = require("../models/account.js").IncomeBill;
-const Allowance = require("../models/account.js").Allowance;
+const Category = require("../models/category.js");
 
 const helper = require("./helper.js");
 
@@ -160,15 +159,16 @@ module.exports = {
     createIncome: function(req, res){
         let account = res.locals.user.accounts.id(req.body.account);
 
-        let income = new IncomeBill({
+        let income = new Category({
             name: req.body.name,
-            amount: req.body.amount
+            amount: req.body.amount,
+            kind: "Income"
         });
 
         account.income.push(income);
 
-        res.locals.user.save()
-            .then((user)=>{
+        Promise.all([res.locals.user.save(), income.save()])
+            .then(()=>{
                 return res.json(income);
             })
             .catch((err)=>{
@@ -206,14 +206,15 @@ module.exports = {
     createBill: function(req, res){
         let account = res.locals.user.accounts.id(req.body.account);
 
-        let bill = new IncomeBill({
+        let bill = new Category({
             name: req.body.name,
-            amount: req.body.amount
+            amount: req.body.amount,
+            kind: "Bill"
         });
 
         account.bills.push(bill);
 
-        res.locals.user.save()
+        Promise.all([res.locals.user.save(), bill.save()])
             .then(()=>{
                 return res.json(bill);
             })
@@ -253,15 +254,16 @@ module.exports = {
     createAllowance: function(req, res){
         let account = res.locals.user.accounts.id(req.body.account);
 
-        let allowance = new Allowance({
+        let allowance = new Category({
             name: req.body.name,
             amount: req.body.amount,
-            isPercent: req.body.isPercent
+            isPercent: req.body.isPercent,
+            kind: "Allowance"
         });
 
         account.allowances.push(allowance);
 
-        res.locals.user.save()
+        Promise.all([res.locals.user.save(), allowance.save()])
             .then(()=>{
                 return res.json(allowance);
             })
@@ -292,10 +294,7 @@ module.exports = {
     POST: create a new transaction
     req.body = {
         account: String (id of account),
-        category: {
-            type: String,
-            id: String
-        }, (optional)
+        category: String (optional id),
         labels: [String] (optional)
         amount: Number,
         location: String,
@@ -325,6 +324,7 @@ module.exports = {
                 return res.json(response[0]);
             })
             .catch((err)=>{
+                console.log(err);
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });

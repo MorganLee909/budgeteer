@@ -117,6 +117,8 @@ window.state = {
 
     transactions: function(){
         home.populateTransactions();
+        home.populateBills();
+        home.populateAllowances();
         home.populateStats();
     }
 }
