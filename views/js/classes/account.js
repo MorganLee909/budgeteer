@@ -236,13 +236,13 @@ class Account{
     }
 
     getTransactions(category){
+        
         if(category === undefined) return [];
         let transactions = [];
-
+        
         for(let i = 0; i < this._transactions.length; i++){
             let cat = this._transactions[i]._category;
 
-            
             if(cat === undefined) continue;
             if(cat.name === category) transactions.push(this._transactions[i]);
         }
@@ -276,7 +276,7 @@ class Account{
 
         if(transaction.category === undefined) return;
         transaction._category._amount = transaction._category._oldAmount;
-        transaction._category._oldAmount = 0;
+        transaction._category._oldAmount = undefined;
     }
 
     //general functions

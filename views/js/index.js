@@ -117,6 +117,7 @@ window.state = {
 
     transactions: function(){
         home.populateTransactions();
+        home.populateIncome();
         home.populateBills();
         home.populateAllowances();
         home.populateStats();
@@ -133,7 +134,6 @@ fetch("/session")
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);
-            home.all();
         }
         home.buttons();
     })

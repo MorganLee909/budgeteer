@@ -20,7 +20,7 @@ class Transaction{
         }
 
         this._category._oldAmount = this._category._amount;
-        this._category._amount = -this._amount;
+        this._category._amount = (this._category.constructor.name === "Income") ? this._amount : -this._amount;
     }
 
     //id
