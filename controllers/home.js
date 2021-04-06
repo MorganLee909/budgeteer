@@ -189,7 +189,14 @@ module.exports = {
     response = {}
     */
     deleteIncome: function(req, res){
-        res.locals.user.accounts.id(req.params.account).income.id(req.params.income).remove();
+        let income = res.locals.user.accounts.id(req.params.account).income;
+        for(let i = 0; i < income.length; i++){
+            if(income.toString() === req.params.income){
+                income.splice(i, 1);
+                break;
+            }
+        }
+
         
         res.locals.user.save()
             .then(()=>{
@@ -236,7 +243,13 @@ module.exports = {
     response = {}
     */
     deleteBill: function(req, res){
-        res.locals.user.accounts.id(req.params.account).bills.id(req.params.bill).remove()
+        let bills = res.locals.user.accounts.id(req.params.account).bills;
+        for(let i = 0; i < bills.length; i++){
+            if(bills[i].toString() === req.params.bill){
+                bills.splice(i, 1);
+                break;
+            }
+        }
 
         res.locals.user.save()
             .then(()=>{
@@ -285,7 +298,14 @@ module.exports = {
     response = {}
     */
     deleteAllowance: function(req, res){
-        res.locals.user.accounts.id(req.params.account).allowances.id(req.params.allowance).remove()
+        let allowances = res.locals.user.accounts.id(req.params.account).allowances;
+
+        for(let i = 0; i < allowances.length; i++){
+            if(allowances[i].toString() === req.params.allowance){
+                allowances.splice(i, 1);
+                break;
+            }
+        }
 
         res.locals.user.save()
             .then(()=>{

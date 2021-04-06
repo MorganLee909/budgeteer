@@ -28,12 +28,12 @@ const AccountSchema = new mongoose.Schema({
     income: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
-        kind: "IncomeBill"
+        kind: "Income"
     }],
     bills: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
-        kind: "IncomeBill"
+        kind: "Bill"
     }],
     allowances: [{
         type: mongoose.Schema.Types.ObjectId,

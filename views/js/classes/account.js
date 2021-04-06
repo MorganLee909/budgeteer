@@ -111,7 +111,7 @@ class Account{
     }
 
     addIncome(income){
-        this._income.push(new IncomeBill(
+        this._income.push(new Category.Income(
             income._id,
             income.name,
             income.amount
@@ -148,7 +148,7 @@ class Account{
     }
 
     addBill(bill){
-        this._bills.push(new IncomeBill(
+        this._bills.push(new Category.Bill(
             bill._id,
             bill.name,
             bill.amount
@@ -185,7 +185,7 @@ class Account{
     }
 
     addAllowance(allowance){
-        this._allowances.push(new Allowance(
+        this._allowances.push(new Category.Allowance(
             allowance.id,
             allowance.name,
             allowance.amount,
