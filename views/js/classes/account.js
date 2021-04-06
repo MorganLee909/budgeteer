@@ -219,17 +219,6 @@ class Account{
         return allowances;
     }
 
-    getAllowanceSpent(id){
-        let spent = 0;
-        for(let i = 0; i < this._transactions.length; i++){
-            if(this._transactions[i]._category !== undefined && this._transactions[i].category.id === id){
-                spent += this._transactions[i].amount;
-            }
-        }
-
-        return -spent;
-    }
-
     //transactions
     get transactions(){
         return this._transactions;
@@ -275,8 +264,7 @@ class Account{
         this._balance -= parseInt(transaction.amount * 100);
 
         if(transaction.category === undefined) return;
-        transaction._category._amount = transaction._category._oldAmount;
-        transaction._category._oldAmount = undefined;
+        transaction._category.removeTransaction(transaction._amount);
     }
 
     //general functions

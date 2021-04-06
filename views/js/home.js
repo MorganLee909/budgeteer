@@ -59,7 +59,7 @@ let home = {
             `;
             tr.appendChild(remove);
 
-            if(user.getAccount().getTransactions(income[i].name).length === 0){
+            if(income[i].isPaid === false){
                 let status = document.createElement("td");
                 status.classList.add("actionable");
                 status.classList.add("statusButton");
@@ -106,7 +106,7 @@ let home = {
             `;
             tr.appendChild(remove);
 
-            if(user.getAccount().getTransactions(bills[i].name).length === 0){
+            if(bills[i].isPaid === false){
                 let status = document.createElement("td");
                 status.classList.add("actionable");
                 status.classList.add("statusButton");
@@ -143,7 +143,7 @@ let home = {
             tr.appendChild(amount);
 
             let spent = document.createElement("td");
-            spent.innerText = `$${user.getAccount().getAllowanceSpent(allowances[i].id)}`;
+            spent.innerText = `$${allowances[i].spent}`;
             tr.appendChild(spent);
 
             let remove = document.createElement("td");
@@ -156,6 +156,13 @@ let home = {
                 </svg>
             `;
             tr.appendChild(remove);
+
+            let add = document.createElement("td");
+            add.classList.add("actionable");
+            add.classList.add("statusButton");
+            add.innerText = "unpaid";
+            add.onclick = ()=>{controller.openModal("createTransaction", allowances[i])};
+            tr.appendChild(add);
         }
     },
 
