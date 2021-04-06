@@ -63,7 +63,12 @@ let home = {
                 let status = document.createElement("td");
                 status.classList.add("actionable");
                 status.classList.add("statusButton");
-                status.innerText = "unpaid";
+                status.innerHTML = `
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                `;
                 status.onclick = ()=>{controller.openModal("createTransaction", income[i])};
                 tr.appendChild(status);
             }else{
@@ -110,7 +115,12 @@ let home = {
                 let status = document.createElement("td");
                 status.classList.add("actionable");
                 status.classList.add("statusButton");
-                status.innerText = "unpaid";
+                status.innerHTML = `
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                `;
                 status.onclick = ()=>{controller.openModal("createTransaction", bills[i])};
                 tr.appendChild(status);
             }else{
@@ -160,7 +170,12 @@ let home = {
             let add = document.createElement("td");
             add.classList.add("actionable");
             add.classList.add("statusButton");
-            add.innerText = "unpaid";
+            add.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+            `;
             add.onclick = ()=>{controller.openModal("createTransaction", allowances[i])};
             tr.appendChild(add);
         }

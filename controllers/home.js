@@ -375,7 +375,6 @@ module.exports = {
             }}
         ])
             .then((transactions)=>{
-                console.log(transactions);
                 return res.json(transactions);
             })
             .catch((err)=>{
