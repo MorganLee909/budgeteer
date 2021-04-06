@@ -15,7 +15,7 @@ const User = require("./classes/user.js");
 
 user = null;
 
-window.controller = {
+controller = {
     openModal: function(modal, data){
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
@@ -98,7 +98,7 @@ window.controller = {
     }
 };
 
-window.state = {
+state = {
     income: function(){
         home.populateIncome();
         home.populateAllowances();
