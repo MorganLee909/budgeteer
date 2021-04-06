@@ -212,7 +212,7 @@ let home = {
         document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
 
         for(let i = 0; i < account.transactions.length; i++){
-            if(account.category === undefined) discretionary += account.transactions[i].amount;
+            if(account.transactions[i].category === "Discretionary") discretionary += account.transactions[i].amount;
         }
 
         document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary}`;

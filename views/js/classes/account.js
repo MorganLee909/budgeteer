@@ -54,6 +54,7 @@ class Account{
                         ));
                     }
 
+                    this._transactions.sort((a, b)=>(a.date > b.date) ? -1 : 1);
                     state.transactions();
                 }
             })
@@ -263,7 +264,7 @@ class Account{
 
         this._balance -= parseInt(transaction.amount * 100);
 
-        if(transaction.category === undefined) return;
+        if(transaction._category === undefined) return;
         transaction._category.removeTransaction(transaction._amount);
     }
 

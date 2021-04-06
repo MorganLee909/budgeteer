@@ -372,12 +372,10 @@ module.exports = {
             {$match: {
                 account: ObjectId(req.body.account),
                 date: {$gte: from, $lt: to}
-            }},
-            {$sort: {
-                date: -1,
             }}
         ])
             .then((transactions)=>{
+                console.log(transactions);
                 return res.json(transactions);
             })
             .catch((err)=>{

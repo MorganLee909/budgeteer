@@ -30,9 +30,10 @@ let createTransaction = {
             note: document.getElementById("createTransactionNote").value
         }
 
-        if(category !== undefined) data.category = category.id;
-
-        if(category.constructor.name === "Income") data.amount = -data.amount;
+        if(category !== undefined){
+            data.category = category.id;
+            if(category.constructor.name === "Income") data.amount = -data.amount;
+        }
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";

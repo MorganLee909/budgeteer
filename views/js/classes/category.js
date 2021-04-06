@@ -84,12 +84,10 @@ class Allowance extends Category{
     }
 
     addTransaction(amount){
-        console.log(amount);
         this._spent -= amount;
     }
 
     removeTransaction(amount){
-        console.log(amount);
         this._spent += amount;
     }
 }
