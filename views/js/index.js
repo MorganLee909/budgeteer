@@ -133,9 +133,9 @@ fetch("/session")
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);
+            home.all();
         }
         home.buttons();
-        home.all();
     })
     .catch((err)=>{
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
