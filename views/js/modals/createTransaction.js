@@ -1,5 +1,5 @@
 let createTransaction = {
-    display: function(data){
+    display: function(category){
         let form = document.getElementById("createTransactionForm");
         let amount = document.getElementById("createTransactionAmount");
 
@@ -8,18 +8,18 @@ let createTransaction = {
         document.getElementById("createTransactionLocation").value = "";
         document.getElementById("createTransactionDate").valueAsDate = new Date();
         
-        if(data === undefined){
+        if(category === undefined){
             amount.value = 0;
             form.onsubmit = ()=>{this.submit()};
         }else{
-            amount.value = data.amount;
-            form.onsubmit = ()=>{this.submit(data.id)};
+            amount.value = category.amount;
+            form.onsubmit = ()=>{this.submit(category)};
         }
 
         document.getElementById("createTransactionCancel").onclick = ()=>{controller.closeModal()};
     },
 
-    submit(id){
+    submit(category){
         event.preventDefault();
 
         let data = {
@@ -30,16 +30,9 @@ let createTransaction = {
             note: document.getElementById("createTransactionNote").value
         }
 
-        if(id !== undefined) data.category = id;
+        if(category !== undefined) data.category = category.id;
 
-        let account = user.getAccount();
-        let income = account.income;
-        for(let i = 0; i < income.length; i++){
-            if(income[i].name === data.category){
-                data.amount = -data.amount;
-                break;
-            }
-        }
+        if(category.constructor.name === "Income") data.amount = -data.amount;
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";

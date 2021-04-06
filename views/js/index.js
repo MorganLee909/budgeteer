@@ -15,7 +15,7 @@ const User = require("./classes/user.js");
 
 user = null;
 
-controller = {
+window.controller = {
     openModal: function(modal, data){
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
