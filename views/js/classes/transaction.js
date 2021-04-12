@@ -27,6 +27,10 @@ class Transaction{
         return this._id;
     }
 
+    get tags(){
+        return this._tags;
+    }
+
     //category
     get category(){
         if(this._category === undefined) return "Discretionary";

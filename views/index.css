@@ -342,6 +342,10 @@ TRANSACTION MODAL
     font-weight: bold;
 }
 
+    #transactionNoEdit{
+        flex-direction: column;
+    }
+
     #transactionModal h2{
         margin-bottom: 25px;
     }

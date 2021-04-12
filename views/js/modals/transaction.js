@@ -1,12 +1,26 @@
 let transaction = {
     display: function(transaction){
+        document.getElementById("transactionNoEdit").style.display = "flex";
+        document.getElementById("transactionEditForm").style.display = "none";
+
+        let tags = "";
+        for(let i = 0; i < transaction.tags.length; i++){
+            tags += transaction.tags[i] + " ";
+        }
+
         document.getElementById("transactionLocation").innerText = transaction.location;
         document.getElementById("transactionCategory").innerText = transaction.category;
+        document.getElementById("transactionTags").innerText = tags;
         document.getElementById("transactionAmount").innerText = `$${transaction.amount}`;
         document.getElementById("transactionDate").innerText = transaction.formattedDate("long");
         document.getElementById("transactionNote").innerText = transaction.note;
         document.getElementById("transactionClose").onclick = ()=>{controller.closeModal()};
+        document.getElementById("transactionEdit").onclick = ()=>{this.edit()};
         document.getElementById("deleteTransaction").onclick = ()=>{this.delete(transaction)};
+    },
+
+    edit: function(){
+        console.log("edit");
     },
 
     delete: function(transaction){
