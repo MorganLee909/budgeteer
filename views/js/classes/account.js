@@ -55,6 +55,7 @@ class Account{
                     }
 
                     this._transactions.sort((a, b)=>(a.date > b.date) ? -1 : 1);
+                    document.getElementById("accountTitle").innerText = this._name;
                     state.transactions();
                 }
             })
