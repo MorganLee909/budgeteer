@@ -45,6 +45,9 @@ module.exports = {
         let email = req.body.email.toLowerCase();
 
         User.findOne({email: email})
+            .populate("accounts.income")
+            .populate("accounts.bills")
+            .populate("accounts.allowances")
             .then((user)=>{
                 if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
 
