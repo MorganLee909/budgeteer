@@ -238,6 +238,10 @@ HOME PAGE
     width: 100%;
 }
 
+    #statsBalance{
+        cursor: pointer;
+    }
+
     #dropdown{
         position: fixed;
         top: 0;

@@ -108,6 +108,10 @@ class Account{
         return parseFloat((this._balance / 100).toFixed(2));
     }
 
+    set balance(value){
+        this._balance = value;
+    }
+
     get income(){
         return this._income;
     }
