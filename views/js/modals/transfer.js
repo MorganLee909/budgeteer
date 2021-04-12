@@ -1,6 +1,9 @@
 let transfer = {
     display: function(){
-        document.getElementById("transferForm").onsubmit = ()=>{this.submit()};
+        let form = document.getElementById("transferForm");
+        form.onsubmit = ()=>{this.submit()};
+        form.reset();
+        
         document.getElementById("transferFrom").innerText = user.getAccount().name;
         document.getElementById("transferCancel").onclick = ()=>{controller.closeModal()};
         document.getElementById("transferDate").valueAsDate = new Date();
@@ -13,9 +16,7 @@ let transfer = {
         }
 
         for(let i = 0; i < user.accounts.length; i++){
-            if(user.accounts[i] === user.getAccount()){
-                continue;
-            }
+            if(user.accounts[i] === user.getAccount()) continue;
 
             let option = document.createElement("option");
             option.innerText = user.accounts[i].name;

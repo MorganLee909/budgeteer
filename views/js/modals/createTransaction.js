@@ -1,11 +1,11 @@
+const Income = require("../classes/category").Income;
+
 let createTransaction = {
     display: function(category){
         let form = document.getElementById("createTransactionForm");
         let amount = document.getElementById("createTransactionAmount");
-
+        form.reset();
         
-        document.getElementById("createTransactionNote").innerText = "";
-        document.getElementById("createTransactionLocation").value = "";
         document.getElementById("createTransactionDate").valueAsDate = new Date();
         
         if(category === undefined){
@@ -22,17 +22,21 @@ let createTransaction = {
     submit(category){
         event.preventDefault();
 
+        let tags = document.getElementById("createTransactionTags").value;
+        tags = tags.split(" ");
+
         let data = {
             account: user.getAccount().id,
             amount: -parseInt(document.getElementById("createTransactionAmount").value * 100),
             location: document.getElementById("createTransactionLocation").value,
             date: document.getElementById("createTransactionDate").valueAsDate,
-            note: document.getElementById("createTransactionNote").value
-        }
+            note: document.getElementById("createTransactionNote").value,
+            tags: tags
+        };
 
         if(category !== undefined){
             data.category = category.id;
-            if(category.constructor.name === "Income") data.amount = -data.amount;
+            if(category instanceof Income) data.amount = -data.amount;
         }
 
         let loader = document.getElementById("loaderContainer");

@@ -45,6 +45,9 @@ module.exports = {
         let email = req.body.email.toLowerCase();
 
         User.findOne({email: email})
+            .populate("accounts.income")
+            .populate("accounts.bills")
+            .populate("accounts.allowances")
             .then((user)=>{
                 if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
 
@@ -150,6 +153,30 @@ module.exports = {
             .catch((err)=>{
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE ACCOUNT");
+            });
+    },
+
+    /*
+    POST: update the balance of an account
+    req.body = {
+        account: String (id)
+        balance: Number
+    }
+    response = {
+        balance: Number
+    }
+    */
+    updateBalance: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        account.balance = req.body.balance;
+
+        res.locals.user.save()
+            .then((response)=>{
+                return res.json({balance: account.balance});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO UPDATE BALANCE");
             });
     },
 
@@ -321,7 +348,7 @@ module.exports = {
     req.body = {
         account: String (id of account),
         category: String (optional id),
-        labels: [String] (optional)
+        tags: [String] (optional)
         amount: Number,
         location: String,
         date: Date,
@@ -341,7 +368,7 @@ module.exports = {
         });
 
         if(req.body.category !== undefined) newTransaction.category = req.body.category;
-        if(req.body.labels !== undefined) newTransaction.labels = req.body.labels;
+        if(req.body.tags !== undefined) newTransaction.tags = req.body.tags;
 
         account.balance += newTransaction.amount;
 
@@ -352,6 +379,36 @@ module.exports = {
             .catch((err)=>{
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
+            });
+    },
+
+    /*
+    PUT: update a transaction
+    req.body = {
+        transaction: String (id)
+        tags: [String]
+        amount: Number
+        location: String,
+        date: Date,
+        note: String
+    }
+    */
+    updateTransaction: function(req, res){
+        Transaction.findOne({_id: req.body.transaction})
+            .then((transaction)=>{
+                transaction.tags = req.body.tags;
+                transaction.amount = req.body.amount;
+                transaction.location = req.body.location;
+                transaction.date = new Date(req.body.date);
+                transaction.note = req.body.note;
+
+                return transaction.save();
+            })
+            .then((transaction)=>{
+                return res.json(transaction);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO UPDATE THE TRANSACTION");
             });
     },
 
@@ -408,9 +465,9 @@ module.exports = {
     POST: transfer money between accounts
     req.body = {
         from: String (id of account),
-        fromLabels: [String] (optional)
+        fromTags: [String] (optional)
         to: String (id of account),
-        toLabels: [String] (optional)
+        toTags: [String] (optional)
         date: String,
         amount: Number,
         note: String
@@ -437,8 +494,8 @@ module.exports = {
             note: req.body.note
         });
 
-        if(req.body.fromLabels !== undefined) fromTransaction.labels = req.body.fromLabels;
-        if(req.body.toLabels !== undefined) toTransaction.labels = req.body.toLabels;
+        if(req.body.fromTags !== undefined) fromTransaction.tags = req.body.fromTags;
+        if(req.body.toTags !== undefined) toTransaction.tags = req.body.toTags;
 
         fromAccount.balance -= req.body.amount;
         toAccount.balance += req.body.amount;

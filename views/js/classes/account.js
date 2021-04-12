@@ -45,7 +45,7 @@ class Account{
                         this._transactions.push(new Transaction(
                             response[i]._id,
                             response[i].category,
-                            response[i].labels,
+                            response[i].tags,
                             response[i].amount,
                             response[i].location,
                             response[i].date,
@@ -55,7 +55,8 @@ class Account{
                     }
 
                     this._transactions.sort((a, b)=>(a.date > b.date) ? -1 : 1);
-                    state.all();
+                    document.getElementById("accountTitle").innerText = this._name;
+                    state.transactions();
                 }
             })
             .catch((err)=>{
@@ -105,6 +106,10 @@ class Account{
     //balance
     get balance(){
         return parseFloat((this._balance / 100).toFixed(2));
+    }
+
+    set balance(value){
+        this._balance = value;
     }
 
     get income(){
@@ -244,7 +249,7 @@ class Account{
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,
-            transaction.labels,
+            transaction.tags,
             transaction.amount,
             transaction.location,
             transaction.date,
@@ -256,6 +261,7 @@ class Account{
         this._balance += transaction.amount;
 
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
+        return newTransaction;
     }
 
     removeTransaction(transaction){

@@ -1,7 +1,7 @@
 class Transaction{
-    constructor(id, category, labels, amount, location, date, note, parent){
+    constructor(id, category, tags, amount, location, date, note, parent){
         this._id = id;
-        this._labels = labels;
+        this._tags = tags;
         this._amount = amount;
         this._location = location;
         this._date = new Date(date);
@@ -27,6 +27,10 @@ class Transaction{
         return this._id;
     }
 
+    get tags(){
+        return this._tags;
+    }
+
     //category
     get category(){
         if(this._category === undefined) return "Discretionary";
@@ -35,6 +39,11 @@ class Transaction{
 
     //amount
     get amount(){
+        return parseFloat((this._amount / 100).toFixed(2));
+    }
+
+    getAbsoluteValue(){
+        if(this._amount < 0) return -parseFloat((this._amount / 100).toFixed(2));
         return parseFloat((this._amount / 100).toFixed(2));
     }
 

@@ -27,6 +27,16 @@ let home = {
         document.getElementById("statsAllowancesInfoButton").onclick = ()=>{this.showInfo("statsAllowances")};
         document.getElementById("helpButton").onclick = ()=>{controller.openModal("help")};
         document.getElementById("transferMoney").onclick = ()=>{controller.openModal("transfer")};
+
+        let balance = document.getElementById("statsBalance");
+        balance.onclick = ()=>{
+            balance.style.display = "none";
+
+            let input = document.getElementById("balanceInput");
+            input.style.display = "block";
+            input.value = user.getAccount().balance;
+            input.onchange = ()=>{this.updateBalance()};
+        }
     },
 
     populateIncome: function(){
@@ -333,6 +343,40 @@ let home = {
                 window.onclick = undefined
             }
         }, 0);
+    },
+
+    updateBalance: function(){
+        let input = document.getElementById("balanceInput");
+
+        let data = {
+            account: user.getAccount().id,
+            balance: input.value * 100
+        }
+
+        fetch("/accounts/balance", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then((response)=>{
+                if(typeof(response) === "string"){
+                    controller.createBanner(response, "error");
+                }else{
+                    user.getAccount().balance = response.balance;
+
+                    input.style.display = "none";
+
+                    let balance = document.getElementById("statsBalance");
+                    balance.innerText = `$${user.getAccount().balance}`;
+                    balance.style.display = "block";
+                }
+            })
+            .catch((err)=>{
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            });
     }
 };
 
