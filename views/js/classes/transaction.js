@@ -42,6 +42,11 @@ class Transaction{
         return parseFloat((this._amount / 100).toFixed(2));
     }
 
+    getAbsoluteValue(){
+        if(this._amount < 0) return -parseFloat((this._amount / 100).toFixed(2));
+        return parseFloat((this._amount / 100).toFixed(2));
+    }
+
     //location
     get location(){
         return this._location;

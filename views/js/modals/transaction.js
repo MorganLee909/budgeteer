@@ -11,16 +11,33 @@ let transaction = {
         document.getElementById("transactionLocation").innerText = transaction.location;
         document.getElementById("transactionCategory").innerText = transaction.category;
         document.getElementById("transactionTags").innerText = tags;
-        document.getElementById("transactionAmount").innerText = `$${transaction.amount}`;
+        document.getElementById("transactionAmount").innerText = `$${transaction.getAbsoluteValue()}`;
         document.getElementById("transactionDate").innerText = transaction.formattedDate("long");
         document.getElementById("transactionNote").innerText = transaction.note;
         document.getElementById("transactionClose").onclick = ()=>{controller.closeModal()};
-        document.getElementById("transactionEdit").onclick = ()=>{this.edit()};
+        document.getElementById("transactionEdit").onclick = ()=>{this.edit(transaction)};
         document.getElementById("deleteTransaction").onclick = ()=>{this.delete(transaction)};
     },
 
-    edit: function(){
-        console.log("edit");
+    edit: function(transaction){
+        document.getElementById("transactionEditForm").onsubmit = ()=>{this.submit(transaction)};
+        document.getElementById("transactionNoEdit").style.display = "none";
+        document.getElementById("transactionEditForm").style.display = "flex";
+
+        let tags = "";
+        for(let i = 0; i < transaction.tags.length; i++){
+            tags += transaction.tags[i] + " ";
+        }
+
+        document.getElementById("transactionEditDate").valueAsDate = transaction.date;
+        document.getElementById("transactionEditLocation").value = transaction.location;
+        document.getElementById("transactionEditTags").value = tags;
+        document.getElementById("transactionEditAmount").value = transaction.getAbsoluteValue();
+        document.getElementById("transactionEditNote").value = transaction.note;
+    },
+
+    submit: function(transaction){
+        console.log(transaction);
     },
 
     delete: function(transaction){
