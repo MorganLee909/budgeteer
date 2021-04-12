@@ -1,13 +1,9 @@
 let createAllowance = {
     display: function(){
-        document.getElementById("createAllowanceForm").onsubmit = ()=>{this.submit()};
-        document.getElementById("createAllowanceCancel").onclick = ()=>{
-            document.getElementById("createAllowanceName").value = "";
-            document.getElementById("createAllowanceAmount").value = "";
-            document.getElementById("createAllowancePercent").value = "";
-
-            controller.closeModal();
-        }
+        let form = document.getElementById("createAllowanceForm");
+        form.reset();
+        form.onsubmit = ()=>{this.submit()};
+        document.getElementById("createAllowanceCancel").onclick = ()=>{controller.closeModal()};
     },
 
     submit: function(){

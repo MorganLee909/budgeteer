@@ -2,10 +2,8 @@ let createTransaction = {
     display: function(category){
         let form = document.getElementById("createTransactionForm");
         let amount = document.getElementById("createTransactionAmount");
-
+        form.reset();
         
-        document.getElementById("createTransactionNote").innerText = "";
-        document.getElementById("createTransactionLocation").value = "";
         document.getElementById("createTransactionDate").valueAsDate = new Date();
         
         if(category === undefined){
