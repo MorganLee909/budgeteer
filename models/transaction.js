@@ -23,7 +23,13 @@ let TransactionSchema = new mongoose.Schema({
         ref: "Category",
         required: false
     },
-    tags: [String],
+    tags: [{
+        type: String,
+        validate: {
+            validator: isSanitary,
+            message: "TAG CONTAINS ILLEGAL CHARACTERS"
+        }
+    }],
     amount: {
         type: Number,
         required: [true, "TRANSACTION MUST HAVE AN AMOUNT"]
