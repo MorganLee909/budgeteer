@@ -1,3 +1,5 @@
+const Income = require("../classes/category").Income;
+
 let createTransaction = {
     display: function(category){
         let form = document.getElementById("createTransactionForm");
@@ -30,7 +32,7 @@ let createTransaction = {
 
         if(category !== undefined){
             data.category = category.id;
-            if(category.constructor.name === "Income") data.amount = -data.amount;
+            if(category instanceof Income) data.amount = -data.amount;
         }
 
         let loader = document.getElementById("loaderContainer");
