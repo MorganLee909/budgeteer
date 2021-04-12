@@ -34,7 +34,7 @@ let home = {
 
             let input = document.getElementById("balanceInput");
             input.style.display = "block";
-            input.value = user.getAccount.balance;
+            input.value = user.getAccount().balance;
             input.onchange = ()=>{this.updateBalance()};
         }
     },
