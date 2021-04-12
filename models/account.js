@@ -1,5 +1,3 @@
-const Category = require("./category.js");
-
 const mongoose = require("mongoose");
 
 let isSanitary = (str)=>{

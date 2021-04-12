@@ -12,6 +12,7 @@ module.exports = function(app){
 
     //ACCOUNTS
     app.post("/account/create", session, home.createAccount);
+    app.post("/accounts/balance", session, home.updateBalance);
 
     //INCOME
     app.post("/income", session, home.createIncome);

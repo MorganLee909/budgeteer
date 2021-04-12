@@ -154,6 +154,30 @@ module.exports = {
     },
 
     /*
+    POST: update the balance of an account
+    req.body = {
+        account: String (id)
+        balance: Number
+    }
+    response = {
+        balance: Number
+    }
+    */
+    updateBalance: function(req, res){
+        let account = res.locals.user.accounts.id(req.body.account);
+
+        account.balance = req.body.balance;
+
+        res.locals.user.save()
+            .then((response)=>{
+                return res.json({balance: account.balance});
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO UPDATE BALANCE");
+            });
+    },
+
+    /*
     POST: create a new income source
     req.body = {
         account: String(id of account),
