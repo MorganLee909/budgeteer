@@ -28,6 +28,7 @@ module.exports = function(app){
 
     //TRANSACTIONS
     app.post("/transactions", session, home.createTransaction);
+    app.put("/transactions", session, home.updateTransaction);
     app.post("/transactions/get", session, home.getTransactions);
     app.delete("/transactions/:account/:transaction", session, home.deleteTransaction);
 

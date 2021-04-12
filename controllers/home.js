@@ -383,6 +383,36 @@ module.exports = {
     },
 
     /*
+    PUT: update a transaction
+    req.body = {
+        transaction: String (id)
+        tags: [String]
+        amount: Number
+        location: String,
+        date: Date,
+        note: String
+    }
+    */
+    updateTransaction: function(req, res){
+        Transaction.findOne({_id: req.body.transaction})
+            .then((transaction)=>{
+                transaction.tags = req.body.tags;
+                transaction.amount = req.body.amount;
+                transaction.location = req.body.location;
+                transaction.date = new Date(req.body.date);
+                transaction.note = req.body.note;
+
+                return transaction.save();
+            })
+            .then((transaction)=>{
+                return res.json(transaction);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: UNABLE TO UPDATE THE TRANSACTION");
+            });
+    },
+
+    /*
     POST: get transactions from a specific account for this month
     req.body = {
         account: String,
