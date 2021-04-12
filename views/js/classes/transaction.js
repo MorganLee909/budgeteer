@@ -1,7 +1,7 @@
 class Transaction{
-    constructor(id, category, labels, amount, location, date, note, parent){
+    constructor(id, category, tags, amount, location, date, note, parent){
         this._id = id;
-        this._labels = labels;
+        this._tags = tags;
         this._amount = amount;
         this._location = location;
         this._date = new Date(date);

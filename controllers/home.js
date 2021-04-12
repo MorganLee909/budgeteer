@@ -348,7 +348,7 @@ module.exports = {
     req.body = {
         account: String (id of account),
         category: String (optional id),
-        labels: [String] (optional)
+        tags: [String] (optional)
         amount: Number,
         location: String,
         date: Date,
@@ -368,7 +368,7 @@ module.exports = {
         });
 
         if(req.body.category !== undefined) newTransaction.category = req.body.category;
-        if(req.body.labels !== undefined) newTransaction.labels = req.body.labels;
+        if(req.body.tags !== undefined) newTransaction.tags = req.body.tags;
 
         account.balance += newTransaction.amount;
 
@@ -435,9 +435,9 @@ module.exports = {
     POST: transfer money between accounts
     req.body = {
         from: String (id of account),
-        fromLabels: [String] (optional)
+        fromTags: [String] (optional)
         to: String (id of account),
-        toLabels: [String] (optional)
+        toTags: [String] (optional)
         date: String,
         amount: Number,
         note: String
@@ -464,8 +464,8 @@ module.exports = {
             note: req.body.note
         });
 
-        if(req.body.fromLabels !== undefined) fromTransaction.labels = req.body.fromLabels;
-        if(req.body.toLabels !== undefined) toTransaction.labels = req.body.toLabels;
+        if(req.body.fromTags !== undefined) fromTransaction.tags = req.body.fromTags;
+        if(req.body.toTags !== undefined) toTransaction.tags = req.body.toTags;
 
         fromAccount.balance -= req.body.amount;
         toAccount.balance += req.body.amount;

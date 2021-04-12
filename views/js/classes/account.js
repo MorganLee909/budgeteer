@@ -45,7 +45,7 @@ class Account{
                         this._transactions.push(new Transaction(
                             response[i]._id,
                             response[i].category,
-                            response[i].labels,
+                            response[i].tags,
                             response[i].amount,
                             response[i].location,
                             response[i].date,
@@ -249,7 +249,7 @@ class Account{
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,
-            transaction.labels,
+            transaction.tags,
             transaction.amount,
             transaction.location,
             transaction.date,

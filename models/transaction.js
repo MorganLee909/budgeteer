@@ -23,7 +23,7 @@ let TransactionSchema = new mongoose.Schema({
         ref: "Category",
         required: false
     },
-    labels: [String],
+    tags: [String],
     amount: {
         type: Number,
         required: [true, "TRANSACTION MUST HAVE AN AMOUNT"]
