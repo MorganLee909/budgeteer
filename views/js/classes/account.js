@@ -261,6 +261,7 @@ class Account{
         this._balance += transaction.amount;
 
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
+        return newTransaction;
     }
 
     removeTransaction(transaction){

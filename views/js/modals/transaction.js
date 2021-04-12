@@ -2,6 +2,7 @@ let transaction = {
     display: function(transaction){
         document.getElementById("transactionNoEdit").style.display = "flex";
         document.getElementById("transactionEditForm").style.display = "none";
+        document.getElementById("transactionEdit").style.display = "block";
 
         let tags = "";
         for(let i = 0; i < transaction.tags.length; i++){
@@ -34,10 +35,52 @@ let transaction = {
         document.getElementById("transactionEditTags").value = tags;
         document.getElementById("transactionEditAmount").value = transaction.getAbsoluteValue();
         document.getElementById("transactionEditNote").value = transaction.note;
+
+        document.getElementById("transactionEdit").style.display = "none";
     },
 
     submit: function(transaction){
-        console.log(transaction);
+        event.preventDefault();
+
+        let data = {
+            transaction: transaction.id,
+            tags: document.getElementById("transactionEditTags").value.split(" "),
+            amount: document.getElementById("transactionEditAmount").value * 100,
+            location: document.getElementById("transactionEditLocation").value,
+            date: document.getElementById("transactionEditDate").valueAsDate,
+            note: document.getElementById("transactionEditNote").value
+        };
+
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
+        fetch("/transactions", {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then((response)=>{
+            if(typeof(response) === "string"){
+                controller.createBanner(response, "error");
+            }else{
+                let account = user.getAccount();
+                account.removeTransaction(transaction);
+                let newTransaction = account.addTransaction(response);
+
+                state.transactions();
+                this.display(newTransaction);
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+            controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESHE THE PAGE", "error");
+        })
+        .finally(()=>{
+            loader.style.display = "none";
+        });
     },
 
     delete: function(transaction){

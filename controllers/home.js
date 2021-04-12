@@ -394,6 +394,7 @@ module.exports = {
     }
     */
     updateTransaction: function(req, res){
+        console.log(req.body);
         Transaction.findOne({_id: req.body.transaction})
             .then((transaction)=>{
                 transaction.tags = req.body.tags;
@@ -408,6 +409,7 @@ module.exports = {
                 return res.json(transaction);
             })
             .catch((err)=>{
+                console.log(err);
                 return res.json("ERROR: UNABLE TO UPDATE THE TRANSACTION");
             });
     },
