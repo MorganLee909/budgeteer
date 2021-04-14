@@ -231,7 +231,6 @@ class Account{
     }
 
     getTransactions(category){
-        
         if(category === undefined) return [];
         let transactions = [];
         

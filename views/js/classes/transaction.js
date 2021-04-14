@@ -1,3 +1,5 @@
+const Category = require("./category.js");
+
 class Transaction{
     constructor(id, category, tags, amount, location, date, note, parent){
         this._id = id;
@@ -19,7 +21,17 @@ class Transaction{
             }
         }
 
-        this._category.addTransaction(this._amount);
+        if(this._category === undefined && category !== undefined){
+            if(category.kind === "Income"){
+                this._category = new Category.Income(category._id, category.name, category.amount);
+            }else if(category.kind === "Bill"){
+                this._category = new Category.Bill(category.id, category.name, category.amount);
+            }else if(category.kind === "Allowance"){
+                this._category = new Category.Allowance(category.id, category.name, category.isPercent, this._parent);
+            }
+        }
+
+        if(this._category !== undefined) this._category.addTransaction(this._amount);
     }
 
     //id
@@ -33,8 +45,13 @@ class Transaction{
 
     //category
     get category(){
-        if(this._category === undefined) return "Discretionary";
-        return this._category.name;
+        if(this._category === undefined){
+            return {
+                name: "Discretionary",
+                removeTransaction: ()=>{return}
+            };
+        }
+        return this._category;
     }
 
     //amount
@@ -72,8 +89,6 @@ class Transaction{
     get note(){
         return this._note;
     }
-
-    
 }
 
 module.exports = Transaction;

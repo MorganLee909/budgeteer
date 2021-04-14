@@ -429,6 +429,16 @@ module.exports = {
             {$match: {
                 account: ObjectId(req.body.account),
                 date: {$gte: from, $lt: to}
+            }},
+            {$lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category"
+            }},
+            {$unwind: {
+                path: "$category",
+                preserveNullAndEmptyArrays: true
             }}
         ])
             .then((transactions)=>{

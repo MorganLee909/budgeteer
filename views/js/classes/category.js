@@ -35,7 +35,7 @@ class Income extends Category{
         this._amount = amount;
     }
 
-    removeTransaction(amount){
+    removeTransaction(){
         this._isPaid = false;
         this._amount = this._oldAmount;
         this._oldAmount = undefined;
@@ -59,7 +59,7 @@ class Bill extends Category{
         this._amount = -amount;
     }
 
-    removeTransaction(amount){
+    removeTransaction(){
         this._isPaid = false;
         this._amount = this._oldAmount;
         this._oldAmount = undefined;
