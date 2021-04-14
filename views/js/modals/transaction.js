@@ -10,7 +10,7 @@ let transaction = {
         }
 
         document.getElementById("transactionLocation").innerText = transaction.location;
-        document.getElementById("transactionCategory").innerText = transaction.category;
+        document.getElementById("transactionCategory").innerText = transaction.category.name;
         document.getElementById("transactionTags").innerText = tags;
         document.getElementById("transactionAmount").innerText = `$${transaction.getAbsoluteValue()}`;
         document.getElementById("transactionDate").innerText = transaction.formattedDate("long");

@@ -60,7 +60,6 @@ class Account{
                 }
             })
             .catch((err)=>{
-                console.log(err);
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
             .finally(()=>{
@@ -232,7 +231,6 @@ class Account{
     }
 
     getTransactions(category){
-        
         if(category === undefined) return [];
         let transactions = [];
         

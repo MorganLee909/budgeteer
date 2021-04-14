@@ -211,7 +211,7 @@ let home = {
             tr.appendChild(date);
 
             let category = document.createElement("td");
-            category.innerText = transactions[i].category;
+            category.innerText = transactions[i].category.name;
             tr.appendChild(category);
 
             let location = document.createElement("td");
