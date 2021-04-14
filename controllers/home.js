@@ -429,12 +429,23 @@ module.exports = {
             {$match: {
                 account: ObjectId(req.body.account),
                 date: {$gte: from, $lt: to}
+            }},
+            {$lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category"
+            }},
+            {$unwind: {
+                path: "$category",
+                preserveNullAndEmptyArrays: true
             }}
         ])
             .then((transactions)=>{
                 return res.json(transactions);
             })
             .catch((err)=>{
+                console.log(err);
                 return res.json("ERROR: UNABLE TO RETRIEVE DATA");
             });
     },
