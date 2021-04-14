@@ -231,7 +231,7 @@ let home = {
 
         document.getElementById("statsBalance").innerText = `$${account.balance}`;
         document.getElementById("statsMonth").innerText = now.toLocaleDateString("en-US", {month: "long"});
-        document.getElementById("statsDiscretionary").innerText = `$${discretionary}`;
+        document.getElementById("statsDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
         document.getElementById("statsIncome").innerText = `$${account.getTotalIncome()}`;
         document.getElementById("statsBills").innerText = `$${account.getTotalBills()}`;
         document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
@@ -240,7 +240,7 @@ let home = {
             if(account.transactions[i].category === "Discretionary") discretionary += account.transactions[i].amount;
         }
 
-        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary}`;
+        document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
     },
 
     removeCategory: function(type, id){
