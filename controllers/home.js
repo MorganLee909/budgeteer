@@ -218,7 +218,7 @@ module.exports = {
     deleteIncome: function(req, res){
         let income = res.locals.user.accounts.id(req.params.account).income;
         for(let i = 0; i < income.length; i++){
-            if(income.toString() === req.params.income){
+            if(income[i].toString() === req.params.income){
                 income.splice(i, 1);
                 break;
             }
