@@ -23,7 +23,6 @@ let createTransaction = {
         event.preventDefault();
 
         let tags = document.getElementById("createTransactionTags").value;
-        tags = tags.split(" ");
 
         let data = {
             account: user.getAccount().id,
@@ -31,7 +30,7 @@ let createTransaction = {
             location: document.getElementById("createTransactionLocation").value,
             date: document.getElementById("createTransactionDate").valueAsDate,
             note: document.getElementById("createTransactionNote").value,
-            tags: tags
+            tags: (tags === "") ? [] : tags.split(" ")
         };
 
         if(category !== undefined){
