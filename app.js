@@ -11,7 +11,13 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
 
 let httpsServer = {};
-let mongooseUrl = "mongodb://127.0.0.1:27017/budgeteer";
+let mongooseOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    dbName: "budgeteer"
+}
 if(process.env.NODE_ENV === "production"){
     httpsServer = https.createServer({
         key: fs.readFileSync("/etc/letsencrypt/live/budgeteer.money/privkey.pem", "utf8"),
@@ -26,15 +32,12 @@ if(process.env.NODE_ENV === "production"){
         }
     });
 
-    mongooseUrl = `mongodb://website:${process.env.MONGODB_PASS}@127.0.0.1:27017/budgeteer`;
+    mongooseOptions.auth = {authSource: "admin"};
+    mongooseOptions.user = "website";
+    mongooseOptions.pass = process.env.MONGODB_PASS;
 }
 
-mongoose.connect(mongooseUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-});
+mongoose.connect("mongodb://127.0.0.1:27017/", mongooseOptions);
 
 app.use(compression());
 app.use(session({
