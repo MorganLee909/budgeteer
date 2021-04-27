@@ -7,17 +7,11 @@ const fs = require("fs");
 
 const app = express();
 
-mongoose.connect(`${process.env.DB}/budgeteer`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-});
-
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
 
 let httpsServer = {};
+let mongooseUrl = "mongodb://127.0.0.1:27017/budgeteer";
 if(process.env.NODE_ENV === "production"){
     httpsServer = https.createServer({
         key: fs.readFileSync("/etc/letsencrypt/live/budgeteer.money/privkey.pem", "utf8"),
@@ -31,7 +25,16 @@ if(process.env.NODE_ENV === "production"){
             res.redirect(`https://${req.headers.host}${req.url}`);
         }
     });
+
+    mongooseUrl = `mongodb://website:${process.env.MONGODB_PASS}@127.0.0.1:27017/budgeteer`;
 }
+
+mongoose.connect(mongooseUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+});
 
 app.use(compression());
 app.use(session({
