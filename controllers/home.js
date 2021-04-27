@@ -177,7 +177,7 @@ module.exports = {
             })
             .catch((err)=>{
                 return res.json("ERROR: UNABLE TO UPDATE BALANCE");
-            });
+            })
     },
 
     /*
