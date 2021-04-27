@@ -13,7 +13,6 @@ class Transaction{
         if(category === undefined) return;
 
         let categories = this._parent.income.concat(this._parent.bills, this._parent.allowances);
-
         for(let i = 0; i < categories.length; i++){
             if(categories[i].id === category._id){
                 this._category = categories[i];

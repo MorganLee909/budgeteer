@@ -371,8 +371,9 @@ module.exports = {
         if(req.body.tags !== undefined) newTransaction.tags = req.body.tags;
 
         account.balance += newTransaction.amount;
+        let categoryPop = newTransaction.populate("category").execPopulate();
 
-        Promise.all([newTransaction.save(), res.locals.user.save()])
+        Promise.all([newTransaction.save(), res.locals.user.save(), categoryPop])
             .then((response)=>{
                 return res.json(response[0]);
             })
