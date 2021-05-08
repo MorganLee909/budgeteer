@@ -11,16 +11,15 @@ class Transaction{
         this._parent = parent;
 
         if(category === undefined) return;
-        let arrays = [this._parent.income, this._parent.bills, this._parent.allowances];
-        let categories = [].concat(...arrays);
 
+        let categories = this._parent.income.concat(this._parent.bills, this._parent.allowances);
         for(let i = 0; i < categories.length; i++){
-            if(categories[i].id === category){
+            if(categories[i].id === category._id){
                 this._category = categories[i];
                 break;
             }
         }
-
+        
         if(this._category === undefined && category !== undefined){
             if(category.kind === "Income"){
                 this._category = new Category.Income(category._id, category.name, category.amount);

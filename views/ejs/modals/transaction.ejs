@@ -1,11 +1,11 @@
 <div id="transactionModal" class="modal" style="display:none;">
-    <div id="transactionNoEdit">
-        <svg id="transactionClose" class="closeModal" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="15" y1="9" x2="9" y2="15"></line>
-            <line x1="9" y1="9" x2="15" y2="15"></line>
-        </svg>
+    <svg id="transactionClose" class="closeModal" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+    </svg>
 
+    <div id="transactionNoEdit">
         <h2 id="transactionDate"></h2>
 
         <label class="transactionLabel">Location:
@@ -51,9 +51,11 @@
 
         <div class="formButton">
             <input type="submit" value="Submit" class="button">
+
+            <button id="deleteTransaction" class="button red" type="button">Delete</button>
         </div>
     </form>
 
     <button id="transactionEdit" class="button green">Edit</button>
-    <button id="deleteTransaction" class="button red">Delete</button>
+    
 </div>

@@ -15,7 +15,7 @@ const User = require("./classes/user.js");
 
 user = null;
 
-window.controller = {
+controller = {
     openModal: function(modal, data){
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
@@ -98,7 +98,7 @@ window.controller = {
     }
 };
 
-window.state = {
+state = {
     income: function(){
         home.populateIncome();
         home.populateAllowances();
@@ -121,6 +121,10 @@ window.state = {
         home.populateBills();
         home.populateAllowances();
         home.populateStats();
+    },
+    
+    all: function(){
+        home.all();
     }
 }
 
@@ -138,6 +142,7 @@ fetch("/session")
         home.buttons();
     })
     .catch((err)=>{
+        console.log(err);
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
     })
     .finally(()=>{

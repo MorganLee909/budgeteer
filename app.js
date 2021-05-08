@@ -9,15 +9,16 @@ const fs = require("fs");
 
 const app = express();
 
-mongoose.connect(`${process.env.DB}/budgeteer`, {
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/views"));
+
+let mongooseOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    useCreateIndex: true
-});
-
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/views"));
+    useCreateIndex: true,
+    dbName: "budgeteer"
+};
 
 let esbuildOptions = {
     entryPoints: ["./views/js/index.js"],
@@ -46,10 +47,15 @@ if(process.env.NODE_ENV === "production"){
         }
     });
 
+    
+    mongooseOptions.auth = {authSource: "admin"};
+    mongooseOptions.user = "website";
+    mongooseOptions.pass = process.env.MONGODB_PASS;
     esbuildOptions.minify = true;
     cssmergerOptions.minimize = true;
 }
 
+mongoose.connect("mongodb://127.0.0.1:27017/", mongooseOptions);
 esbuild.buildSync(esbuildOptions);
 cssmerger(["./views/css/"], "./views/bundle.css", cssmergerOptions);
 

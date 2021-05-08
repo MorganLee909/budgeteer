@@ -353,6 +353,9 @@ let home = {
             balance: input.value * 100
         }
 
+        let loader = document.getElementById("loaderContainer");
+        loader.style.display = "flex";
+
         fetch("/accounts/balance", {
             method: "post",
             headers: {
@@ -376,6 +379,9 @@ let home = {
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+            })
+            .finally(()=>{
+                loader.style.display = "none";
             });
     }
 };
