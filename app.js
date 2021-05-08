@@ -3,6 +3,7 @@ const session = require("cookie-session");
 const mongoose = require("mongoose");
 const compression = require("compression");
 const esbuild = require("esbuild");
+const cssmerger = require("cssmerger");
 const https = require("https");
 const fs = require("fs");
 
@@ -25,6 +26,11 @@ let esbuildOptions = {
     outfile: "./views/bundle.js"
 };
 
+let cssmergerOptions = {
+    recursive: true,
+    minimize: true
+};
+
 let httpsServer = {};
 if(process.env.NODE_ENV === "production"){
     httpsServer = https.createServer({
@@ -41,9 +47,11 @@ if(process.env.NODE_ENV === "production"){
     });
 
     esbuildOptions.minify = true;
+    cssmergerOptions.minimize = true;
 }
 
 esbuild.buildSync(esbuildOptions);
+cssmerger(["./views/css/"], "./views/bundle.css", cssmergerOptions);
 
 app.use(compression());
 app.use(session({
