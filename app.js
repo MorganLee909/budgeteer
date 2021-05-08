@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("cookie-session");
 const mongoose = require("mongoose");
 const compression = require("compression");
+const esbuild = require("esbuild");
 const https = require("https");
 const fs = require("fs");
 
@@ -17,6 +18,13 @@ mongoose.connect(`${process.env.DB}/budgeteer`, {
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
 
+let esbuildOptions = {
+    entryPoints: ["./views/js/index.js"],
+    bundle: true,
+    minify: false,
+    outfile: "./views/bundle.js"
+};
+
 let httpsServer = {};
 if(process.env.NODE_ENV === "production"){
     httpsServer = https.createServer({
@@ -31,11 +39,15 @@ if(process.env.NODE_ENV === "production"){
             res.redirect(`https://${req.headers.host}${req.url}`);
         }
     });
+
+    esbuildOptions.minify = true;
 }
+
+esbuild.buildSync(esbuildOptions);
 
 app.use(compression());
 app.use(session({
-    secret: "Balancing budgets believably",
+    secret: "Balancing budgets believably by beligerently berating badgers",
     cookie: {secure: true},
     saveUninitialized: true,
     resave: false

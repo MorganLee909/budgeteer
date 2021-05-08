@@ -5,9 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watchify": "watchify ./views/js/index.js -o ./views/bundle.js",
-    "nodemon": "nodemon app.js",
-    "dev": "npm run watchify | npm run nodemon"
+    "dev": "nodemon --ignore bundle.js"
   },
   "author": "Lee Morgan",
   "license": "ISC",
@@ -16,11 +14,8 @@
     "compression": "^1.7.4",
     "cookie-session": "^1.4.0",
     "ejs": "^3.1.6",
+    "esbuild": "^0.11.20",
     "express": "^4.17.1",
     "mongoose": "^5.11.15"
-  },
-  "devDependencies": {
-    "browserify": "^17.0.0",
-    "watchify": "^4.0.0"
   }
 }
