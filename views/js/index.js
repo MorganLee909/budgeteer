@@ -142,7 +142,6 @@ fetch("/session")
         home.buttons();
     })
     .catch((err)=>{
-        console.log(err);
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
     })
     .finally(()=>{
