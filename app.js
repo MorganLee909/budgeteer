@@ -26,6 +26,11 @@ let esbuildOptions = {
     outfile: "./views/bundle.js"
 };
 
+let cssmergerOptions = {
+    recursive: true,
+    minimize: true
+};
+
 let httpsServer = {};
 if(process.env.NODE_ENV === "production"){
     httpsServer = https.createServer({
@@ -41,18 +46,21 @@ if(process.env.NODE_ENV === "production"){
         }
     });
 
+    
     mongooseOptions.auth = {authSource: "admin"};
     mongooseOptions.user = "website";
     mongooseOptions.pass = process.env.MONGODB_PASS;
-    cssOptions.minimize = true;
     esbuildOptions.minify = true;
+    cssmergerOptions.minimize = true;
 }
 
 mongoose.connect("mongodb://127.0.0.1:27017/", mongooseOptions);
+esbuild.buildSync(esbuildOptions);
+cssmerger(["./views/css/"], "./views/bundle.css", cssmergerOptions);
 
 app.use(compression());
 app.use(session({
-    secret: "Balancing budgets believably by brow-beating buyers",
+    secret: "Balancing budgets believably by beligerantly brow-beating buyers",
     cookie: {secure: true},
     saveUninitialized: true,
     resave: false

@@ -5,9 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watchify": "watchify ./views/js/index.js -o ./views/bundle.js",
-    "nodemon": "nodemon app.js",
-    "dev": "npm run watchify | npm run nodemon"
+    "dev": "nodemon app.js --ext js,json,css --ignore bundle.js --ignore bundle.css"
   },
   "author": "Lee Morgan",
   "license": "ISC",
@@ -15,6 +13,7 @@
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-session": "^1.4.0",
+    "cssmerger": "^1.1.0",
     "ejs": "^3.1.6",
     "esbuild": "^0.12.5",
     "express": "^4.17.1",
