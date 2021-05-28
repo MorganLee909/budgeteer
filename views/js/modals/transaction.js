@@ -16,8 +16,20 @@ let transaction = {
         document.getElementById("transactionDate").innerText = transaction.formattedDate("long");
         document.getElementById("transactionNote").innerText = transaction.note;
         document.getElementById("transactionClose").onclick = ()=>{controller.closeModal()};
-        document.getElementById("transactionEdit").onclick = ()=>{this.edit(transaction)};
         document.getElementById("deleteTransaction").onclick = ()=>{this.delete(transaction)};
+
+        let editButton = document.getElementById("transactionEdit");
+        if(transaction.category.id === undefined){
+            editButton.innerText = "Edit"
+            editButton.classList.add("green");
+            editButton.classList.remove("red");
+            editButton.onclick = ()=>{this.edit(transaction)};
+        }else{
+            editButton.innerText = "Delete";
+            editButton.classList.remove("green");
+            editButton.classList.add("red");
+            editButton.onclick = ()=>{this.delete(transaction)};
+        }
     },
 
     edit: function(transaction){
