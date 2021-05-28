@@ -225,7 +225,6 @@ let home = {
     },
 
     populateStats: function(){
-        console.log("doing tings");
         let account = user.getAccount();
         let discretionary = account.getDiscretionary();
         let now = new Date();

@@ -7,9 +7,7 @@ let switchAccount = {
         }
 
         for(let i = 0; i < user.accounts.length; i++){
-            if(i === user.currentAccount){
-                continue;
-            }
+            if(i === user.currentAccount) continue;
 
             let button = document.createElement("button");
             button.classList.add("button");
