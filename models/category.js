@@ -22,6 +22,10 @@ const CategorySchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: [true, "MUST CONTAIN AN AMOUNT"]
+    },
+    removed: {
+        type: Boolean,
+        default: false
     }
 }, {discriminatorKey: "kind"});
 const Category = mongoose.model("Category", CategorySchema);
