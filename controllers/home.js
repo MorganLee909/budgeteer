@@ -138,10 +138,7 @@ module.exports = {
     createAccount: function(req, res){
         let account = new Account({
             name: req.body.name,
-            balance: req.body.balance,
-            income: [],
-            bills: [],
-            allowances: []
+            balance: req.body.balance
         });
 
         res.locals.user.accounts.push(account);
@@ -181,7 +178,56 @@ module.exports = {
     },
 
     /*
-    POST: create a new income source
+    POST: create a new Category
+    req.body = {
+        name: String,
+        amount: Number
+        kind: String (Income, Bill, Allowance)
+        isPercent: Boolean
+    }
+    response: Category
+    */
+    createCategory: function(req, res){
+        let category = new Category({
+            name: req.body.name,
+            amount: req.body.amount,
+            kind: req.body.kind,
+            isPercent: (req.body.kind === "Allowance") ? req.body.isPercent : undefined
+        });
+
+        res.locals.user.categories.push(category);
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(category);
+            })
+            .catch((err)=>{
+                console.error(err);
+                return res.json("ERROR: unable to create new category");
+            });
+    },
+
+    /*
+    GET: toggle removed status of a category
+    req.params.id = Category id
+    response: Category
+    */
+    toggleCategory: function(req, res){
+        let category = res.locals.user.categories.id(req.params.id);
+        category.removed = (category.removed === true) ? false : true;
+        
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(category);
+            })
+            .catch((err)=>{
+                console.error(err);
+                return res.json("ERROR: unable to update category");
+            });
+    },
+
+    /*
+    POST: create a new category
     req.body = {
         account: String(id of account),
         name: String,
@@ -219,6 +265,7 @@ module.exports = {
         let income = res.locals.user.accounts.id(req.params.account).income;
         for(let i = 0; i < income.length; i++){
             if(income[i].toString() === req.params.income){
+                console.log("something");
                 income[i].removed = true;
                 break;
             }

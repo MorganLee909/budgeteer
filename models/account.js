@@ -22,22 +22,7 @@ const AccountSchema = new mongoose.Schema({
     balance: {
         type: Number,
         required: [true, "ACCOUNT MUST CONTAIN A BALANCE"]
-    },
-    income: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        kind: "Income"
-    }],
-    bills: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        kind: "Bill"
-    }],
-    allowances: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        kind: "Allowance"
-    }]
+    }
 });
 
 module.exports = {

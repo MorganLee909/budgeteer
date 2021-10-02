@@ -47,6 +47,8 @@ let home = {
         }
 
         for(let i = 0; i < income.length; i++){
+            console.log(income[i]);
+            if(income[i].removed === true) continue;
             let tr = document.createElement("tr");
             incomeBody.appendChild(tr);
 
@@ -99,6 +101,7 @@ let home = {
         }
 
         for(let i = 0; i < bills.length; i++){
+            if(bills[i].removed === true) continue;
             let tr = document.createElement("tr");
             billsBody.appendChild(tr);
 
@@ -151,6 +154,7 @@ let home = {
         }
 
         for(let i = 0; i < allowances.length; i++){
+            if(allowances[i].removed === true) continue;
             let tr = document.createElement("tr");
             allowancesBody.appendChild(tr);
 

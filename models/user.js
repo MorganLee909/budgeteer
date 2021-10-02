@@ -1,21 +1,10 @@
 const Account = require("./account.js").AccountSchema;
+const Category = require("./category.js");
 
 const mongoose = require("mongoose");
 
 let emailValid = (email)=>{
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-}
-
-let isSanitary = (str)=>{
-    let disallowed = ["\\", "<", ">", "$", "{", "}", "(", ")"];
-
-    for(let j = 0; j < disallowed.length; j++){
-        if(str.includes(disallowed[j])){
-            return false;
-        }
-    }
-
-    return true;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -35,7 +24,8 @@ const UserSchema = new mongoose.Schema({
     session: {
         sessionId: String,
         expiration: Date
-    }
+    },
+    categories: [Category]
 });
 
 module.exports = mongoose.model("user", UserSchema);
