@@ -189,7 +189,6 @@ module.exports = {
     response: Category
     */
     createCategory: function(req, res){
-
         let category = new Category({
             name: req.body.name,
             amount: req.body.amount,

@@ -19,7 +19,7 @@ let createBill = {
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/category/new", {
+        fetch("/categories/new", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
