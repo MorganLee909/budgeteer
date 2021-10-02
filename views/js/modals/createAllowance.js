@@ -13,9 +13,9 @@ let createAllowance = {
         let percent = document.getElementById("createAllowancePercent").value;
 
         let data = {
-            name: document.getElementById("createAllowanceName").value,
             account: user.getAccount().id,
-            
+            name: document.getElementById("createAllowanceName").value,
+            kind: "Allowance"
         }
 
         if(amount === ""){
@@ -39,7 +39,7 @@ let createAllowance = {
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/allowances", {
+        fetch("/category/new", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"

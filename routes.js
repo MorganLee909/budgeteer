@@ -16,19 +16,7 @@ module.exports = function(app){
 
     //Categories
     app.post("/categories/new", session, home.createCategory);
-    app.get("/categories/:id", session, home.removeCategory);
-
-    //INCOME
-    app.post("/income", session, home.createIncome);
-    app.delete("/income/:account/:income", session, home.deleteIncome);
-
-    //BILLS
-    app.post("/bills", session, home.createBill);
-    app.delete("/bills/:account/:bill", session, home.deleteBill);
-
-    //ALLOWANCES
-    app.post("/allowances", session, home.createAllowance);
-    app.delete("/allowances/:account/:allowance", session, home.deleteAllowance);
+    app.get("/categories/:account/remove/:category", session, home.toggleCategory);
 
     //TRANSACTIONS
     app.post("/transactions", session, home.createTransaction);

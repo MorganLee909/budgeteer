@@ -1,3 +1,5 @@
+const Category = require("./category.js");
+
 const mongoose = require("mongoose");
 
 let isSanitary = (str)=>{
@@ -22,7 +24,8 @@ const AccountSchema = new mongoose.Schema({
     balance: {
         type: Number,
         required: [true, "ACCOUNT MUST CONTAIN A BALANCE"]
-    }
+    },
+    categories: [Category]
 });
 
 module.exports = {

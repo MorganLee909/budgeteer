@@ -180,7 +180,8 @@ module.exports = {
     /*
     POST: create a new Category
     req.body = {
-        name: String,
+        account: String (Account id)
+        name: String
         amount: Number
         kind: String (Income, Bill, Allowance)
         isPercent: Boolean
@@ -195,7 +196,7 @@ module.exports = {
             isPercent: (req.body.kind === "Allowance") ? req.body.isPercent : undefined
         });
 
-        res.locals.user.categories.push(category);
+        res.locals.user.account.id(req.body.account).categories.push(category);
 
         res.locals.user.save()
             .then((user)=>{
@@ -209,11 +210,12 @@ module.exports = {
 
     /*
     GET: toggle removed status of a category
-    req.params.id = Category id
+    req.params.account = Account id
+    req.params.category = Category id
     response: Category
     */
     toggleCategory: function(req, res){
-        let category = res.locals.user.categories.id(req.params.id);
+        let category = res.locals.user.accounts.id(req.params.account).categories.id(req.params.category);
         category.removed = (category.removed === true) ? false : true;
         
         res.locals.user.save()
@@ -223,170 +225,6 @@ module.exports = {
             .catch((err)=>{
                 console.error(err);
                 return res.json("ERROR: unable to update category");
-            });
-    },
-
-    /*
-    POST: create a new category
-    req.body = {
-        account: String(id of account),
-        name: String,
-        amount: Number
-    }
-    response = Object (income)
-    */
-    createIncome: function(req, res){
-        let account = res.locals.user.accounts.id(req.body.account);
-
-        let income = new Category({
-            name: req.body.name,
-            amount: req.body.amount,
-            kind: "Income"
-        });
-
-        account.income.push(income);
-
-        Promise.all([res.locals.user.save(), income.save()])
-            .then(()=>{
-                return res.json(income);
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
-            });
-    },
-
-    /*
-    DELETE: remove an income source from an account
-    req.params.account = String (account id)
-    req.params.income = String (id of income)
-    response = {}
-    */
-    deleteIncome: function(req, res){
-        let income = res.locals.user.accounts.id(req.params.account).income;
-        for(let i = 0; i < income.length; i++){
-            if(income[i].toString() === req.params.income){
-                console.log("something");
-                income[i].removed = true;
-                break;
-            }
-        }
-
-        
-        res.locals.user.save()
-            .then(()=>{
-                return res.json({});
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO DELETE INCOME");
-            });
-    },
-
-    /*
-    POST: create a new bill
-    req.body = {
-        account: String(id of account),
-        name: String,
-        amount: Number
-    }
-    response = Object (bill)
-    */
-    createBill: function(req, res){
-        let account = res.locals.user.accounts.id(req.body.account);
-
-        let bill = new Category({
-            name: req.body.name,
-            amount: req.body.amount,
-            kind: "Bill"
-        });
-
-        account.bills.push(bill);
-
-        Promise.all([res.locals.user.save(), bill.save()])
-            .then(()=>{
-                return res.json(bill);
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO CREATE NEW INCOME");
-            });
-    },
-
-    /*
-    DELETE: remove a bill from an account
-    req.params.account = String (account id)
-    req.params.bill = String (id of bill)
-    response = {}
-    */
-    deleteBill: function(req, res){
-        let bills = res.locals.user.accounts.id(req.params.account).bills;
-        for(let i = 0; i < bills.length; i++){
-            if(bills[i].toString() === req.params.bill){
-                bills.splice(i, 1);
-                break;
-            }
-        }
-
-        res.locals.user.save()
-            .then(()=>{
-                return res.json({});
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO DELETE INCOME");
-            });
-    },
-
-    /*
-    POST: create a new allowance
-    req.body = {
-        account: String(id of account),
-        name: String,
-        amount: Number,
-        isPercent: Boolean
-    }
-    response = Object (allowance)
-    */
-    createAllowance: function(req, res){
-        let account = res.locals.user.accounts.id(req.body.account);
-
-        let allowance = new Category({
-            name: req.body.name,
-            amount: req.body.amount,
-            isPercent: req.body.isPercent,
-            kind: "Allowance"
-        });
-
-        account.allowances.push(allowance);
-
-        Promise.all([res.locals.user.save(), allowance.save()])
-            .then(()=>{
-                return res.json(allowance);
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO CREATE NEW BILL");
-            });
-    },
-
-    /*
-    DELETE: remove an allowance from an account
-    req.params.account = String (account id)
-    req.params.allowance = String (id of allowance)
-    response = {}
-    */
-    deleteAllowance: function(req, res){
-        let allowances = res.locals.user.accounts.id(req.params.account).allowances;
-
-        for(let i = 0; i < allowances.length; i++){
-            if(allowances[i].toString() === req.params.allowance){
-                allowances.splice(i, 1);
-                break;
-            }
-        }
-
-        res.locals.user.save()
-            .then(()=>{
-                return res.json({});
-            })
-            .catch((err)=>{
-                return res.json("ERROR: UNABLE TO DELETE ALLOWANCE");
             });
     },
 

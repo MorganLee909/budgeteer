@@ -10,15 +10,16 @@ let createBill = {
         event.preventDefault();
 
         let data = {
+            account: user.getAccount().id,
             name: document.getElementById("createBillName").value,
             amount: parseInt(document.getElementById("createBillAmount").value * 100),
-            account: user.getAccount().id
+            kind: "Bill"
         }
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/bills", {
+        fetch("/category/new", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"

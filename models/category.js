@@ -43,4 +43,4 @@ Category.discriminator("Allowance",
     })
 );
 
-module.exports = Category;
+module.exports = CategorySchema;

@@ -62,7 +62,7 @@ let home = {
 
             let remove = document.createElement("td");
             remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory("income", income[i].id)};
+            remove.onclick = ()=>{this.removeCategory(income[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -115,7 +115,7 @@ let home = {
 
             let remove = document.createElement("td");
             remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory("bills", bills[i].id)};
+            remove.onclick = ()=>{this.removeCategory(bills[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -172,7 +172,7 @@ let home = {
 
             let remove = document.createElement("td");
             remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory("allowances", allowances[i].id)};
+            remove.onclick = ()=>{this.removeCategory(allowances[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -247,29 +247,28 @@ let home = {
         document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
     },
 
-    removeCategory: function(type, id){
+    removeCategory: function(id){
+        let account = user.getAccount();
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        let thing = `/${type}/${user.getAccount().id}/${id}`;
-        fetch(thing, {method: "delete"})
+        fetch(`/categories/${account.id}/remove/${id}`)
             .then(response => response.json())
             .then((response) =>{
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    let account = user.getAccount();
 
-                    switch(type){
-                        case "income":
+                    switch(response.kind){
+                        case "Income":
                             account.deleteIncome(id);
                             state.income();
                             break;
-                        case "bills":
+                        case "Bill":
                             account.deleteBill(id);
                             state.bills();
                             break;
-                        case "allowances":
+                        case "Allowance":
                             account.deleteAllowance(id);
                             state.allowances();
                             break;

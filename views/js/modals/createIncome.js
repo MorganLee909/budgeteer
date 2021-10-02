@@ -10,15 +10,16 @@ let createIncome = {
         event.preventDefault();
 
         let data = {
+            account: user.getAccount().id,
             name: document.getElementById("createIncomeName").value,
             amount: parseInt(document.getElementById("createIncomeAmount").value * 100),
-            account: user.getAccount().id
+            kind: "Income"
         };
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
 
-        fetch("/income", {
+        fetch("/categories/new", {
             method: "post",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"

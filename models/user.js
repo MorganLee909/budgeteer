@@ -24,8 +24,7 @@ const UserSchema = new mongoose.Schema({
     session: {
         sessionId: String,
         expiration: Date
-    },
-    categories: [Category]
+    }
 });
 
 module.exports = mongoose.model("user", UserSchema);
