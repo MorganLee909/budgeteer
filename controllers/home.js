@@ -189,12 +189,15 @@ module.exports = {
     response: Category
     */
     createCategory: function(req, res){
+        console.log(req.body);
         let category = new Category({
             name: req.body.name,
             amount: req.body.amount,
             kind: req.body.kind,
             isPercent: (req.body.kind === "Allowance") ? req.body.isPercent : undefined
         });
+        console.log(typeof(category.isPercent));
+        console.log(category);
 
         res.locals.user.accounts.id(req.body.account).categories.push(category);
 
