@@ -66,7 +66,7 @@ class Account{
             });
 
         for(let i = 0; i < categories.length; i++){
-            switch(categories.kind){
+            switch(categories[i].kind){
                 case "Income":
                     this._income.push(new Category.Income(
                         categories[i]._id,
