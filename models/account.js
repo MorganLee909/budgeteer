@@ -1,4 +1,4 @@
-const Category = require("./category.js");
+const CategorySchema = require("./category.js").CategorySchema;
 
 const mongoose = require("mongoose");
 
@@ -25,7 +25,7 @@ const AccountSchema = new mongoose.Schema({
         type: Number,
         required: [true, "ACCOUNT MUST CONTAIN A BALANCE"]
     },
-    categories: [Category]
+    categories: [CategorySchema]
 });
 
 module.exports = {

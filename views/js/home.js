@@ -47,7 +47,6 @@ let home = {
         }
 
         for(let i = 0; i < income.length; i++){
-            console.log(income[i]);
             if(income[i].removed === true) continue;
             let tr = document.createElement("tr");
             incomeBody.appendChild(tr);
@@ -254,7 +253,7 @@ let home = {
 
         fetch(`/categories/${account.id}/remove/${id}`)
             .then(response => response.json())
-            .then((response) =>{
+            .then((response)=>{
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{

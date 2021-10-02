@@ -2,7 +2,7 @@ const Transaction = require("./transaction.js");
 const Category = require("./category.js");
 
 class Account{
-    constructor(id, name, balance, income, bills, allowances){
+    constructor(id, name, balance, categories){
         this._id = id;
         this._name = name;
         this._balance = balance;
@@ -56,7 +56,6 @@ class Account{
 
                     this._transactions.sort((a, b)=>(a.date > b.date) ? -1 : 1);
                     document.getElementById("accountTitle").innerText = `${this._name} account`;
-                    state.transactions();
                 }
             })
             .catch((err)=>{
@@ -66,30 +65,31 @@ class Account{
                 loader.style.display = "none";
             });
 
-        for(let i = 0; i < income.length; i++){
-            this._income.push(new Category.Income(
-                income[i]._id,
-                income[i].name,
-                income[i].amount
-            ));
-        }
-
-        for(let i = 0; i < bills.length; i++){
-            this._bills.push(new Category.Bill(
-                bills[i]._id,
-                bills[i].name,
-                bills[i].amount
-            ));
-        }
-
-        for(let i = 0; i < allowances.length; i++){
-            this._allowances.push(new Category.Allowance(
-                allowances[i]._id,
-                allowances[i].name,
-                allowances[i].amount,
-                allowances[i].isPercent,
-                this
-            ));
+        for(let i = 0; i < categories.length; i++){
+            switch(categories.kind){
+                case "Income":
+                    this._income.push(new Category.Income(
+                        categories[i]._id,
+                        categories[i].name,
+                        categories[i].amount
+                    ));
+                    break;
+                case "Bill":
+                    this._bills.push(new Category.Bill(
+                        categories[i]._id,
+                        categories[i].name,
+                        categories[i].amount
+                    ));
+                    break;
+                case "Allowance":
+                    this._allowances.push(new Category.Allowance(
+                        categories[i]._id,
+                        categories[i].name,
+                        categories[i].amount,
+                        categories[i].isPercent
+                    ));
+                    break;
+            }
         }
     }
 

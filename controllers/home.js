@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 const Account = require("../models/account.js").Account;
-const Category = require("../models/category.js");
+const Category = require("../models/category.js").Category;
 
 const helper = require("./helper.js");
 
@@ -189,6 +189,7 @@ module.exports = {
     response: Category
     */
     createCategory: function(req, res){
+
         let category = new Category({
             name: req.body.name,
             amount: req.body.amount,
@@ -196,7 +197,7 @@ module.exports = {
             isPercent: (req.body.kind === "Allowance") ? req.body.isPercent : undefined
         });
 
-        res.locals.user.account.id(req.body.account).categories.push(category);
+        res.locals.user.accounts.id(req.body.account).categories.push(category);
 
         res.locals.user.save()
             .then((user)=>{
