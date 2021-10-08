@@ -58,11 +58,12 @@ let home = {
             if(categories[i].removed) continue;
 
             let category = template.cloneNode(true);
+            let amount = category.querySelector(".categoryRowAmount");
             let remove = category.querySelector(".categoryRowRemove");
             let pay = category.querySelector(".categoryRowPay");
             let spent = category.querySelector(".categoryRowSpent");
             category.querySelector(".categoryRowName").innerText = categories[i].name;
-            category.querySelector(".categoryRowAmount").innerText = `$${categories[i].amount}`;
+            amount.innerText = `$${categories[i].amount}`;
             remove.onclick = ()=>{this.removeCategory(income[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -94,7 +95,7 @@ let home = {
                     billBody.appendChild(category);
                     break;
                 case "Allowance":
-                    spent.innerText = categories[i].spent;
+                    spent.innerText = `$${categories[i].spent}`;
                     spent.style.display = "block";
                     allowanceBody.appendChild(category);
                     break;

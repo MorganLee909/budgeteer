@@ -12,8 +12,8 @@ class Category{
 }
 
 class Income extends Category{
-    constructor(id, name, amount){
-        super(id, name, amount);
+    constructor(id, name, amount, removed){
+        super(id, name, amount, removed);
 
         this.isPaid = false;
     }
@@ -32,8 +32,8 @@ class Income extends Category{
 }
 
 class Bill extends Category{
-    constructor(id, name, amount){
-        super(id, name, amount);
+    constructor(id, name, amount, removed){
+        super(id, name, amount, removed);
 
         this.isPaid = false;
     }
@@ -52,15 +52,15 @@ class Bill extends Category{
 }
 
 class Allowance extends Category{
-    constructor(id, name, amount, isPercent, parent){
-        super(id, name, amount);
+    constructor(id, name, amount, removed, isPercent, parent){
+        super(id, name, amount, removed);
         this.isPercent = isPercent;
         this.parent = parent;
         this._spent = 0;
     }
 
     get amount(){
-        if(this.isPercent === true) return parseFloat((this.parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
+        if(this.isPercent) return parseFloat((this.parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
         return parseFloat((this._amount / 100).toFixed(2));
     }
 
