@@ -83,14 +83,16 @@ class Account{
                 this.categories.push(new Income(
                     categories[i]._id,
                     categories[i].name,
-                    categories[i].amount
+                    categories[i].amount,
+                    categories[i].removed
                 ));
                 break;
             case "Bill":
                 this.categories.push(new Bill(
                     categories[i]._id,
                     categories[i].name,
-                    categories[i].amount
+                    categories[i].amount,
+                    categories[i].removed
                 ));
                 break;
             case "Allowance":
@@ -98,6 +100,7 @@ class Account{
                     categories[i]._id,
                     categories[i].name,
                     categories[i].amount,
+                    categories[i].removed,
                     categories[i].isPercent,
                     this
                 ));

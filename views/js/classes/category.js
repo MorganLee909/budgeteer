@@ -1,17 +1,9 @@
 class Category{
     constructor(id, name, amount, removed){
-        this._id = id;
-        this._name = name;
+        this.id = id;
+        this.name = name;
         this._amount = amount;
         this.removed = removed;
-    }
-
-    get id(){
-        return this._id;
-    }
-
-    get name(){
-        return this._name;
     }
 
     get amount(){
@@ -23,23 +15,23 @@ class Income extends Category{
     constructor(id, name, amount){
         super(id, name, amount);
 
-        this._isPaid = false;
+        this.isPaid = false;
     }
 
     get isPaid(){
-        return this._isPaid;
+        return this.isPaid;
     }
 
     addTransaction(amount){
-        this._isPaid = true;
-        this._oldAmount = this._amount;
+        this.isPaid = true;
+        this.oldAmount = this._amount;
         this._amount = amount;
     }
 
     removeTransaction(){
-        this._isPaid = false;
-        this._amount = this._oldAmount;
-        this._oldAmount = undefined;
+        this.isPaid = false;
+        this._amount = this.oldAmount;
+        this.oldAmount = undefined;
     }
 }
 
@@ -47,23 +39,23 @@ class Bill extends Category{
     constructor(id, name, amount){
         super(id, name, amount);
 
-        this._isPaid = false;
+        this.isPaid = false;
     }
 
     get isPaid(){
-        return this._isPaid;
+        return this.isPaid;
     }
 
     addTransaction(amount){
-        this._isPaid = true;
-        this._oldAmount = this._amount;
+        this.isPaid = true;
+        this.oldAmount = this._amount;
         this._amount = -amount;
     }
 
     removeTransaction(){
-        this._isPaid = false;
-        this._amount = this._oldAmount;
-        this._oldAmount = undefined;
+        this.isPaid = false;
+        this._amount = this.oldAmount;
+        this.oldAmount = undefined;
     }
 }
 
