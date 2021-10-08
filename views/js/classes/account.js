@@ -78,30 +78,30 @@ class Account{
     }
 
     addCategory(category){
-        switch(category[i].kind){
+        switch(category.kind){
             case "Income":
                 this.categories.push(new Income(
-                    categories[i]._id,
-                    categories[i].name,
-                    categories[i].amount,
-                    categories[i].removed
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed
                 ));
                 break;
             case "Bill":
                 this.categories.push(new Bill(
-                    categories[i]._id,
-                    categories[i].name,
-                    categories[i].amount,
-                    categories[i].removed
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed
                 ));
                 break;
             case "Allowance":
                 this.categories.push(new Allowance(
-                    categories[i]._id,
-                    categories[i].name,
-                    categories[i].amount,
-                    categories[i].removed,
-                    categories[i].isPercent,
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed,
+                    category.isPercent,
                     this
                 ));
                 break;

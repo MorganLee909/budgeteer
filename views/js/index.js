@@ -100,26 +100,23 @@ controller = {
 
 state = {
     income: function(){
-        home.populateIncome();
-        home.populateAllowances();
+        home.populateCategories();
         home.populateStats();
     },
 
     bills: function(){
-        home.populateBills();
+        home.populateCategories();
         home.populateStats();
     },
 
     allowances: function(){
-        home.populateAllowances();
+        home.populateCategories();
         home.populateStats();
     },
 
     transactions: function(){
         home.populateTransactions();
-        home.populateIncome();
-        home.populateBills();
-        home.populateAllowances();
+        home.populateCategories();
         home.populateStats();
     },
     
@@ -143,6 +140,7 @@ fetch("/session")
         home.all();
     })
     .catch((err)=>{
+        console.log(err);
         controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
     })
     .finally(()=>{

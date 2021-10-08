@@ -18,10 +18,6 @@ class Income extends Category{
         this.isPaid = false;
     }
 
-    get isPaid(){
-        return this.isPaid;
-    }
-
     addTransaction(amount){
         this.isPaid = true;
         this.oldAmount = this._amount;
@@ -42,10 +38,6 @@ class Bill extends Category{
         this.isPaid = false;
     }
 
-    get isPaid(){
-        return this.isPaid;
-    }
-
     addTransaction(amount){
         this.isPaid = true;
         this.oldAmount = this._amount;
@@ -62,13 +54,13 @@ class Bill extends Category{
 class Allowance extends Category{
     constructor(id, name, amount, isPercent, parent){
         super(id, name, amount);
-        this._isPercent = isPercent;
-        this._parent = parent;
+        this.isPercent = isPercent;
+        this.parent = parent;
         this._spent = 0;
     }
 
     get amount(){
-        if(this._isPercent === true) return parseFloat((this._parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
+        if(this.isPercent === true) return parseFloat((this.parent.getTotalIncome() * (this._amount / 100)).toFixed(2));
         return parseFloat((this._amount / 100).toFixed(2));
     }
 

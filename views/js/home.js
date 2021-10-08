@@ -2,9 +2,7 @@ let home = {
     all: function(){
         document.getElementById("accountTitle").innerText = `${user.getAccount().name} account`;
 
-        this.populateIncome();
-        this.populateBills();
-        this.populateAllowances();
+        this.populateCategories();
         this.populateTransactions();
         this.populateStats();
     },
@@ -39,28 +37,32 @@ let home = {
         }
     },
 
-    populateIncome: function(){
-        let income = user.getAccount().income;
+    populateCategories: function(){
+        let categories = user.getAccount().categories;
         let incomeBody = document.getElementById("incomeBody");
+        let billBody = document.getElementById("billsBody")
+        let allowanceBody = document.getElementById("allowancesBody");
+        let template = document.getElementById("categoryRow").content.children[0];
+
         while(incomeBody.children.length > 0){
-            incomeBody.removeChild(incomeBody.firstChild);
+            incomeBody.removeChild(firstChild);
+        }
+        while(billBody.children.length > 0){
+            billBody.removeChild(firstChild);
+        }
+        while(allowanceBody.children.length > 0){
+            allowanceBody.removeChild(firstChild);
         }
 
-        for(let i = 0; i < income.length; i++){
-            if(income[i].removed === true) continue;
-            let tr = document.createElement("tr");
-            incomeBody.appendChild(tr);
+        for(let i = 0; i < categories.length; i++){
+            if(categories[i].removed) continue;
 
-            let name = document.createElement("td");
-            name.innerText = income[i].name;
-            tr.appendChild(name);
-
-            let amount = document.createElement("td");
-            amount.innerText = `$${income[i].amount}`;
-            tr.appendChild(amount);
-
-            let remove = document.createElement("td");
-            remove.classList.add("actionable");
+            let category = template.cloneNode(true);
+            let remove = category.querySelector(".categoryRowRemove");
+            let pay = category.querySelector(".categoryRowPay");
+            let spent = category.querySelector(".categoryRowSpent");
+            category.querySelector(".categoryRowName").innerText = categories[i].name;
+            category.querySelector(".categoryRowAmount").innerText = `$${categories[i].amount}`;
             remove.onclick = ()=>{this.removeCategory(income[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -68,129 +70,35 @@ let home = {
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                 </svg>
             `;
-            tr.appendChild(remove);
-
-            if(income[i].isPaid === false){
-                let status = document.createElement("td");
-                status.classList.add("actionable");
-                status.classList.add("statusButton");
-                status.innerHTML = `
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
-                `;
-                status.onclick = ()=>{controller.openModal("createTransaction", income[i])};
-                tr.appendChild(status);
-            }else{
-                let status = document.createElement("td");
-                status.innerText = "paid";
-                status.classList.add("statusText");
-                tr.appendChild(status);
-            }
-        }
-    },
-
-    populateBills: function(){
-        let bills = user.getAccount().bills;
-        let billsBody = document.getElementById("billsBody");
-
-        while(billsBody.children.length > 0){
-            billsBody.removeChild(billsBody.firstChild);
-        }
-
-        for(let i = 0; i < bills.length; i++){
-            if(bills[i].removed === true) continue;
-            let tr = document.createElement("tr");
-            billsBody.appendChild(tr);
-
-            let name = document.createElement("td");
-            name.innerText = bills[i].name;
-            tr.appendChild(name);
-
-            let amount = document.createElement("td");
-            amount.innerText = `$${bills[i].amount}`;
-            tr.appendChild(amount);
-
-            let remove = document.createElement("td");
-            remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory(bills[i].id)};
-            remove.innerHTML = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                </svg>
-            `;
-            tr.appendChild(remove);
-
-            if(bills[i].isPaid === false){
-                let status = document.createElement("td");
-                status.classList.add("actionable");
-                status.classList.add("statusButton");
-                status.innerHTML = `
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
-                `;
-                status.onclick = ()=>{controller.openModal("createTransaction", bills[i])};
-                tr.appendChild(status);
-            }else{
-                let status = document.createElement("td");
-                status.innerText = "paid";
-                status.classList.add("statusText");
-                tr.appendChild(status);
-            }
-        }
-    },
-
-    populateAllowances: function(){
-        let allowances = user.getAccount().allowances;
-        let allowancesBody = document.getElementById("allowancesBody");
-
-        while(allowancesBody.children.length > 0){
-            allowancesBody.removeChild(allowancesBody.firstChild);
-        }
-
-        for(let i = 0; i < allowances.length; i++){
-            if(allowances[i].removed === true) continue;
-            let tr = document.createElement("tr");
-            allowancesBody.appendChild(tr);
-
-            let name = document.createElement("td");
-            name.innerText = allowances[i].name;
-            tr.appendChild(name);
-
-            let amount = document.createElement("td");
-            amount.innerText = `$${allowances[i].amount}`;
-            tr.appendChild(amount);
-
-            let spent = document.createElement("td");
-            spent.innerText = `$${allowances[i].spent}`;
-            tr.appendChild(spent);
-
-            let remove = document.createElement("td");
-            remove.classList.add("actionable");
-            remove.onclick = ()=>{this.removeCategory(allowances[i].id)};
-            remove.innerHTML = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                </svg>
-            `;
-            tr.appendChild(remove);
-
-            let add = document.createElement("td");
-            add.classList.add("actionable");
-            add.classList.add("statusButton");
-            add.innerHTML = `
+            pay.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="1" x2="12" y2="23"></line>
                     <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
             `;
-            add.onclick = ()=>{controller.openModal("createTransaction", allowances[i])};
-            tr.appendChild(add);
+            pay.onclick = ()=>{controller.openModal("createTransaction"), categories[i]};
+
+            switch(categories[i].constructor.name){
+                case "Income":
+                    if(categories[i].isPaid){
+                        pay.innerHTML = "paid";
+                        pay.onclick = null;
+                    }
+                    incomeBody.appendChild(category);
+                    break;
+                case "Bill":
+                    if(categories[i].isPaid){
+                        pay.innerHTML = "paid";
+                        pay.onclick = null;
+                    }
+                    billBody.appendChild(category);
+                    break;
+                case "Allowance":
+                    spent.innerText = categories[i].spent;
+                    spent.style.display = "block";
+                    allowanceBody.appendChild(category);
+                    break;
+            }
         }
     },
 

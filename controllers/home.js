@@ -272,7 +272,6 @@ module.exports = {
 
         Promise.all([newTransaction.save(), res.locals.user.save(), categoryPop])
             .then((response)=>{
-                console.log(response);
                 return res.json(response[0]);
             })
             .catch((err)=>{

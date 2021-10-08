@@ -2,7 +2,6 @@ const Category = require("./category.js");
 
 class Transaction{
     constructor(id, category, tags, amount, location, date, note, parent){
-        console.log(category);
         this._id = id;
         this._tags = tags;
         this._amount = amount;
