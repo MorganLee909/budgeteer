@@ -31,7 +31,7 @@ let createBill = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().addBill(response);
+                    user.getAccount().addCategory(response);
                     state.bills();
                     controller.closeModal();
                 }

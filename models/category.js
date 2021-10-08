@@ -30,20 +30,26 @@ const CategorySchema = new mongoose.Schema({
 }, {discriminatorKey: "kind"});
 const Category = mongoose.model("Category", CategorySchema);
 
-Category.discriminator("Income", new mongoose.Schema());
+const Income = Category.discriminator("Income", new mongoose.Schema());
 
-Category.discriminator("Bill", new mongoose.Schema());
+const Bill = Category.discriminator("Bill", new mongoose.Schema());
 
-Category.discriminator("Allowance",
+const Allowance = Category.discriminator("Allowance",
     new mongoose.Schema({
         isPercent: {
             type: Boolean,
+            required: true
+        },
+        something: {
+            type: String,
             required: true
         }
     })
 );
 
 module.exports = {
-    Category: Category,
+    Income: Income,
+    Bill: Bill,
+    Allowance: Allowance,
     CategorySchema: CategorySchema
 };

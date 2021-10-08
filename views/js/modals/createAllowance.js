@@ -51,7 +51,7 @@ let createAllowance = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().addAllowance(response);
+                    user.getAccount().addCategory(response);
                     state.allowances();
                     controller.closeModal();
                 }

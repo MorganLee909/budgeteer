@@ -31,7 +31,7 @@ let createIncome = {
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
                 }else{
-                    user.getAccount().addIncome(response);
+                    user.getAccount().addCategory(response);
                     state.income();
                     controller.closeModal();
                 }

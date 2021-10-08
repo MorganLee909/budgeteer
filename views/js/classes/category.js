@@ -1,8 +1,9 @@
 class Category{
-    constructor(id, name, amount){
+    constructor(id, name, amount, removed){
         this._id = id;
         this._name = name;
         this._amount = amount;
+        this.removed = removed;
     }
 
     get id(){
@@ -96,4 +97,4 @@ module.exports = {
     Income: Income,
     Bill: Bill,
     Allowance: Allowance
-}
+};

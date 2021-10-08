@@ -258,20 +258,8 @@ let home = {
                     controller.createBanner(response, "error");
                 }else{
 
-                    switch(response.kind){
-                        case "Income":
-                            account.deleteIncome(id);
-                            state.income();
-                            break;
-                        case "Bill":
-                            account.deleteBill(id);
-                            state.bills();
-                            break;
-                        case "Allowance":
-                            account.deleteAllowance(id);
-                            state.allowances();
-                            break;
-                    }
+                    account.removeCategory(id);
+                    state.all();
                 }
             })
             .catch((err)=>{

@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 const Account = require("../models/account.js").Account;
-const Category = require("../models/category.js").Category;
+const {Income, Bill, Allowance} = require("../models/category.js");
 
 const helper = require("./helper.js");
 
@@ -21,7 +21,7 @@ module.exports = {
     checkSession: function(req, res){
         if(res.locals.user === null) return res.json(res.locals.user);
 
-        res.locals.user.populate("accounts.income").populate("accounts.bills").populate("accounts.allowances").execPopulate()
+        res.locals.user.populate("accounts.categories")
             .then(()=>{
                 return res.json({
                     email: res.locals.user.email,
@@ -29,6 +29,7 @@ module.exports = {
                 });
             })
             .catch((err)=>{
+                console.error(err);
                 return res.json("ERROR: UNABLE TO RETRIEVE YOU DATA");
             });
     },
@@ -45,9 +46,7 @@ module.exports = {
         let email = req.body.email.toLowerCase();
 
         User.findOne({email: email})
-            .populate("accounts.income")
-            .populate("accounts.bills")
-            .populate("accounts.allowances")
+            .populate("accounts.categories")
             .then((user)=>{
                 if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
 
@@ -63,6 +62,7 @@ module.exports = {
                 });
             })
             .catch((err)=>{
+                console.error(err);
                 if(typeof(err) === "string") return res.json(err);
                 return res.json("ERROR: LOGIN FAILED");
             });
@@ -189,15 +189,24 @@ module.exports = {
     response: Category
     */
     createCategory: function(req, res){
-        console.log(req.body);
-        let category = new Category({
+        let category = {
             name: req.body.name,
             amount: req.body.amount,
-            kind: req.body.kind,
-            isPercent: (req.body.kind === "Allowance") ? req.body.isPercent : undefined
-        });
-        console.log(typeof(category.isPercent));
-        console.log(category);
+            removed: false
+        };
+
+        switch(req.body.kind){
+            case "Income":
+                category = new Income(category);
+                break;
+            case "Bill":
+                category = new Bill(category);
+                break;
+            case "Allowance":
+                category = new Allowance(category);
+                category.isPercent = req.body.isPercent;
+                break;
+        }
 
         res.locals.user.accounts.id(req.body.account).categories.push(category);
 
@@ -259,10 +268,11 @@ module.exports = {
         if(req.body.tags !== undefined) newTransaction.tags = req.body.tags;
 
         account.balance += newTransaction.amount;
-        let categoryPop = newTransaction.populate("category").execPopulate();
+        let categoryPop = newTransaction.populate("category");
 
         Promise.all([newTransaction.save(), res.locals.user.save(), categoryPop])
             .then((response)=>{
+                console.log(response);
                 return res.json(response[0]);
             })
             .catch((err)=>{
@@ -318,22 +328,13 @@ module.exports = {
             {$match: {
                 account: ObjectId(req.body.account),
                 date: {$gte: from, $lt: to}
-            }},
-            {$lookup: {
-                from: "categories",
-                localField: "category",
-                foreignField: "_id",
-                as: "category"
-            }},
-            {$unwind: {
-                path: "$category",
-                preserveNullAndEmptyArrays: true
             }}
         ])
             .then((transactions)=>{
                 return res.json(transactions);
             })
             .catch((err)=>{
+                console.error(err);
                 return res.json("ERROR: UNABLE TO RETRIEVE DATA");
             });
     },

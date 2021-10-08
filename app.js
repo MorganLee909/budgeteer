@@ -15,8 +15,8 @@ app.use(express.static(`${__dirname}/views`));
 let mongooseOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
+    // useFindAndModify: false,
+    // useCreateIndex: true,
     dbName: "budgeteer"
 };
 

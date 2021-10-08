@@ -1,14 +1,12 @@
 const Transaction = require("./transaction.js");
-const Category = require("./category.js");
+const {Income, Bill, Allowance} = require("./category.js");
 
 class Account{
     constructor(id, name, balance, categories){
-        this._id = id;
-        this._name = name;
+        this.id = id;
+        this.name = name;
         this._balance = balance;
-        this._income = [];
-        this._bills = [];
-        this._allowances = [];
+        this.categories = [];
         this._transactions = [];
 
         let from = new Date();
@@ -21,7 +19,7 @@ class Account{
         to.setHours(0, 0, 0, 0);
 
         let data = {
-            account: this._id,
+            account: this.id,
             from: from,
             to: to
         };
@@ -55,7 +53,7 @@ class Account{
                     }
 
                     this._transactions.sort((a, b)=>(a.date > b.date) ? -1 : 1);
-                    document.getElementById("accountTitle").innerText = `${this._name} account`;
+                    document.getElementById("accountTitle").innerText = `${this.name} account`;
                 }
             })
             .catch((err)=>{
@@ -66,41 +64,8 @@ class Account{
             });
 
         for(let i = 0; i < categories.length; i++){
-            switch(categories[i].kind){
-                case "Income":
-                    this._income.push(new Category.Income(
-                        categories[i]._id,
-                        categories[i].name,
-                        categories[i].amount
-                    ));
-                    break;
-                case "Bill":
-                    this._bills.push(new Category.Bill(
-                        categories[i]._id,
-                        categories[i].name,
-                        categories[i].amount
-                    ));
-                    break;
-                case "Allowance":
-                    this._allowances.push(new Category.Allowance(
-                        categories[i]._id,
-                        categories[i].name,
-                        categories[i].amount,
-                        categories[i].isPercent
-                    ));
-                    break;
-            }
+            this.addCategory(categories[i]);
         }
-    }
-
-    //id
-    get id(){
-        return this._id;
-    }
-
-    //name
-    get name(){
-        return this._name;
     }
 
     //balance
@@ -112,114 +77,77 @@ class Account{
         this._balance = value;
     }
 
-    get income(){
-        return this._income;
-    }
-
-    addIncome(income){
-        this._income.push(new Category.Income(
-            income._id,
-            income.name,
-            income.amount
-        ));
-    }
-
-    findIncome(id){
-        for(let i = 0; i < this._income.length; i++){
-            if(this._income[i].id === id) return this._income[i];
-        }
-    }
-
-    deleteIncome(id){
-        for(let i = 0; i < this._income.length; i++){
-            if(this._income[i].id === id){
-                this._income.splice(i, 1);
+    addCategory(category){
+        switch(category[i].kind){
+            case "Income":
+                this.categories.push(new Income(
+                    categories[i]._id,
+                    categories[i].name,
+                    categories[i].amount
+                ));
                 break;
-            }
+            case "Bill":
+                this.categories.push(new Bill(
+                    categories[i]._id,
+                    categories[i].name,
+                    categories[i].amount
+                ));
+                break;
+            case "Allowance":
+                this.categories.push(new Allowance(
+                    categories[i]._id,
+                    categories[i].name,
+                    categories[i].amount,
+                    categories[i].isPercent,
+                    this
+                ));
+                break;
         }
+    }
+
+    getCategory(id){
+        return this.categories.find(c => c.id === id);
+    }
+
+    removeCategory(id){
+        let category = this.categories.find(c => c.id === id);
+        
+        category.removed = true;
     }
 
     getTotalIncome(){
         let income = 0;
 
-        for(let i = 0; i < this._income.length; i++){
-            income += this._income[i].amount;
+        for(let i = 0; i < this.categories.length; i++){
+            if(this.categories[i].kind === "Income") income += this._income[i].amount;
         }
 
         return income;
     }
 
-    get bills(){
-        return this._bills;
-    }
-
-    addBill(bill){
-        this._bills.push(new Category.Bill(
-            bill._id,
-            bill.name,
-            bill.amount
-        ));
-    }
-
-    findBill(id){
-        for(let i = 0; i < this._bills.length; i++){
-            if(this._bills[i].id === id) return this._bills[i].id;
-        }
-    }
-
-    deleteBill(id){
-        for(let i = 0; i < this._bills.length; i++){
-            if(this._bills[i].id === id){
-                this._bills.splice(i, 1);
-                break;
-            }
-        }
+    bills(){
+        return this.categories.filter(c => c.kind === "Bill");
     }
 
     getTotalBills(){
         let bills = 0;
 
-        for(let i = 0; i < this._bills.length; i++){
-            bills += this._bills[i].amount;
+        for(let i = 0; i < this.categories.length; i++){
+            if(this.categories[i].kind === "Bill") bills += this.categories[i].amount;
         }
 
         return bills;
     }
 
-    get allowances(){
-        return this._allowances;
-    }
-
-    addAllowance(allowance){
-        this._allowances.push(new Category.Allowance(
-            allowance.id,
-            allowance.name,
-            allowance.amount,
-            allowance.isPercent,
-            this
-        ));
-    }
-
-    findAllowance(id){
-        for(let i = 0; i < this._allowances.length; i++){
-            if(this._allowances[i].id === id) return this._allowances[i];
-        }
-    }
-
-    deleteAllowance(id){
-        for(let i = 0; i < this._allowances.length; i++){
-            if(this._allowances[i].id === id){
-                this._allowances.splice(i, 1);
-                break;
-            }
-        }
+    allowances(){
+        return this.categories.filter(c => c.kind === "Allowance");
     }
 
     getTotalAllowances(){
         let allowances = 0;
 
-        for(let i = 0; i < this._allowances.length; i++){
-            allowances += this._allowances[i].amount;
+        for(let i = 0; i < this.categories.length; i++){
+            if(this.categories.kind === "Allowance") allowances += this.categories[i].amount;
         }
 
         return allowances;
