@@ -64,7 +64,7 @@ let home = {
             let spent = category.querySelector(".categoryRowSpent");
             category.querySelector(".categoryRowName").innerText = categories[i].name;
             amount.innerText = `$${categories[i].amount}`;
-            remove.onclick = ()=>{this.removeCategory(income[i].id)};
+            remove.onclick = ()=>{this.removeCategory(categories[i].id)};
             remove.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
