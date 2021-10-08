@@ -45,13 +45,13 @@ let home = {
         let template = document.getElementById("categoryRow").content.children[0];
 
         while(incomeBody.children.length > 0){
-            incomeBody.removeChild(firstChild);
+            incomeBody.removeChild(incomeBody.firstChild);
         }
         while(billBody.children.length > 0){
-            billBody.removeChild(firstChild);
+            billBody.removeChild(billBody.firstChild);
         }
         while(allowanceBody.children.length > 0){
-            allowanceBody.removeChild(firstChild);
+            allowanceBody.removeChild(allowanceBody.firstChild);
         }
 
         for(let i = 0; i < categories.length; i++){
