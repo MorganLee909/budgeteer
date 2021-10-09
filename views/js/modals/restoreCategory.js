@@ -1,6 +1,8 @@
 module.exports = {
     display: function(categories){
         document.getElementById("restoreTitle").innerText = `Restore a previous ${categories[0].constructor.name}`;
+        document.getElementById("restoreCancel").onclick = ()=>{controller.closeModal()};
+        document.getElementById("restoreCreateNew").onclick = ()=>{controller.openModal(`create${categories[0].constructor.name}`)};
         let container = document.getElementById("restoreContainer");
         let template = document.getElementById("restoreCategory").content.children[0];
 
@@ -28,9 +30,7 @@ module.exports = {
                     controller.createBanner(response, "error");
                 }else{
                     category.removed = false;
-                    console.time("all");
                     state.all();
-                    console.timeEnd("all");
                     controller.closeModal();
                 }
             })

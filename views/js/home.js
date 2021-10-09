@@ -8,9 +8,9 @@ let home = {
     },
 
     buttons: function(){
-        document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("createIncome")};
-        document.getElementById("createBillBtn").onclick = ()=>{controller.openModal("createBill")};
-        document.getElementById("createAllowanceBtn").onclick = ()=>{controller.openModal("createAllowance")};
+        document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("restoreCategory", "Income")};
+        document.getElementById("createBillBtn").onclick = ()=>{controller.openModal("restoreCategory", "Bill")};
+        document.getElementById("createAllowanceBtn").onclick = ()=>{controller.openModal("restoreCategory", "Allowance")};
         document.getElementById("createTransactionBtn").onclick = ()=>{controller.openModal("createTransaction")};
         document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
         document.getElementById("addAccountButton").onclick = ()=>{controller.openModal("newAccount")};

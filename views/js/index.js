@@ -41,43 +41,16 @@ controller = {
                 newAccountModal.display();
                 break;
             case "createIncome":
-                categories = user
-                    .getAccount()
-                    .income()
-                    .filter(c => c.removed === true);
-                if(categories.length > 0){
-                    modal = document.getElementById("restoreCategoryModal");
-                    restoreModal.display(categories);
-                }else{
-                    modal = document.getElementById("createIncomeModal");
-                    createIncomeModal.display();
-                }
+                modal = document.getElementById("createIncomeModal");
+                createIncomeModal.display();
                 break;
             case "createBill":
-                categories = user
-                    .getAccount()
-                    .bills()
-                    .filter(c => c.removed === true);
-                if(categories.length > 0){
-                    modal = document.getElementById("restoreCategoryModal");
-                    restoreModal.display(categories);
-                }else{
-                    modal = document.getElementById("createBillModal");
-                    createBillModal.display();
-                }
+                modal = document.getElementById("createBillModal");
+                createBillModal.display();
                 break;
             case "createAllowance":
-                categories = user
-                    .getAccount()
-                    .allowances()
-                    .filter(c => c.removed === true);
-                if(categories.length > 0){
-                    modal = document.getElementById("restoreCategoryModal");
-                    restoreModal.display(categories);
-                }else{
-                    modal = document.getElementById("createAllowanceModal");
-                    createAllowanceModal.display();
-                }
+                modal = document.getElementById("createAllowanceModal");
+                createAllowanceModal.display();
                 break;
             case "createTransaction":
                 modal = document.getElementById("createTransactionModal");
@@ -98,6 +71,19 @@ controller = {
             case "transfer":
                 modal = document.getElementById("transferModal");
                 transferModal.display();
+                break;
+            case "restoreCategory":
+                let categories = user
+                    .getAccount()
+                    .categories
+                    .filter(c => c.constructor.name === data && c.removed === true);
+                if(categories.length > 0){
+                    modal = document.getElementById("restoreCategoryModal");
+                    restoreModal.display(categories);
+                }else{
+                    controller.openModal(`create${data}`);
+                    return;
+                }
                 break;
         }
 

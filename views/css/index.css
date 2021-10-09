@@ -417,6 +417,7 @@ RESTORE MODAL
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: 90%;
 }
     #restoreTitle{
         margin-bottom: 25px;
@@ -427,6 +428,8 @@ RESTORE MODAL
         flex-direction: column;
         align-items: center;
         width: 90%;
+        max-height: 75%;
+        overflow-y: auto;
     }
 
     .restoreCategory{
