@@ -10,6 +10,7 @@ const transactionModal = require("./modals/transaction.js");
 const switchAccountModal = require("./modals/switchAccount.js");
 const helpModal = require("./modals/help.js");
 const transferModal = require("./modals/transfer.js");
+const restoreModal = require("./modals/restoreCategory.js");
 
 const User = require("./classes/user.js");
 
@@ -28,6 +29,8 @@ controller = {
             container.onclick = ()=>{controller.closeModal()};
         }
 
+        let categories = {};
+
         switch(modal){
             case "enter":
                 modal = document.getElementById("enterModal");
@@ -38,16 +41,43 @@ controller = {
                 newAccountModal.display();
                 break;
             case "createIncome":
-                modal = document.getElementById("createIncomeModal");
-                createIncomeModal.display();
+                categories = user
+                    .getAccount()
+                    .income()
+                    .filter(c => c.removed === true);
+                if(categories.length > 0){
+                    modal = document.getElementById("restoreCategoryModal");
+                    restoreModal.display(categories);
+                }else{
+                    modal = document.getElementById("createIncomeModal");
+                    createIncomeModal.display();
+                }
                 break;
             case "createBill":
-                modal = document.getElementById("createBillModal");
-                createBillModal.display();
+                categories = user
+                    .getAccount()
+                    .bills()
+                    .filter(c => c.removed === true);
+                if(categories.length > 0){
+                    modal = document.getElementById("restoreCategoryModal");
+                    restoreModal.display(categories);
+                }else{
+                    modal = document.getElementById("createBillModal");
+                    createBillModal.display();
+                }
                 break;
             case "createAllowance":
-                modal = document.getElementById("createAllowanceModal");
-                createAllowanceModal.display();
+                categories = user
+                    .getAccount()
+                    .allowances()
+                    .filter(c => c.removed === true);
+                if(categories.length > 0){
+                    modal = document.getElementById("restoreCategoryModal");
+                    restoreModal.display(categories);
+                }else{
+                    modal = document.getElementById("createAllowanceModal");
+                    createAllowanceModal.display();
+                }
                 break;
             case "createTransaction":
                 modal = document.getElementById("createTransactionModal");
@@ -158,7 +188,7 @@ fetch("/session")
     .then((response)=>{
         let account = user.getAccount();
         for(let i = 0; i < response.length; i++){
-            account.addTransaction(response[i]);
+            account.addTransaction(response[i], false);
         }
 
         home.all();

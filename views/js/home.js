@@ -84,6 +84,7 @@ let home = {
                     if(categories[i].isPaid){
                         pay.innerHTML = "paid";
                         pay.onclick = null;
+                        pay.classList.remove("statusButton");
                     }
                     incomeBody.appendChild(category);
                     break;
@@ -91,6 +92,7 @@ let home = {
                     if(categories[i].isPaid){
                         pay.innerHTML = "paid";
                         pay.onclick = null;
+                        pay.classList.remove("statusButton");
                     }
                     billBody.appendChild(category);
                     break;

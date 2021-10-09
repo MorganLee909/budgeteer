@@ -65,6 +65,10 @@ class Account{
         category.removed = true;
     }
 
+    income(){
+        return this.categories.filter(c => c.constructor.name === "Income");
+    }
+
     getTotalIncome(){
         let income = 0;
 
@@ -76,7 +80,7 @@ class Account{
     }
 
     bills(){
-        return this.categories.filter(c => c.kind === "Bill");
+        return this.categories.filter(c => c.constructor.name === "Bill");
     }
 
     getTotalBills(){
@@ -90,7 +94,7 @@ class Account{
     }
 
     allowances(){
-        return this.categories.filter(c => c.kind === "Allowance");
+        return this.categories.filter(c => c.constructor.name === "Allowance");
     }
 
     getTotalAllowances(){
@@ -122,7 +126,7 @@ class Account{
         return transactions;
     }
 
-    addTransaction(transaction){
+    addTransaction(transaction, isNew = true){
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,
@@ -135,7 +139,7 @@ class Account{
         );
 
         this._transactions.push(newTransaction);
-        this._balance += transaction.amount;
+        if(isNew) this._balance += transaction.amount;
 
         this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
         return newTransaction;

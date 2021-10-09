@@ -411,6 +411,36 @@ TRANSFER MODAL
 }
 
 /*
+RESTORE MODAL
+*/
+#restoreCategoryModal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+    #restoreTitle{
+        margin-bottom: 25px;
+    }
+
+    #restoreContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+    }
+
+    .restoreCategory{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        margin: 5px;
+        color: white;
+        background: green;
+        box-shadow: 0 0 1px black;
+        width: 90%;
+    }
+
+/*
 LOADER
 */
 #loaderContainer{
