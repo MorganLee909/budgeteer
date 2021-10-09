@@ -8,61 +8,8 @@ class Account{
         this._balance = balance;
         this.categories = [];
         this._transactions = [];
-
-        let from = new Date();
-        from.setDate(1);
-        from.setHours(0, 0, 0, 0);
-
-        let to = new Date();
-        to.setDate(1);
-        to.setMonth(to.getMonth() + 1);
-        to.setHours(0, 0, 0, 0);
-
-        let data = {
-            account: this.id,
-            from: from,
-            to: to
-        };
-
-        let loader = document.getElementById("loaderContainer");
-        loader.style.display = "flex";
-
-        fetch("/transactions/get", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then((response) =>{
-                if(typeof(response) === "string"){
-                    controller.createBanner(response, "error");
-                }else{
-                    for(let i = 0; i < response.length; i++){
-                        this._transactions.push(new Transaction(
-                            response[i]._id,
-                            response[i].category,
-                            response[i].tags,
-                            response[i].amount,
-                            response[i].location,
-                            response[i].date,
-                            response[i].note,
-                            this
-                        ));
-                    }
-
-                    this._transactions.sort((a, b)=>(a.date > b.date) ? -1 : 1);
-                    document.getElementById("accountTitle").innerText = `${this.name} account`;
-                }
-            })
-            .catch((err)=>{
-                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
-            })
-            .finally(()=>{
-                loader.style.display = "none";
-            });
-
+            
+        document.getElementById("accountTitle").innerText = `${this.name} account`;
         for(let i = 0; i < categories.length; i++){
             this.addCategory(categories[i]);
         }

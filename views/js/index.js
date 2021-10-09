@@ -135,8 +135,32 @@ fetch("/session")
             controller.openModal("enter");
         }else{
             user = new User(response.accounts);
+            
+            let from = new Date();
+            from.setDate(1);
+            from.setHours(0, 0, 0, 0);
+            let data = {
+                account: user.getAccount().id,
+                from: from,
+                to: new Date()
+            };
+            
+            return fetch("/transactions/get", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
         }
-        home.buttons();
+    })
+    .then(response => response.json())
+    .then((response)=>{
+        let account = user.getAccount();
+        for(let i = 0; i < response.length; i++){
+            account.addTransaction(response[i]);
+        }
+
         home.all();
     })
     .catch((err)=>{
@@ -145,3 +169,5 @@ fetch("/session")
     .finally(()=>{
         loader.style.display = "none";
     });
+
+home.buttons();
