@@ -268,13 +268,13 @@ module.exports = {
         if(req.body.tags !== undefined) newTransaction.tags = req.body.tags;
 
         account.balance += newTransaction.amount;
-        let categoryPop = newTransaction.populate("category");
 
-        Promise.all([newTransaction.save(), res.locals.user.save(), categoryPop])
+        Promise.all([newTransaction.save(), res.locals.user.save()])
             .then((response)=>{
                 return res.json(response[0]);
             })
             .catch((err)=>{
+                console.error(err);
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE TRANSACTION");
             });

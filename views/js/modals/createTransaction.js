@@ -30,7 +30,7 @@ let createTransaction = {
             location: document.getElementById("createTransactionLocation").value,
             date: document.getElementById("createTransactionDate").valueAsDate,
             note: document.getElementById("createTransactionNote").value,
-            tags: (tags === "") ? [] : tags.split(" ")
+            tags: (tags === "") ? [] : tags.split(" "),
         };
 
         if(category !== undefined){

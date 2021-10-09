@@ -1,5 +1,3 @@
-const Category = require("./category.js");
-
 class Transaction{
     constructor(id, category, tags, amount, location, date, note, parent){
         this._id = id;
@@ -10,27 +8,10 @@ class Transaction{
         this._note = note;
         this._parent = parent;
 
-        if(category === undefined) return;
-
-        let categories = this._parent.income.concat(this._parent.bills, this._parent.allowances);
-        for(let i = 0; i < categories.length; i++){
-            if(categories[i].id === category._id){
-                this._category = categories[i];
-                break;
-            }
+        if(category !== undefined){
+            this._category = user.getAccount().getCategory(category);
+            this._category.addTransaction(this._amount);
         }
-        
-        if(this._category === undefined && category !== undefined){
-            if(category.kind === "Income"){
-                this._category = new Category.Income(category._id, category.name, category.amount);
-            }else if(category.kind === "Bill"){
-                this._category = new Category.Bill(category.id, category.name, category.amount);
-            }else if(category.kind === "Allowance"){
-                this._category = new Category.Allowance(category.id, category.name, category.isPercent, this._parent);
-            }
-        }
-
-        if(this._category !== undefined) this._category.addTransaction(this._amount);
     }
 
     //id
