@@ -73,7 +73,10 @@ class Account{
         let income = 0;
 
         for(let i = 0; i < this.categories.length; i++){
-            if(this.categories[i].constructor.name === "Income") income += this.categories[i].amount;
+            if(
+                this.categories[i].constructor.name === "Income" &&
+                this.categories[i].removed === false
+            ) income += this.categories[i].amount;
         }
 
         return income;
@@ -87,7 +90,10 @@ class Account{
         let bills = 0;
 
         for(let i = 0; i < this.categories.length; i++){
-            if(this.categories[i].constructor.name === "Bill") bills += this.categories[i].amount;
+            if(
+                this.categories[i].constructor.name === "Bill" &&
+                this.categories[i].removed === false
+            ) bills += this.categories[i].amount;
         }
 
         return bills;
@@ -101,7 +107,10 @@ class Account{
         let allowances = 0;
 
         for(let i = 0; i < this.categories.length; i++){
-            if(this.categories[i].constructor.name === "Allowance") allowances += this.categories[i].amount;
+            if(
+                this.categories[i].constructor.name === "Allowance" &&
+                this.categories[i].removed === false
+            ) allowances += this.categories[i].amount;
         }
 
         return allowances;
