@@ -149,6 +149,7 @@ fetch("/session")
     .then((response)=>{
         if(typeof(response) === "string"){
             controller.openModal("enter");
+            throw "noUser";
         }else{
             user = new User(response.accounts);
             
@@ -180,7 +181,9 @@ fetch("/session")
         home.all();
     })
     .catch((err)=>{
-        controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+        if(err !== "noUser"){
+            controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+        }
     })
     .finally(()=>{
         loader.style.display = "none";
