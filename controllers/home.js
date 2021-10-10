@@ -241,6 +241,31 @@ module.exports = {
     },
 
     /*
+    POST: update a category
+    req.body = {
+        account: String (Account id)
+        category: String (Category id)
+        name: String,
+        amount: Number
+    }
+    response = Allowance
+    */
+    updateCategory: function(req, res){
+        let category = res.locals.user.accounts.id(req.body.account).categories.id(req.body.category);
+        
+        if(req.body.name !== undefined) category.name = req.body.name;
+        if(req.body.amount !== undefined) category.amount = req.body.amount;
+
+        res.locals.user.save()
+            .then((user)=>{
+                return res.json(category);
+            })
+            .catch((err)=>{
+                return res.json("ERROR: unable to update the category");
+            });
+    },
+
+    /*
     POST: create a new transaction
     req.body = {
         account: String (id of account),

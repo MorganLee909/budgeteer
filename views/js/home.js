@@ -123,8 +123,6 @@ let home = {
         }
     },
 
-
-
     populateTransactions: function(){
         let tbody = document.getElementById("transactionsBody");
         let transactions = user.getAccount().transactions;
