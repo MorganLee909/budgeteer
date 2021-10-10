@@ -65,6 +65,45 @@ class Account{
         category.removed = true;
     }
 
+    replaceCategory(category){
+        let newCategory = {};
+        switch(category.kind){
+            case "Income":
+                newCategory = new Income(
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed
+                );
+                break;
+            case "Bill":
+                newCategory = new Bill(
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed
+                );
+                break;
+            case "Allowance":
+                newCategory = new Allowance(
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed,
+                    category.isPercent,
+                    this
+                );
+                break;
+        }
+
+        for(let i = 0; i < this.categories.length; i++){
+            if(category._id === this.categories[i].id){
+                this.categories[i] = newCategory;
+                break;
+            }
+        }
+    }
+
     income(){
         return this.categories.filter(c => c.constructor.name === "Income");
     }

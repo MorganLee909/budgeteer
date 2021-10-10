@@ -64,11 +64,10 @@ let home = {
             let category = template.cloneNode(true);
             let amount = category.querySelector(".categoryRowAmount");
             let remove = category.querySelector(".categoryRowRemove");
-            let pay = category.querySelector(".categoryRowPay");
+            // let pay = category.querySelector(".categoryRowPay");
             let spent = category.querySelector(".categoryRowSpent");
             let name = category.querySelector(".categoryRowName");
             name.innerText = categories[i].name;
-            name.onclick = ()=>{this.clickCategory(name, categories[i])}
             amount.innerText = `$${categories[i].amount}`;
             remove.onclick = ()=>{this.removeCategory(categories[i].id)};
             remove.innerHTML = `
@@ -103,23 +102,12 @@ let home = {
                     billBody.appendChild(category);
                     break;
                 case "Allowance":
+                    console.log(categories[i].amount);
                     spent.innerText = `$${categories[i].spent}`;
                     spent.style.display = "block";
                     allowanceBody.appendChild(category);
                     break;
             }
-        }
-    },
-
-    clickCategory: function(element, category){
-        element.style.display = "none";
-
-        let input = document.createElement("input");
-        input.type = element.classList.contains("categoryRowName") ? "text" : "number";
-        input.onchange = ()=>{this.submitCatChange(element, category.id)};
-        input.onblur = ()=>{
-            element.style.display = "none";
-            input.s
         }
     },
 
