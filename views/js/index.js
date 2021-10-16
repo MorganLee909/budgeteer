@@ -11,6 +11,7 @@ const switchAccountModal = require("./modals/switchAccount.js");
 const helpModal = require("./modals/help.js");
 const transferModal = require("./modals/transfer.js");
 const restoreModal = require("./modals/restoreCategory.js");
+const editCategoryModal = require("./modals/editCategory.js");
 
 const User = require("./classes/user.js");
 
@@ -84,6 +85,10 @@ controller = {
                     controller.openModal(`create${data}`);
                     return;
                 }
+                break;
+            case "editCategory":
+                modal = document.getElementById("editCategoryModal");
+                editCategoryModal.display(data);
                 break;
         }
 

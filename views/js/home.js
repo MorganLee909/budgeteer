@@ -71,6 +71,7 @@ let home = {
             amount.innerText = `$${categories[i].amount}`;
             remove.onclick = ()=>{this.removeCategory(categories[i].id)};
             pay.onclick = ()=>{controller.openModal("createTransaction", categories[i])};
+            category.querySelector(".categoryRowEdit").onclick = ()=>{controller.openModal("editCategory", categories[i])};
 
             switch(categories[i].constructor.name){
                 case "Income":
