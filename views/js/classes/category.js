@@ -9,6 +9,10 @@ class Category{
     get amount(){
         return parseFloat((this._amount / 100).toFixed(2));
     }
+
+    set amount(amount){
+        this._amount = amount;
+    }
 }
 
 class Income extends Category{

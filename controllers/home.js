@@ -255,17 +255,20 @@ module.exports = {
         let category = res.locals.user.accounts.id(req.body.account).categories.id(req.body.category);
 
         category.name = req.body.name;
-        if(isPercent){
+        if(req.body.isPercent){
             category.percent = req.body.amount;
         }else{
             category.amount = req.body.amount;
         }
+
+        if(category.constructor.name === "Allowance") category.isPercent = req.body.isPercent;
 
         res.locals.user.save()
             .then((user)=>{
                 return res.json(category);
             })
             .catch((err)=>{
+                console.error(err);
                 return res.json("ERROR: unable to update the category");
             });
     },

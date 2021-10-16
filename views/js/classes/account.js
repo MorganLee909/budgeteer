@@ -65,43 +65,18 @@ class Account{
         category.removed = true;
     }
 
-    replaceCategory(category){
-        let newCategory = {};
-        switch(category.kind){
-            case "Income":
-                newCategory = new Income(
-                    category._id,
-                    category.name,
-                    category.amount,
-                    category.removed
-                );
-                break;
-            case "Bill":
-                newCategory = new Bill(
-                    category._id,
-                    category.name,
-                    category.amount,
-                    category.removed
-                );
-                break;
-            case "Allowance":
-                newCategory = new Allowance(
-                    category._id,
-                    category.name,
-                    category.amount,
-                    category.removed,
-                    category.isPercent,
-                    this
-                );
-                break;
+    updateCategory(newCategory){
+        let category = this.getCategory(newCategory._id);
+
+        category.name = newCategory.name;
+        if(category.isPaid){
+            category.oldAmount = newCategory.amount;
+            controller.createBanner("Already paid. New amount will display next month.", "success");
+        }else{
+            category.amount = newCategory.amount;
         }
 
-        for(let i = 0; i < this.categories.length; i++){
-            if(category._id === this.categories[i].id){
-                this.categories[i] = newCategory;
-                break;
-            }
-        }
+        if(category.constructor.name === "Allowance") category.isPercent = newCategory.isPercent;
     }
 
     income(){
