@@ -68,6 +68,10 @@ class Allowance extends Category{
         return parseFloat((this._amount / 100).toFixed(2));
     }
 
+    set amount(amount){
+        this._amount = amount;
+    }
+
     get spent(){
         return parseFloat((this._spent / 100).toFixed(2));
     }
