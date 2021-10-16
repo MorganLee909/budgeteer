@@ -247,14 +247,19 @@ module.exports = {
         category: String (Category id)
         name: String,
         amount: Number
+        isPercent: Boolean
     }
     response = Allowance
     */
     updateCategory: function(req, res){
         let category = res.locals.user.accounts.id(req.body.account).categories.id(req.body.category);
-        
-        if(req.body.name !== undefined) category.name = req.body.name;
-        if(req.body.amount !== undefined) category.amount = req.body.amount;
+
+        category.name = req.body.name;
+        if(isPercent){
+            category.percent = req.body.amount;
+        }else{
+            category.amount = req.body.amount;
+        }
 
         res.locals.user.save()
             .then((user)=>{

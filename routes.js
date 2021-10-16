@@ -14,7 +14,7 @@ module.exports = function(app){
     app.post("/account/create", session, home.createAccount);
     app.post("/accounts/balance", session, home.updateBalance);
 
-    //Categories
+    //CATEGORIES
     app.post("/categories/new", session, home.createCategory);
     app.get("/categories/:account/remove/:category", session, home.toggleCategory);
     app.post("/categories/update", session, home.updateCategory);
