@@ -64,47 +64,35 @@ let home = {
             let category = template.cloneNode(true);
             let amount = category.querySelector(".categoryRowAmount");
             let remove = category.querySelector(".categoryRowRemove");
-            // let pay = category.querySelector(".categoryRowPay");
+            let pay = category.querySelector(".categoryRowPay");
             let spent = category.querySelector(".categoryRowSpent");
             let name = category.querySelector(".categoryRowName");
             name.innerText = categories[i].name;
             amount.innerText = `$${categories[i].amount}`;
             remove.onclick = ()=>{this.removeCategory(categories[i].id)};
-            remove.innerHTML = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                </svg>
-            `;
-            pay.innerHTML = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="1" x2="12" y2="23"></line>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-            `;
             pay.onclick = ()=>{controller.openModal("createTransaction", categories[i])};
 
             switch(categories[i].constructor.name){
                 case "Income":
                     if(categories[i].isPaid){
-                        pay.innerHTML = "paid";
+                        pay.innerHTML = "Paid";
                         pay.onclick = null;
-                        pay.classList.remove("statusButton");
+                        pay.classList.add("categoryPaid");
                     }
                     incomeBody.appendChild(category);
                     break;
                 case "Bill":
                     if(categories[i].isPaid){
-                        pay.innerHTML = "paid";
+                        pay.innerHTML = "Paid";
                         pay.onclick = null;
-                        pay.classList.remove("statusButton");
+                        pay.style.background = "green";
+                        pay.classList.add("categoryPaid");
                     }
                     billBody.appendChild(category);
                     break;
                 case "Allowance":
-                    console.log(categories[i].amount);
                     spent.innerText = `$${categories[i].spent}`;
-                    spent.style.display = "block";
+                    spent.style.display = "table-cell";
                     allowanceBody.appendChild(category);
                     break;
             }

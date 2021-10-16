@@ -58,6 +58,21 @@ form{
                 transform: translateY(2px);
             }
 
+.catButton{
+    display: block;
+    width: 100%;
+    background: white;
+    border: 1px solid black;
+    font-size: 10px;
+    margin: 1px;
+    cursor: pointer;
+}
+
+.catButton:hover{
+    background: black;
+    color: white;
+}
+
 #banner{
     display: flex;
     justify-content: center;
@@ -207,24 +222,27 @@ th{
 td{
     padding: 3px 10px;
     text-align: center;
+    height: 100%;
 }
 
 tbody tr:nth-child(even){
     background: lightgray;
 }
 
-.statusButton{
-    background: green;
-    cursor: pointer;
-    box-shadow: 0 0 2px black;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
+.categoryRowActions{
+    padding: 0;
 }
 
-.statusText{
-    color: green;
+.categoryPaid{
+    background: green;
+    color: white;
+    cursor: default;
 }
+
+    .categoryPaid:hover{
+        background: green;
+        color: white;
+    }
 
 /*
 HOME PAGE

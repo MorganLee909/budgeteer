@@ -49,8 +49,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Amount</th>
-                        <th>Remove</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="incomeBody"></tbody>
@@ -82,8 +81,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Amount</th>
-                        <th>Remove</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="billsBody"></tbody>
@@ -116,8 +114,7 @@
                         <th>Name</th>
                         <th>Amount</th>
                         <th>Spent</th>
-                        <th>Remove</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="allowancesBody"></tbody>
@@ -128,7 +125,11 @@
                    <td class="categoryRowName"></td>
                    <td class="categoryRowAmount"></td>
                    <td class="categoryRowSpent" style="display:none"></td>
-                   <td class="categoryRowActions"></td>
+                   <td class="categoryRowActions">
+                       <button class="categoryRowPay catButton">Pay</button>
+                       <button class="categoryRowEdit catButton">Edit</button>
+                       <button class="categoryRowRemove catButton">Remove</button>
+                   </td>
                 </tr>
             </template>
         </div>
