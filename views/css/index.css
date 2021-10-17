@@ -183,6 +183,7 @@ form{
 
 .infoPopup{
     position: relative;
+    z-index: -1;
 }
 
     .infoButton{
@@ -271,6 +272,7 @@ HOME PAGE
             border: none;
             cursor: pointer;
             padding: 10px;
+            z-index: 11;
         }
 
             #dropdownButton:hover{
@@ -282,7 +284,7 @@ HOME PAGE
             flex-direction: column;
             align-items: flex-start;
             position: absolute;
-            z-index: 1;
+            z-index: 10;
             top: 75px;
             left: 10px;
             background: black;
@@ -337,6 +339,11 @@ HOME PAGE
 
 #incomeTable, #billsTable, #allowancesTable{
     margin-bottom: 50px;
+}
+
+#dropdownButton svg{
+    height: 50px;
+    width: 50px;
 }
 
 /*
@@ -569,6 +576,7 @@ LOADER
 
     #transactions thead{
         position: sticky;
+        z-index: -1;
         top: 34px;
         background: white;
     }
@@ -577,8 +585,36 @@ LOADER
         display: flex;
         justify-content: space-between;
         position: sticky;
+        z-index: -1;
         top: 0;
         background: white;
         width: 100%;
+    }
+
+    #dropdownButton{
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 1px;
+        background: none;
+        padding: 0;
+    }
+
+    #dropdownButton svg{
+        height: 35px;
+        width: 35px;
+    }
+
+    #dropdownContent{
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+    }
+
+    #dropdownContent > *{
+        margin: 15px;
+        font-size: 25px;
     }
 }

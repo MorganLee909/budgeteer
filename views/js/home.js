@@ -1,6 +1,6 @@
 let home = {
     all: function(){
-        document.getElementById("accountTitle").innerText = `${user.getAccount().name} account`;
+        document.getElementById("accountTitle").innerText = user.getAccount().name;
 
         this.populateCategories();
         this.populateTransactions();
