@@ -574,20 +574,9 @@ LOADER
         max-height: 500px;
     }
 
-    #transactions thead{
-        position: sticky;
-        z-index: -1;
-        top: 34px;
-        background: white;
-    }
-
     #transactions .tableHead{
         display: flex;
         justify-content: space-between;
-        position: sticky;
-        z-index: -1;
-        top: 0;
-        background: white;
         width: 100%;
     }
 
