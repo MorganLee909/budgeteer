@@ -1,0 +1,150 @@
+.catButton{
+    display: block;
+    width: 100%;
+    background: white;
+    border: 1px solid black;
+    font-size: 10px;
+    margin: 1px;
+    cursor: pointer;
+}
+
+    .catButton:hover{
+        background: black;
+        color: white;
+    }
+
+.infoPopup{
+    position: relative;
+    z-index: -1;
+}
+
+    .infoButton{
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+        .infoButton:hover{
+            color: rgb(150, 150, 150);
+        }
+
+    .infoText{
+        background: white;
+        position: absolute;
+        left: 10px;
+        width: 300px;
+        box-shadow: 0 0 5px black;
+        padding: 5px;
+        font-size: 14px;
+        text-align: justify;
+        z-index: 2;
+    }
+
+.categoryRowActions{
+    padding: 0;
+}
+
+.categoryPaid{
+    background: green;
+    color: white;
+    cursor: default;
+}
+
+    .categoryPaid:hover{
+        background: green;
+        color: white;
+    }
+
+#home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+    #statsBalance{
+        cursor: pointer;
+    }
+
+    #dropdown{
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        #dropdownButton{
+            background: white;
+            color:black;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 11;
+        }
+
+            #dropdownButton:hover{
+                background: rgb(240, 240, 240);
+            }
+
+            #dropdownButton svg{
+                height: 50px;
+                width: 50px;
+            }
+
+        #dropdownContent{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: absolute;
+            z-index: 10;
+            top: 75px;
+            left: 10px;
+            background: black;
+            width: 200px;
+            padding: 15px;
+        }
+
+            #dropdownContent > *{
+                color: white;
+                text-decoration: none;
+                background: none;
+                cursor: pointer;
+                border: none;
+                font-size: 20px;
+                margin: 5px 0;
+                padding-left: 5px;
+            }
+
+                #dropdownContent > *:hover{
+                    color: rgb(150, 150, 150);
+                }
+
+    #mainContent{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .statsItem{
+        display: flex;
+        margin: 5px;
+    }
+
+        #remaining{
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+    .balance{
+        display: flex;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    #incomeTable, #billsTable, #allowancesTable{
+        margin-bottom: 50px;
+    }

@@ -1,0 +1,28 @@
+#transactionModal{
+    position: relative;
+    max-width: 50%;
+    font-weight: bold;
+}
+
+    #transactionNoEdit{
+        flex-direction: column;
+    }
+
+    #transactionModal h2{
+        margin-bottom: 25px;
+    }
+
+    #transactionModal label{
+        display: flex;
+        margin-bottom: 15px;
+        justify-content: space-between;
+        max-width: 300px;
+    }
+
+    #transactionModal p{
+        font-weight: normal;
+    }
+
+    #transactionModal .bold{
+        font-weight: bold;
+    }

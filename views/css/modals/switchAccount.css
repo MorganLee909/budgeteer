@@ -1,0 +1,10 @@
+#switchAccountButtons{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+    #switchAccountModal h2{
+        width: 100%;
+        text-align: center;
+    }

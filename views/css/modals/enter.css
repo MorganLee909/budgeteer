@@ -1,0 +1,7 @@
+#enterModal{
+    align-items: center;
+}
+
+    #enterModal > *{
+        margin: 25px;
+    }

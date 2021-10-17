@@ -1,0 +1,29 @@
+#restoreCategoryModal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 90%;
+}
+    #restoreTitle{
+        margin-bottom: 25px;
+    }
+
+    #restoreContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-height: 75%;
+        overflow-y: auto;
+    }
+
+    .restoreCategory{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        margin: 5px;
+        color: white;
+        background: green;
+        box-shadow: 0 0 1px black;
+        width: 90%;
+    }
