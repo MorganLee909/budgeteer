@@ -207,10 +207,6 @@ form{
         z-index: 2;
     }
 
-table{
-    margin: 0 0 50px 0;
-}
-
 .tableHead{
     display: flex;
 }
@@ -338,6 +334,10 @@ HOME PAGE
     .actionable:hover{
         box-shadow: 0 0 5px black;
     }
+
+#incomeTable, #billsTable, #allowancesTable{
+    margin-bottom: 50px;
+}
 
 /*
 ENTER MODAL
@@ -527,4 +527,57 @@ LOADER
 @keyframes spin3{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@media screen and (max-width: 1000px){
+    body{
+        padding: 5px;
+        box-sizing: border-box;
+    }
+    
+    #mainContent{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .mobileDivider{
+        width: 100%;
+        border: 2px solid black;
+        margin: 25px;
+    }
+
+    td{
+        font-size: 12px;
+    }
+
+    #transactions{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 75%;
+    }
+
+    #incomeTable, #billsTable, #allowancesTable{
+        width: 100%;
+    }
+
+    #transactions{
+        overflow-y: auto;
+        max-height: 500px;
+    }
+
+    #transactions thead{
+        position: sticky;
+        top: 34px;
+        background: white;
+    }
+
+    #transactions .tableHead{
+        display: flex;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background: white;
+        width: 100%;
+    }
 }
