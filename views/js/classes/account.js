@@ -134,11 +134,17 @@ class Account{
     Options:
         from: Date
         to: Date
+        options: [Category id]
+        tags: [String]
     */
     getTransactions(options){
+
+        
+        console.log(options);
         return this.transactions
             .filter(t => t.date > options.from && t.date < options.to)
-            .filter(t => options.categories ? options.categories.includes(t.category.id) : true);
+            .filter(t => options.categories ? options.categories.includes(t.category.id) : true)
+            .filter(t => options.tags ? t.tags.filter(v => options.tags.includes(v)) : true);
     }
 
     addTransaction(transaction, isNew = true){

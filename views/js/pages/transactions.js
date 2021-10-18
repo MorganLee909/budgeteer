@@ -15,6 +15,7 @@ module.exports = {
 
         fromDate.onchange = ()=>{this.filter()};
         toDate.onchange = ()=>{this.filter()};
+        document.getElementById("filterTagsInput").onchange = ()=>{this.filter()};
 
         this.updateCategories();
     },
@@ -68,6 +69,7 @@ module.exports = {
     },
 
     filter: function(){
+        console.log("something");
         let from = document.getElementById("filterDateFrom").valueAsDate;
         let to = document.getElementById("filterDateTo").valueAsDate;
         let categories = document.getElementById("categoriesLabel").children;
@@ -80,7 +82,8 @@ module.exports = {
         let options = {
             from: from,
             to: to,
-            categories: []
+            categories: [],
+            tags: document.getElementById("filterTagsInput").value.split(",")
         };
 
         for(let i = 0; i < categories.length; i++){
