@@ -7,7 +7,7 @@ class Account{
         this.name = name;
         this._balance = balance;
         this.categories = [];
-        this._transactions = [];
+        this.transactions = [];
             
         document.getElementById("accountTitle").innerText = `${this.name} account`;
         for(let i = 0; i < categories.length; i++){
@@ -130,9 +130,14 @@ class Account{
         return allowances;
     }
 
-    //transactions
-    get transactions(){
-        return this._transactions;
+    /*
+    Options:
+        from: Date
+        to: Date
+    */
+    getTransactions(options){
+        return this.transactions
+            .filter(t => t.date > options.from && t.date < options.to);
     }
 
     addTransaction(transaction, isNew = true){
@@ -147,16 +152,16 @@ class Account{
             this
         );
 
-        this._transactions.push(newTransaction);
+        this.transactions.push(newTransaction);
         if(isNew) this._balance += transaction.amount;
 
-        this._transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
+        this.transactions.sort((a, b) => (a.date > b.date) ? -1 : 1);
         return newTransaction;
     }
 
     removeTransaction(transaction){
-        let index = this._transactions.indexOf(transaction);
-        this._transactions.splice(index, 1);
+        let index = this.transactions.indexOf(transaction);
+        this.transactions.splice(index, 1);
 
         this._balance -= parseInt(transaction.amount * 100);
 

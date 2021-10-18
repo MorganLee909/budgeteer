@@ -158,11 +158,12 @@ fetch("/session")
         }else{
             user = new User(response.accounts);
             
-            return fetch("/transactions");
+            return fetch(`/transactions/${user.getAccount().id}`);
         }
     })
     .then(response => response.json())
     .then((response)=>{
+
         let account = user.getAccount();
         for(let i = 0; i < response.length; i++){
             account.addTransaction(response[i], false);
@@ -171,6 +172,7 @@ fetch("/session")
         home.all();
     })
     .catch((err)=>{
+        console.log(err);
         if(err !== "noUser"){
             controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
         }

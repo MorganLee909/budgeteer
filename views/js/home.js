@@ -104,9 +104,9 @@ let home = {
         let tbody = document.getElementById("transactionsBody");
 
         let from = new Date();
-        from.setDay(1);
+        from.setDate(1);
         from.setHours(0, 0, 0, 0);
-        let transactions = user.getAccount().getTransactions(from, new Date());
+        let transactions = user.getAccount().getTransactions({from: from, to: new Date()});
 
         while(tbody.children.length > 0){
             tbody.removeChild(tbody.firstChild);
