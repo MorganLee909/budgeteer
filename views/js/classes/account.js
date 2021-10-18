@@ -134,17 +134,33 @@ class Account{
     Options:
         from: Date
         to: Date
-        options: [Category id]
+        categories: [Category id]
         tags: [String]
     */
     getTransactions(options){
+        let transactions = [];
+        for(let i = 0; i < this.transactions.length; i++){
+            if(this.transactions[i].date >= options.to){
+                if(this.transactions[i].date < options.from) break;
 
-        
-        console.log(options);
-        return this.transactions
-            .filter(t => t.date > options.from && t.date < options.to)
-            .filter(t => options.categories ? options.categories.includes(t.category.id) : true)
-            .filter(t => options.tags ? t.tags.filter(v => options.tags.includes(v)) : true);
+                transactions.push(this.transactions[i]);
+            }
+        }
+
+        if(options.categories){
+            for(let i = 0; i < transactions.length; i++){
+                if(!options.categories.includes(transctions[i].category.id)) transactions.splice(i, 1);
+            }
+        }
+
+        if(options.tags){
+            for(let i = 0; i < transactions.length; i++){
+                if(!options.tags.filter(v => transactions[i].tags.includes(v))) transactions.splice(i, 1);
+            }
+        }
+
+        console.log(transactions);
+        return transactions;
     }
 
     addTransaction(transaction, isNew = true){
