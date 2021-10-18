@@ -158,22 +158,7 @@ fetch("/session")
         }else{
             user = new User(response.accounts);
             
-            let from = new Date();
-            from.setDate(1);
-            from.setHours(0, 0, 0, 0);
-            let data = {
-                account: user.getAccount().id,
-                from: from,
-                to: new Date()
-            };
-            
-            return fetch("/transactions/get", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
+            return fetch("/transactions");
         }
     })
     .then(response => response.json())

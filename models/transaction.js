@@ -16,7 +16,8 @@ let TransactionSchema = new mongoose.Schema({
     account: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user.accounts",
-        required: [true, "TRANSACTION MUST BE ASSOCIATED WITH AN ACCOUNT"]
+        required: [true, "TRANSACTION MUST BE ASSOCIATED WITH AN ACCOUNT"],
+        index: true
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,

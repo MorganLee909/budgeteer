@@ -344,24 +344,11 @@ module.exports = {
     },
 
     /*
-    POST: get transactions from a specific account for this month
-    req.body = {
-        account: String,
-        from: Date,
-        to: Date
-    }
+    get: get transactions for an account
     response = [Transaction]
     */
     getTransactions: function(req, res){
-        let from = new Date(req.body.from);
-        let to = new Date(req.body.to);
-
-        Transaction.aggregate([
-            {$match: {
-                account: ObjectId(req.body.account),
-                date: {$gte: from, $lt: to}
-            }}
-        ])
+        Transaction.find({account: req.params.account})
             .then((transactions)=>{
                 return res.json(transactions);
             })

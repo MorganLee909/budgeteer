@@ -135,20 +135,6 @@ class Account{
         return this._transactions;
     }
 
-    getTransactions(category){
-        if(category === undefined) return [];
-        let transactions = [];
-        
-        for(let i = 0; i < this._transactions.length; i++){
-            let cat = this._transactions[i]._category;
-
-            if(cat === undefined) continue;
-            if(cat.name === category) transactions.push(this._transactions[i]);
-        }
-
-        return transactions;
-    }
-
     addTransaction(transaction, isNew = true){
         let newTransaction = new Transaction(
             transaction._id,

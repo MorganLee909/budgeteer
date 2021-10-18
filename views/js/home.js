@@ -102,7 +102,11 @@ let home = {
 
     populateTransactions: function(){
         let tbody = document.getElementById("transactionsBody");
-        let transactions = user.getAccount().transactions;
+
+        let from = new Date();
+        from.setDay(1);
+        from.setHours(0, 0, 0, 0);
+        let transactions = user.getAccount().getTransactions(from, new Date());
 
         while(tbody.children.length > 0){
             tbody.removeChild(tbody.firstChild);
