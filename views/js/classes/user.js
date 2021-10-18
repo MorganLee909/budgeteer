@@ -1,6 +1,6 @@
 const Account = require("./account.js");
 
-const home = require("../home.js");
+const home = require("../pages/home.js");
 
 class User{
     constructor(accounts){

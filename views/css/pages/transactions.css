@@ -1,0 +1,23 @@
+#transactionsPage{
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+    #transactionsOptions{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 25%;
+        background: black;
+        color: white;
+    }
+
+    #transactionsDisplay{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 75%;
+    }

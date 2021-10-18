@@ -1,4 +1,5 @@
-const home = require("./home.js");
+const home = require("./pages/home.js");
+const transactionsPage = require("./pages/transactions.js");
 
 const enterModal = require("./modals/enter.js");
 const newAccountModal = require("./modals/newAccount.js");
@@ -18,6 +19,15 @@ const User = require("./classes/user.js");
 user = null;
 
 controller = {
+    openPage: function(page){
+        let pages = document.querySelectorAll(".page");
+        for(let i = 0; i < pages.length; i++){
+            pages[i].style.display = "none";
+        }
+
+        document.getElementById(page).style.display = "flex";
+    },
+
     openModal: function(modal, data){
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
@@ -29,8 +39,6 @@ controller = {
         if(user !== null && user.getAccount() !== undefined){
             container.onclick = ()=>{controller.closeModal()};
         }
-
-        let categories = {};
 
         switch(modal){
             case "enter":
@@ -170,9 +178,9 @@ fetch("/session")
         }
 
         home.all();
+        transactionsPage.display();
     })
     .catch((err)=>{
-        console.log(err);
         if(err !== "noUser"){
             controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
         }

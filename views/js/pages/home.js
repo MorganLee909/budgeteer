@@ -25,6 +25,7 @@ let home = {
         document.getElementById("statsAllowancesInfoButton").onclick = ()=>{this.showInfo("statsAllowances")};
         document.getElementById("helpButton").onclick = ()=>{controller.openModal("help")};
         document.getElementById("transferMoney").onclick = ()=>{controller.openModal("transfer")};
+        document.getElementById("searchTransactionsButton").onclick = ()=>{controller.openPage("transactionsPage")};
 
         let balance = document.getElementById("statsBalance");
         balance.onclick = ()=>{

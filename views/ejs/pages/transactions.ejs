@@ -1,0 +1,36 @@
+<div id="transactionsPage" class="page">
+    <div id="transactionsOptions">
+        <h1>Filter</h1>
+
+        <label>Date:
+            <input id="filterDateFrom" type="date">
+            -
+            <input id="filterDateTo" type="date">
+        </label>
+    </div>
+
+    <div id="transactionsDisplay">
+        <h1>Transactions</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="searchTransactionsBody"></tbody>
+        </table>
+
+        <template id="tableTransaction">
+            <tr class="tableTransaction actionable">
+                <td class="ttDate"></td>
+                <td class="ttCategory"></td>
+                <td class="ttLocation"></td>
+                <td class="ttAmount"></td>
+            </tr>
+        </template>
+    </div>
+</div>
