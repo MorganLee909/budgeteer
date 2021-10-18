@@ -8,9 +8,11 @@ class Transaction{
         this._note = note;
         this._parent = parent;
 
-        if(category !== undefined){
+        if(category.id !== "1"){
             this._category = user.getAccount().getCategory(category);
             this._category.addTransaction(this._amount);
+        }else{
+            this._category = category;
         }
     }
 

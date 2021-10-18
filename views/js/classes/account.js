@@ -1,5 +1,5 @@
 const Transaction = require("./transaction.js");
-const {Income, Bill, Allowance} = require("./category.js");
+const {Income, Bill, Allowance, Category} = require("./category.js");
 
 class Account{
     constructor(id, name, balance, categories){
@@ -137,10 +137,20 @@ class Account{
     */
     getTransactions(options){
         return this.transactions
-            .filter(t => t.date > options.from && t.date < options.to);
+            .filter(t => t.date > options.from && t.date < options.to)
+            .filter(t => options.categories ? options.categories.includes(t.category.id) : true);
     }
 
     addTransaction(transaction, isNew = true){
+        if(transaction.category === undefined){
+            transaction.category = new Category(
+                "1",
+                "discretionary",
+                0,
+                true
+            );
+        }
+
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,

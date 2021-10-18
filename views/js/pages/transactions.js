@@ -15,6 +15,8 @@ module.exports = {
 
         fromDate.onchange = ()=>{this.filter()};
         toDate.onchange = ()=>{this.filter()};
+
+        this.updateCategories();
     },
 
     populateTransactions: function(transactions){
@@ -41,9 +43,34 @@ module.exports = {
         }
     },
 
+    updateCategories: function(){
+        let categories = user.getAccount().categories;
+        let container = document.getElementById("categoriesLabel");
+        let template = document.getElementById("categoryChoice").content.children[0];
+
+        while(container.children.length > 0){
+            container.removeChild(container.firstChild);
+        }
+
+        let discCategory = template.cloneNode(true);
+        discCategory.querySelector(".ccName").innerText = "Discretionary";
+        discCategory.onchange = ()=>{this.filter()};
+        discCategory._id = "1";
+        container.appendChild(discCategory);
+
+        for(let i = 0; i < categories.length; i++){
+            let category = template.cloneNode(true);
+            category.querySelector(".ccName").innerText = categories[i].name;
+            category.onchange = ()=>{this.filter()};
+            category._id = categories[i].id;
+            container.appendChild(category);
+        }
+    },
+
     filter: function(){
         let from = document.getElementById("filterDateFrom").valueAsDate;
         let to = document.getElementById("filterDateTo").valueAsDate;
+        let categories = document.getElementById("categoriesLabel").children;
 
         if(from > to){
             controller.createBanner("Start date must be before end date", "error");
@@ -52,8 +79,14 @@ module.exports = {
 
         let options = {
             from: from,
-            to: to
+            to: to,
+            categories: []
         };
+
+        for(let i = 0; i < categories.length; i++){
+            if(categories[i].children[0].checked) options.categories.push(categories[i]._id);
+        }
+        if(options.categories.length === 0) options.categories = undefined;
 
         this.populateTransactions(user.getAccount().getTransactions(options));
     }

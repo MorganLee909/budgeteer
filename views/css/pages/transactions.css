@@ -8,12 +8,30 @@
     #transactionsOptions{
         display: flex;
         flex-direction: column;
-        align-items: center;
         height: 100%;
         width: 25%;
         background: black;
         color: white;
     }
+
+        #transactionsOptions > *{
+            margin: 15px;
+        }
+
+        #categoriesLabel{
+            border: 1px solid white;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+            .categoryChoice{
+                display: flex;
+                font-size: 12px;
+            }
+
+            .categoryChoice > *{
+                margin: 5px;
+            }
 
     #transactionsDisplay{
         display: flex;

@@ -88,5 +88,6 @@ class Allowance extends Category{
 module.exports = {
     Income: Income,
     Bill: Bill,
-    Allowance: Allowance
+    Allowance: Allowance,
+    Category: Category
 };
