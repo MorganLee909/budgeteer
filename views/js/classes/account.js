@@ -156,11 +156,27 @@ class Account{
             }
         }
 
+        console.log(options.tags);
         if(options.tags){
             for(let i = 0; i < transactions.length; i++){
-                if(!options.tags.filter(v => transactions[i].tags.includes(v))) transactions.splice(i, 1);
+                let tagged = false;
+                for(let j = 0; j < transactions[i].tags.length; j++){
+                    for(let k = 0; k < options.tags.length; k++){
+                        if(transactions[i].tags[j].includes(options.tags[k])){
+                            tagged = true;
+                            break;
+                        }
+                    }
+                    if(tagged) break;
+                }
+
+                if(!tagged){
+                    transactions.splice(i, 1);
+                    i--;
+                }
             }
         }
+        console.log(transactions);
 
         return transactions;
     }

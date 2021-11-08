@@ -15,7 +15,7 @@ module.exports = {
 
         fromDate.onchange = ()=>{this.filter()};
         toDate.onchange = ()=>{this.filter()};
-        document.getElementById("filterTagsInput").onchange = ()=>{this.filter()};
+        document.getElementById("filterTagsInput").oninput = ()=>{this.filter()};
 
         this.updateCategories();
     },
@@ -80,11 +80,14 @@ module.exports = {
 
         from.setHours(0, 0, 0, 0);
 
+        let tags = document.getElementById("filterTagsInput").value.split(",");
+        if(tags[tags.length-1] === "") tags.splice(tags.length-1, 1);
+
         let options = {
             from: from,
             to: to,
             categories: [],
-            tags: document.getElementById("filterTagsInput").value.split(",")
+            tags: tags.length === 0 ? undefined : tags
         };
 
         for(let i = 0; i < categories.length; i++){
