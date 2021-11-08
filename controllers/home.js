@@ -456,9 +456,7 @@ module.exports = {
             return chosen;
         }
 
-
-
-        for(let i = 0; i < 2400; i++){
+        for(let i = 0; i < 1000; i++){
             transactions.push(new Transaction({
                 account: res.locals.user.accounts[0]._id,
                 tags: randomTags(),

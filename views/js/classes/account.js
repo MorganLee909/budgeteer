@@ -149,7 +149,10 @@ class Account{
         
         if(options.categories){
             for(let i = 0; i < transactions.length; i++){
-                if(!options.categories.includes(transctions[i].category.id)) transactions.splice(i, 1);
+                if(!options.categories.includes(transactions[i].category.id)){
+                    transactions.splice(i, 1);
+                    i--;
+                }
             }
         }
 

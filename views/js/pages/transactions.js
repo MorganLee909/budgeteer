@@ -78,6 +78,8 @@ module.exports = {
             return;
         }
 
+        from.setHours(0, 0, 0, 0);
+
         let options = {
             from: from,
             to: to,
