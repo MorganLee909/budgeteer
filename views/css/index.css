@@ -168,6 +168,11 @@ tbody tr:nth-child(even){
         box-shadow: 0 0 5px black;
     }
 
+.icon{
+    color: inherit;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1000px){
     body{
         padding: 5px;

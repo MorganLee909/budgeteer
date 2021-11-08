@@ -18,6 +18,8 @@ module.exports = {
         document.getElementById("filterTagsInput").oninput = ()=>{this.filter()};
         document.getElementById("filterLocationInput").oninput = ()=>{this.filter()};
 
+        document.getElementById("filterBackButton").onclick = ()=>{controller.openPage("home")};
+
         this.updateCategories();
     },
 
