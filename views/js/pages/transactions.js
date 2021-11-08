@@ -69,7 +69,6 @@ module.exports = {
     },
 
     filter: function(){
-        console.log("something");
         let from = document.getElementById("filterDateFrom").valueAsDate;
         let to = document.getElementById("filterDateTo").valueAsDate;
         let categories = document.getElementById("categoriesLabel").children;

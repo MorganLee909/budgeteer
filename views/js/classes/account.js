@@ -140,13 +140,13 @@ class Account{
     getTransactions(options){
         let transactions = [];
         for(let i = 0; i < this.transactions.length; i++){
-            if(this.transactions[i].date >= options.to){
+            if(this.transactions[i].date <= options.to){
                 if(this.transactions[i].date < options.from) break;
 
                 transactions.push(this.transactions[i]);
             }
         }
-
+        
         if(options.categories){
             for(let i = 0; i < transactions.length; i++){
                 if(!options.categories.includes(transctions[i].category.id)) transactions.splice(i, 1);
@@ -159,7 +159,6 @@ class Account{
             }
         }
 
-        console.log(transactions);
         return transactions;
     }
 

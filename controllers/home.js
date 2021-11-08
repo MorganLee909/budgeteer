@@ -427,5 +427,54 @@ module.exports = {
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
+    },
+
+    populateTransactions: function(req, res){
+        let transactions = [];
+
+        function randomDate() {
+            let start = new Date();
+            start.setFullYear(start.getFullYear() -1);
+            let end = new Date();
+            let startHour = 0;
+            let endHour = 0;
+
+            let date = new Date(+start + Math.random() * (end - start));
+            let hour = startHour + Math.random() * (endHour - startHour) | 0;
+            date.setHours(hour);
+            return date;
+        }
+
+        function randomTags(){
+            let tags = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+            let chosen = [];
+
+            for(let i = 0; i < Math.floor(Math.random() * 5); i++){
+                chosen.push(tags[Math.floor(Math.random() * tags.length)]);
+            }
+
+            return chosen;
+        }
+
+
+
+        for(let i = 0; i < 2400; i++){
+            transactions.push(new Transaction({
+                account: res.locals.user.accounts[0]._id,
+                tags: randomTags(),
+                amount: Math.random() * 25000,
+                location: "",
+                date: randomDate()
+            }));
+        }
+
+        Transaction.create(transactions)
+            .then((transactions)=>{
+                return res.redirect("/");
+            })
+            .catch((err)=>{
+                console.error("Developer route ran");
+                console.error(err);
+            });
     }
 }
