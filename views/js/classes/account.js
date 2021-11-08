@@ -135,6 +135,7 @@ class Account{
         from: Date
         to: Date
         categories: [Category id]
+        location: String
         tags: [String]
     */
     getTransactions(options){
@@ -156,7 +157,15 @@ class Account{
             }
         }
 
-        console.log(options.tags);
+        if(options.location){
+            for(let i = 0; i < transactions.length; i++){
+                if(!transactions[i].location.includes(options.location)){
+                    transactions.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
         if(options.tags){
             for(let i = 0; i < transactions.length; i++){
                 let tagged = false;
@@ -176,7 +185,6 @@ class Account{
                 }
             }
         }
-        console.log(transactions);
 
         return transactions;
     }
