@@ -45,6 +45,7 @@ module.exports = {
             transaction.querySelector(".ttCategory").innerText = transactions[i].category.name;
             transaction.querySelector(".ttLocation").innerText = transactions[i].location;
             transaction.querySelector(".ttAmount").innerText = `$${transactions[i].amount.toFixed(2)}`;
+            transaction.onclick = ()=>{controller.openModal("transaction", transactions[i])};
             container.appendChild(transaction);
         }
     },
