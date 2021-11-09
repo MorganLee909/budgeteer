@@ -13,11 +13,6 @@
         color: white;
     }
 
-.infoPopup{
-    position: relative;
-    z-index: -1;
-}
-
     .infoButton{
         background: none;
         border: none;

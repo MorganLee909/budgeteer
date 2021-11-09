@@ -8,6 +8,9 @@ let home = {
     },
 
     buttons: function(){
+        console.log("buttons");
+        console.log(document.getElementById("incomeInfoButton"));
+        document.getElementById("incomeInfoButton").onclick = ()=>{console.log("fuck you")};
         document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("restoreCategory", "Income")};
         document.getElementById("createBillBtn").onclick = ()=>{controller.openModal("restoreCategory", "Bill")};
         document.getElementById("createAllowanceBtn").onclick = ()=>{controller.openModal("restoreCategory", "Allowance")};
@@ -15,7 +18,7 @@ let home = {
         document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
         document.getElementById("addAccountButton").onclick = ()=>{controller.openModal("newAccount")};
         document.getElementById("switchAccountButton").onclick = ()=>{controller.openModal("switchAccount")};
-        document.getElementById("incomeInfoButton").onclick = ()=>{this.showInfo("income")};
+        document.getElementById("incomeInfoButton").parentElement.onclick = ()=>{this.showInfo("income")};
         document.getElementById("billsInfoButton").onclick = ()=>{this.showInfo("bills")};
         document.getElementById("allowancesInfoButton").onclick = ()=>{this.showInfo("allowances")};
         document.getElementById("discretionaryInfoButton").onclick = ()=>{this.showInfo("discretionary")};

@@ -259,4 +259,9 @@ tbody tr:nth-child(even){
     #restoreCategoryModal{
         max-height: unset;
     }
+
+    .infoPopup{
+        position: relative;
+        z-index: -1;
+    }
 }
