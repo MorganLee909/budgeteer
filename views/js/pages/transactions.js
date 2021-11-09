@@ -50,30 +50,57 @@ module.exports = {
     },
 
     populateAnal: function(transactions){
-        //Categories
-        let values = [];
-        let labels = [];
+        //Categories and tags
+        let categoryValues = [];
+        let categoryLabels = [];
+        let tagValues = [];
+        let tagLabels = [];
 
         for(let i = 0; i < transactions.length; i++){
-            console.log(transactions[i].category.constructor.name);
-            if(transactions[i].category.constructor.name === "Income") continue;
-            let idx = labels.indexOf(transactions[i].category.name);
-            if(idx === -1){
-                values.push(Math.abs(transactions[i].amount));
-                labels.push(transactions[i].category.name);
-            }else{
-                values[idx] += Math.abs(transactions[i].amount);
+            //Categories
+            if(transactions[i].category.constructor.name !== "Income"){
+                let idx = categoryLabels.indexOf(transactions[i].category.name);
+                if(idx === -1){
+                    categoryValues.push(Math.abs(transactions[i].amount));
+                    categoryLabels.push(transactions[i].category.name);
+                }else{
+                    categoryValues[idx] += Math.abs(transactions[i].amount);
+                }
+            }
+
+            for(let j = 0; j < transactions[i].tags.length; j++){
+                let idx = tagLabels.indexOf(transactions[i].tags[j]);
+                if(idx === -1){
+                    tagValues.push(Math.abs(transactions[i].amount));
+                    tagLabels.push(transactions[i].tags[j]);
+                }else{
+                    tagValues[idx] += Math.abs(transactions[i].amount);
+                }
             }
         }
 
-        let data = {
-            values: values,
-            labels: labels,
+        let categoryData = {
+            title: {text: "Categories"},
+            values: categoryValues,
+            labels: categoryLabels,
+            showlegend: false,
             type: "pie",
+            hovertemplate: `%{label}<br>$%{value}<br>%{percent}`,
             textinfo: "label+percent"
         };
 
-        Plotly.newPlot("categoriesGraph", [data]);
+        let tagData = {
+            title: {text: "Tags"},
+            values: tagValues,
+            labels: tagLabels,
+            type: "pie",
+            showlegend: false,
+            hovertemplate: "%{label}<br>$%{value}<br>%{percent}",
+            textinfo: "label+percent"
+        }
+
+        Plotly.newPlot("categoriesGraph", [categoryData]);
+        Plotly.newPlot("tagsGraph", [tagData]);
     },
 
     updateCategories: function(){

@@ -42,5 +42,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 75%;
+        width: 37%;
+    }
+
+    #anal{
+        width: 37%;
     }
