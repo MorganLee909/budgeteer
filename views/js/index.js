@@ -190,4 +190,3 @@ fetch("/session")
     });
 
 home.buttons();
-controller.openPage("transactionsPage");
