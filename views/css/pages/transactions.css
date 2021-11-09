@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+    #transactionsSpacer{
+        width: 25%;
+    }
+
     #transactionsOptions{
         display: flex;
         flex-direction: column;
@@ -12,6 +16,7 @@
         width: 25%;
         background: black;
         color: white;
+        position: fixed;
     }
 
         #transactionsOptions > *{

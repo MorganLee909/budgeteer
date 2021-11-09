@@ -7,7 +7,9 @@ module.exports = {
         from.setDate(1);
         from.setHours(0, 0, 0, 0);
         let options = {from: from, to: new Date()};
-        this.populateTransactions(user.getAccount().getTransactions(options));
+        let transactions = user.getAccount().getTransactions(options);
+        this.populateTransactions(transactions);
+        this.populateAnal(transactions);
 
         options.from.setHours(0, Math.abs(options.from.getTimezoneOffset()), 0, 0);
         fromDate.valueAsDate = options.from;
@@ -45,6 +47,33 @@ module.exports = {
             transaction.querySelector(".ttAmount").innerText = `$${transactions[i].amount.toFixed(2)}`;
             container.appendChild(transaction);
         }
+    },
+
+    populateAnal: function(transactions){
+        //Categories
+        let values = [];
+        let labels = [];
+
+        for(let i = 0; i < transactions.length; i++){
+            console.log(transactions[i].category.constructor.name);
+            if(transactions[i].category.constructor.name === "Income") continue;
+            let idx = labels.indexOf(transactions[i].category.name);
+            if(idx === -1){
+                values.push(Math.abs(transactions[i].amount));
+                labels.push(transactions[i].category.name);
+            }else{
+                values[idx] += Math.abs(transactions[i].amount);
+            }
+        }
+
+        let data = {
+            values: values,
+            labels: labels,
+            type: "pie",
+            textinfo: "label+percent"
+        };
+
+        Plotly.newPlot("categoriesGraph", [data]);
     },
 
     updateCategories: function(){
@@ -101,6 +130,8 @@ module.exports = {
         }
         if(options.categories.length === 0) options.categories = undefined;
 
-        this.populateTransactions(user.getAccount().getTransactions(options));
+        let transactions = user.getAccount().getTransactions(options);
+        this.populateTransactions(transactions);
+        this.populateAnal(transactions);
     }
 }
