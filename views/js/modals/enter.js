@@ -74,6 +74,21 @@ let enter = {
                     user.updateAll();
                     controller.closeModal();
                 }
+
+                return fetch(`/transactions/${user.getAccount().id}`);
+            })
+            .then(r=>r.json())
+            .then((response)=>{
+                if(typeof(response) === "string"){
+                    controller.createBanner(response, "error");
+                }else{
+                    let account = user.getAccount();
+                    for(let i = 0; i < response.length; i++){
+                        account.addTransaction(response[i], false);
+                    }
+
+                    state.all();
+                }
             })
             .catch((err)=>{
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");

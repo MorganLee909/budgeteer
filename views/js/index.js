@@ -151,7 +151,8 @@ state = {
     
     all: function(){
         home.all();
-    }
+    },
+
 }
 
 let loader = document.getElementById("loaderContainer");
