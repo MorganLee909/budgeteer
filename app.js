@@ -22,6 +22,7 @@ let esbuildOptions = {
     entryPoints: ["./views/js/index.js"],
     bundle: true,
     minify: false,
+    keepNames: true,
     outfile: "./views/bundle.js"
 };
 
