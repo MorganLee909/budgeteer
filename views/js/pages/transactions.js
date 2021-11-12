@@ -58,7 +58,6 @@ module.exports = {
         let tagLabels = [];
 
         for(let i = 0; i < transactions.length; i++){
-            //Categories
             if(transactions[i].category.constructor.name !== "Income"){
                 let idx = categoryLabels.indexOf(transactions[i].category.name);
                 if(idx === -1){
@@ -81,7 +80,10 @@ module.exports = {
         }
 
         let categoryData = {
-            title: {text: "Categories"},
+            title: {
+                text: "Expenditures",
+                font: {size: 35}
+            },
             values: categoryValues,
             labels: categoryLabels,
             showlegend: false,
@@ -91,17 +93,20 @@ module.exports = {
         };
 
         let tagData = {
-            title: {text: "Tags"},
-            values: tagValues,
-            labels: tagLabels,
-            type: "pie",
-            showlegend: false,
-            hovertemplate: "%{label}<br>$%{value}<br>%{percent}",
-            textinfo: "label+percent"
+            x: tagLabels,
+            y: tagValues,
+            type: "bar",
+        }
+
+        let layout = {
+            title: {
+                text: "Tag Data",
+                font: {size: 35}
+            }
         }
 
         Plotly.newPlot("categoriesGraph", [categoryData]);
-        Plotly.newPlot("tagsGraph", [tagData]);
+        Plotly.newPlot("tagsGraph", [tagData], layout);
     },
 
     updateCategories: function(){

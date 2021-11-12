@@ -50,4 +50,12 @@
 
     #anal{
         width: 37%;
+        max-height: 95%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #anal > *{
+        max-height: 45%;
     }
