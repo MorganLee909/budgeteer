@@ -29,6 +29,7 @@ controller = {
     },
 
     openModal: function(modal, data){
+        let displayFunk = {};
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
             modals[i].style.display = "none";
@@ -43,43 +44,43 @@ controller = {
         switch(modal){
             case "enter":
                 modal = document.getElementById("enterModal");
-                enterModal.display();
+                displayFunk = enterModal.display;
                 break;
             case "newAccount":
                 modal = document.getElementById("newAccountModal");
-                newAccountModal.display();
+                displayFunk = newAccountModal.display;
                 break;
             case "createIncome":
                 modal = document.getElementById("createIncomeModal");
-                createIncomeModal.display();
+                displayFunk = createIncomeModal.display;
                 break;
             case "createBill":
                 modal = document.getElementById("createBillModal");
-                createBillModal.display();
+                displayFunk = createBillModal.display;
                 break;
             case "createAllowance":
                 modal = document.getElementById("createAllowanceModal");
-                createAllowanceModal.display();
+                displayFunk = createAllowanceModal.display;
                 break;
             case "createTransaction":
                 modal = document.getElementById("createTransactionModal");
-                createTransactionModal.display(data);
+                displayFunk = ()=>{createTransactionModal.display(data)};
                 break;
             case "transaction":
                 modal = document.getElementById("transactionModal");
-                transactionModal.display(data);
+                displayFunk = ()=>{transactionModal.display(data)};
                 break;
             case "switchAccount":
                 modal = document.getElementById("switchAccountModal");
-                switchAccountModal.display();
+                displayFunk = switchAccountModal.display;
                 break;
             case "help":
                 modal = document.getElementById("helpModal");
-                helpModal.display();
+                displayFunk = helpModal.display;
                 break;
             case "transfer":
                 modal = document.getElementById("transferModal");
-                transferModal.display();
+                displayFunk = transferModal.display;
                 break;
             case "restoreCategory":
                 let categories = user
@@ -88,7 +89,7 @@ controller = {
                     .filter(c => c.constructor.name === data && c.removed === true);
                 if(categories.length > 0){
                     modal = document.getElementById("restoreCategoryModal");
-                    restoreModal.display(categories);
+                    displayFunk = ()=>{restoreModal.display(categories)};
                 }else{
                     controller.openModal(`create${data}`);
                     return;
@@ -96,11 +97,12 @@ controller = {
                 break;
             case "editCategory":
                 modal = document.getElementById("editCategoryModal");
-                editCategoryModal.display(data);
+                displayFunk = ()=>{editCategoryModal.display(data)};
                 break;
         }
 
         modal.style.display = "flex";
+        displayFunk();
         modal.onclick = ()=>{event.stopPropagation()};
     },
 

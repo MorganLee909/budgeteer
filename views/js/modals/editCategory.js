@@ -8,6 +8,7 @@ module.exports = {
         document.getElementById("editCatForm").onsubmit = ()=>{this.submit(category)};
         document.getElementById("editCatName").value = category.name;
         document.getElementById("editCatCancel").onclick = ()=>{controller.closeModal()};
+        document.getElementById("editCatName").focus();
         
         if(category.constructor.name === "Allowance"){
             orThing.style.display = "block";

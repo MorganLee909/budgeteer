@@ -1,6 +1,7 @@
 let createBill = {
     display: function(){
         let form = document.getElementById("createBillForm");
+        form.querySelector("input").focus();
         form.reset();
         form.onsubmit = ()=>{this.submit()};
         document.getElementById("createBillCancel").onclick = ()=>{controller.closeModal()};

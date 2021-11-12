@@ -2,8 +2,14 @@ const User = require("../classes/user.js");
 
 let enter = {
     display: function(){
+        console.log(this);
         document.getElementById("registerForm").onsubmit = ()=>{this.register()};
-        document.getElementById("loginForm").onsubmit = ()=>{this.login()};
+        document.getElementById("loginForm").onsubmit = ()=>{
+            event.preventDefault();
+            console.log(this);
+            this.login();
+        };
+        document.getElementById("loginEmail").focus();
     },
 
     register: function(){
@@ -15,9 +21,7 @@ let enter = {
             confirmPassword: document.getElementById("registerConfirm").value
         }
 
-        if(data.password !== data.confirmPassword){
-            return;
-        }
+        if(data.password !== data.confirmPassword) return;
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";

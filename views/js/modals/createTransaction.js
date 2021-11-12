@@ -3,6 +3,7 @@ const Income = require("../classes/category").Income;
 let createTransaction = {
     display: function(category){
         let form = document.getElementById("createTransactionForm");
+        form.querySelector("input").focus();
         let amount = document.getElementById("createTransactionAmount");
         form.reset();
         

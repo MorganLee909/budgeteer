@@ -1,6 +1,7 @@
 let createAllowance = {
     display: function(){
         let form = document.getElementById("createAllowanceForm");
+        form.querySelector("input").focus();
         form.reset();
         form.onsubmit = ()=>{this.submit()};
         document.getElementById("createAllowanceCancel").onclick = ()=>{controller.closeModal()};
