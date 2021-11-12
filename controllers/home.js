@@ -464,7 +464,8 @@ module.exports = {
             transactions.push(new Transaction({
                 account: res.locals.user.accounts[0]._id,
                 tags: randomTags(),
-                amount: Math.random() * 25000,
+                amount: -(Math.random() * 25000),
+                category: res.locals.user.accounts[0].categories[0],
                 location: "",
                 date: randomDate()
             }));
@@ -472,10 +473,10 @@ module.exports = {
 
         Transaction.create(transactions)
             .then((transactions)=>{
+                console.error("Developer route ran");
                 return res.redirect("/");
             })
             .catch((err)=>{
-                console.error("Developer route ran");
                 console.error(err);
             });
     }
