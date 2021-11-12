@@ -87,7 +87,7 @@ let enter = {
                         account.addTransaction(response[i], false);
                     }
 
-                    state.all();
+                    state.render();
                 }
             })
             .catch((err)=>{

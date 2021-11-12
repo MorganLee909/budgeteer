@@ -147,12 +147,19 @@ state = {
         home.populateTransactions();
         home.populateCategories();
         home.populateStats();
+        transactionsPage.filter();
     },
     
     all: function(){
         home.all();
+        transactionsPage.filter();
     },
 
+    render: function(){
+        transactionsPage.display();
+        home.all();
+        transactionsPage.filter();
+    }
 }
 
 let loader = document.getElementById("loaderContainer");
@@ -178,8 +185,7 @@ fetch("/session")
             account.addTransaction(response[i], false);
         }
 
-        home.all();
-        transactionsPage.display();
+        state.render();
     })
     .catch((err)=>{
         if(err !== "noUser"){
