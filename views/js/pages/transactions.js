@@ -113,12 +113,6 @@ module.exports = {
             container.removeChild(container.firstChild);
         }
 
-        let discCategory = template.cloneNode(true);
-        discCategory.querySelector(".ccName").innerText = "Discretionary";
-        discCategory.onchange = ()=>{this.filter()};
-        discCategory._id = "1";
-        container.appendChild(discCategory);
-
         for(let i = 0; i < categories.length; i++){
             let category = template.cloneNode(true);
             category.querySelector(".ccName").innerText = categories[i].name;

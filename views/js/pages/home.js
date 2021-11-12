@@ -11,7 +11,7 @@ let home = {
         document.getElementById("createIncomeBtn").onclick = ()=>{controller.openModal("restoreCategory", "Income")};
         document.getElementById("createBillBtn").onclick = ()=>{controller.openModal("restoreCategory", "Bill")};
         document.getElementById("createAllowanceBtn").onclick = ()=>{controller.openModal("restoreCategory", "Allowance")};
-        document.getElementById("createTransactionBtn").onclick = ()=>{controller.openModal("createTransaction")};
+        document.getElementById("createTransactionBtn").onclick = ()=>{controller.openModal("createTransaction", user.getAccount().categories[0])};
         document.getElementById("dropdownButton").onclick = ()=>{this.showMenu()};
         document.getElementById("addAccountButton").onclick = ()=>{controller.openModal("newAccount")};
         document.getElementById("switchAccountButton").onclick = ()=>{controller.openModal("switchAccount")};

@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 const Account = require("../models/account.js").Account;
-const {Income, Bill, Allowance} = require("../models/category.js");
+const {Income, Bill, Allowance, Category} = require("../models/category.js");
 
 const helper = require("./helper.js");
 
@@ -137,7 +137,12 @@ module.exports = {
     createAccount: function(req, res){
         let account = new Account({
             name: req.body.name,
-            balance: req.body.balance
+            balance: req.body.balance,
+            categories: [new  Category({
+                name: "Discretionary",
+                amount: 0,
+                removed: false
+            })]
         });
 
         res.locals.user.accounts.push(account);

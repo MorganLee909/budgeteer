@@ -19,8 +19,8 @@ let transaction = {
         document.getElementById("deleteTransaction").onclick = ()=>{this.delete(transaction)};
 
         let editButton = document.getElementById("transactionEdit");
-        if(transaction.category.id === undefined){
-            editButton.innerText = "Edit"
+        if(transaction.category.name === "Discretionary"){
+            editButton.innerText = "Edit";
             editButton.classList.add("green");
             editButton.classList.remove("red");
             editButton.onclick = ()=>{this.edit(transaction)};

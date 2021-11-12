@@ -1,39 +1,14 @@
 class Transaction{
-    constructor(id, category, tags, amount, location, date, note, parent){
-        this._id = id;
-        this._tags = tags;
+    constructor(id, category, tags, amount, location, date, note){
+        this.id = id;
+        this.tags = tags;
         this._amount = amount;
-        this._location = location;
-        this._date = new Date(date);
-        this._note = note;
-        this._parent = parent;
+        this.location = location;
+        this.date = new Date(date);
+        this.note = note;
+        this.category = user.getAccount().getCategory(category);
 
-        if(category.id !== "1"){
-            this._category = user.getAccount().getCategory(category);
-            this._category.addTransaction(this._amount);
-        }else{
-            this._category = category;
-        }
-    }
-
-    //id
-    get id(){
-        return this._id;
-    }
-
-    get tags(){
-        return this._tags;
-    }
-
-    //category
-    get category(){
-        if(this._category === undefined){
-            return {
-                name: "Discretionary",
-                removeTransaction: ()=>{return}
-            };
-        }
-        return this._category;
+        this.category.addTransaction(this._amount);
     }
 
     //amount
@@ -46,16 +21,6 @@ class Transaction{
         return parseFloat((this._amount / 100).toFixed(2));
     }
 
-    //location
-    get location(){
-        return this._location;
-    }
-
-    //date
-    get date(){
-        return this._date;
-    }
-
     formattedDate(length){
         let options;
         if(length === "short"){
@@ -64,12 +29,7 @@ class Transaction{
             options = {weekday: "long", month: "long", day: "numeric", year: "numeric"};
         }
 
-        return this._date.toLocaleDateString("en-US", options);
-    }
-
-    //note
-    get note(){
-        return this._note;
+        return this.date.toLocaleDateString("en-US", options);
     }
 }
 

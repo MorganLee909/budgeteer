@@ -52,6 +52,13 @@ class Account{
                     this
                 ));
                 break;
+            default:
+                this.categories.push(new Category(
+                    category._id,
+                    category.name,
+                    category.amount,
+                    category.removed
+                ));
         }
     }
 
@@ -190,15 +197,6 @@ class Account{
     }
 
     addTransaction(transaction, isNew = true){
-        if(transaction.category === undefined){
-            transaction.category = new Category(
-                "1",
-                "discretionary",
-                0,
-                true
-            );
-        }
-
         let newTransaction = new Transaction(
             transaction._id,
             transaction.category,
@@ -207,7 +205,6 @@ class Account{
             transaction.location,
             transaction.date,
             transaction.note,
-            this
         );
 
         this.transactions.push(newTransaction);
@@ -223,8 +220,7 @@ class Account{
 
         this._balance -= parseInt(transaction.amount * 100);
 
-        if(transaction._category === undefined) return;
-        transaction._category.removeTransaction(transaction._amount);
+        transaction.category.removeTransaction(transaction._amount);
     }
 
     //general functions

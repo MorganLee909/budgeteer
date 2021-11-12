@@ -4,18 +4,11 @@ let createTransaction = {
     display: function(category){
         let form = document.getElementById("createTransactionForm");
         form.querySelector("input").focus();
-        let amount = document.getElementById("createTransactionAmount");
         form.reset();
+        form.onsubmit = ()=>{this.submit(category)};
         
         document.getElementById("createTransactionDate").valueAsDate = new Date();
-        
-        if(category === undefined){
-            amount.value = 0;
-            form.onsubmit = ()=>{this.submit()};
-        }else{
-            amount.value = category.amount;
-            form.onsubmit = ()=>{this.submit(category)};
-        }
+        document.getElementById("createTransactionAmount").value = category.amount;
 
         document.getElementById("createTransactionCancel").onclick = ()=>{controller.closeModal()};
     },
