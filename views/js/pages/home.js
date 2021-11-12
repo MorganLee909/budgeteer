@@ -103,6 +103,7 @@ let home = {
 
     populateTransactions: function(){
         let tbody = document.getElementById("transactionsBody");
+        let template = document.getElementById("tableTransaction").content.children[0];
 
         let from = new Date();
         from.setDate(1);
@@ -114,27 +115,15 @@ let home = {
         }
 
         for(let i = 0; i < transactions.length; i++){
-            let tr = document.createElement("tr");
-            tr.classList.add("actionable");
-            tr.onclick = ()=>{controller.openModal("transaction", transactions[i])};
-            tbody.appendChild(tr);
-            
-            let date = document.createElement("td");
             let dateOptions = {year: "numeric", month: "short", day: "numeric"};
-            date.innerText = transactions[i].date.toLocaleDateString("en-US", dateOptions);
-            tr.appendChild(date);
-
-            let category = document.createElement("td");
-            category.innerText = transactions[i].category.name;
-            tr.appendChild(category);
-
-            let location = document.createElement("td");
-            location.innerText = transactions[i].location;
-            tr.appendChild(location);
-
-            let amount = document.createElement("td");
-            amount.innerText = `$${transactions[i].amount}`;
-            tr.appendChild(amount);
+            let row = template.cloneNode(true);
+            
+            row.onclick = ()=>{controller.openModal("transaction", transactions[i])};
+            row.querySelector(".ttDate").innerText = transactions[i].date.toLocaleDateString("en-US", dateOptions);
+            row.querySelector(".ttCategory").innerText = transactions[i].category.name;
+            row.querySelector(".ttLocation").innerText = transactions[i].location;
+            row.querySelector(".ttAmount").innerText = `$${transactions[i].amount}`;
+            tbody.appendChild(row);
         }
     },
 

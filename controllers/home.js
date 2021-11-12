@@ -6,7 +6,6 @@ const {Income, Bill, Allowance} = require("../models/category.js");
 const helper = require("./helper.js");
 
 const bcrypt = require("bcryptjs");
-const ObjectId = require("mongoose").Types.ObjectId;
 const ValidationError = require("mongoose").Error.ValidationError;
 
 module.exports = {
