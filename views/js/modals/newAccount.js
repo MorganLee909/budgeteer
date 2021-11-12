@@ -1,6 +1,7 @@
 let newAccount = {
     display: function(){
         let form = document.getElementById("newAccountForm");
+        form.querySelector("input").focus();
         form.onsubmit = ()=>{this.submit()};
         form.reset();
 

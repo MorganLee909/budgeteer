@@ -2,13 +2,8 @@ const User = require("../classes/user.js");
 
 let enter = {
     display: function(){
-        console.log(this);
         document.getElementById("registerForm").onsubmit = ()=>{this.register()};
-        document.getElementById("loginForm").onsubmit = ()=>{
-            event.preventDefault();
-            console.log(this);
-            this.login();
-        };
+        document.getElementById("loginForm").onsubmit = ()=>{this.login()};
         document.getElementById("loginEmail").focus();
     },
 
