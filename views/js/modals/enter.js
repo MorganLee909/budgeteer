@@ -68,13 +68,15 @@ let enter = {
             .then((response)=>{
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
+
+                    throw "error";
                 }else{
                     user = new User(response.accounts);
                     user.updateAll();
                     controller.closeModal();
-                }
 
-                return fetch(`/transactions/${user.getAccount().id}`);
+                    return fetch(`/transactions/${user.getAccount().id}`);
+                }
             })
             .then(r=>r.json())
             .then((response)=>{
@@ -90,6 +92,7 @@ let enter = {
                 }
             })
             .catch((err)=>{
+                if(err === "error") return;
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
             .finally(()=>{

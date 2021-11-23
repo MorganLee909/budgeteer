@@ -182,6 +182,7 @@ fetch("/session")
     .then((response)=>{
         if(typeof(response) === "string"){
             controller.openModal("enter");
+            if(response === "error") throw "enter";
             throw "noUser";
         }else{
             user = new User(response.accounts);
@@ -191,7 +192,6 @@ fetch("/session")
     })
     .then(response => response.json())
     .then((response)=>{
-
         let account = user.getAccount();
         for(let i = 0; i < response.length; i++){
             account.addTransaction(response[i], false);
@@ -200,8 +200,14 @@ fetch("/session")
         state.render();
     })
     .catch((err)=>{
-        if(err !== "noUser"){
-            controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+        switch(err){
+            case "error":
+                controller.createBanner("INCORRECT EMAIL OR PASSWORD", "error");
+                break;
+            case "enter":
+                break;
+            default:
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
         }
     })
     .finally(()=>{

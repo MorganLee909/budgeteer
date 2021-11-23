@@ -29,7 +29,7 @@ module.exports = {
             })
             .catch((err)=>{
                 console.error(err);
-                return res.json("ERROR: UNABLE TO RETRIEVE YOU DATA");
+                return res.json("ERROR: UNABLE TO RETRIEVE YOUR DATA");
             });
     },
 
