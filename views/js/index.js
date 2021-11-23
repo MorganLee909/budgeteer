@@ -209,3 +209,7 @@ fetch("/session")
     });
 
 home.buttons();
+document.onkeydown = (e)=>{
+    if(!user) return;
+    if(e.keyCode === 27) controller.closeModal();
+}
