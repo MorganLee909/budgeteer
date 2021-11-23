@@ -36,12 +36,6 @@ controller = {
             modals[i].style.display = "none";
         }
 
-        let container = document.getElementById("modalContainer");
-        container.style.display = "flex";
-        if(user !== null && user.getAccount() !== undefined){
-            container.onclick = ()=>{controller.closeModal()};
-        }
-
         switch(modal){
             case "enter":
                 modal = document.getElementById("enterModal");
@@ -83,6 +77,10 @@ controller = {
                 displayFunk = helpModal.display.bind(helpModal);
                 break;
             case "transfer":
+                if(user.accounts.length === 1){
+                    controller.createBanner("No other account to transfer to", "error");
+                    return;
+                }
                 modal = document.getElementById("transferModal");
                 displayFunk = transferModal.display.bind(transferModal);
                 break;
@@ -105,6 +103,12 @@ controller = {
                 displayFunk = ()=>{editCategoryModal.display(data)};
                 displayFunk = displayFunk.bind(editCategoryModal);
                 break;
+        }
+
+        let container = document.getElementById("modalContainer");
+        container.style.display = "flex";
+        if(user !== null && user.getAccount() !== undefined){
+            container.onclick = ()=>{controller.closeModal()};
         }
 
         modal.style.display = "flex";
