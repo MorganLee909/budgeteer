@@ -59,7 +59,6 @@ let home = {
             allowanceBody.removeChild(allowanceBody.firstChild);
         }
 
-        console.log(categories);
         for(let i = 0; i < categories.length; i++){
             if(categories[i].removed) continue;
 

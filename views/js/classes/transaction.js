@@ -8,7 +8,11 @@ class Transaction{
         this.note = note;
         this.category = user.getAccount().getCategory(category);
 
-        this.category.addTransaction(this._amount);
+        let monthStart = new Date();
+        monthStart.setDate(1);
+        monthStart.setHours(0, 0, 0, 0);
+
+        if(this.date > monthStart) this.category.addTransaction(this._amount);
     }
 
     //amount
