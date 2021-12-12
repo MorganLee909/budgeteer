@@ -14,7 +14,7 @@ let transaction = {
         document.getElementById("transactionTags").innerText = tags;
         document.getElementById("transactionAmount").innerText = `$${transaction.getAbsoluteValue()}`;
         document.getElementById("transactionDate").innerText = transaction.formattedDate("long");
-        document.getElementById("transactionNote").innerText = transaction.note;
+        document.getElementById("transactionNote").innerText = transaction.note ? transaction.note : "";
         document.getElementById("transactionClose").onclick = ()=>{controller.closeModal()};
         document.getElementById("deleteTransaction").onclick = ()=>{this.delete(transaction)};
 
