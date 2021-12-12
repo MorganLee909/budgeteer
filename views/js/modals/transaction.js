@@ -57,7 +57,7 @@ let transaction = {
         let data = {
             transaction: transaction.id,
             tags: document.getElementById("transactionEditTags").value.split(" "),
-            amount: document.getElementById("transactionEditAmount").value * 100,
+            amount: -parseInt(document.getElementById("transactionEditAmount").value * 100),
             location: document.getElementById("transactionEditLocation").value,
             date: document.getElementById("transactionEditDate").valueAsDate,
             note: document.getElementById("transactionEditNote").value
