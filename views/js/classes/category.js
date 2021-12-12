@@ -13,6 +13,14 @@ class Category{
     set amount(amount){
         this._amount = amount;
     }
+
+    addTransaction(amount){
+        return;
+    }
+
+    removeTransaction(amount){
+        return;
+    }
 }
 
 class Income extends Category{

@@ -1,12 +1,11 @@
 const User = require("../models/user.js");
 const Transaction = require("../models/transaction.js");
 const Account = require("../models/account.js").Account;
-const {Income, Bill, Allowance} = require("../models/category.js");
+const {Income, Bill, Allowance, Category} = require("../models/category.js");
 
 const helper = require("./helper.js");
 
 const bcrypt = require("bcryptjs");
-const ObjectId = require("mongoose").Types.ObjectId;
 const ValidationError = require("mongoose").Error.ValidationError;
 
 module.exports = {
@@ -30,7 +29,7 @@ module.exports = {
             })
             .catch((err)=>{
                 console.error(err);
-                return res.json("ERROR: UNABLE TO RETRIEVE YOU DATA");
+                return res.json("ERROR: UNABLE TO RETRIEVE YOUR DATA");
             });
     },
 
@@ -138,7 +137,12 @@ module.exports = {
     createAccount: function(req, res){
         let account = new Account({
             name: req.body.name,
-            balance: req.body.balance
+            balance: req.body.balance,
+            categories: [new  Category({
+                name: "Discretionary",
+                amount: 0,
+                removed: false
+            })]
         });
 
         res.locals.user.accounts.push(account);
@@ -460,7 +464,8 @@ module.exports = {
             transactions.push(new Transaction({
                 account: res.locals.user.accounts[0]._id,
                 tags: randomTags(),
-                amount: Math.random() * 25000,
+                amount: -(Math.random() * 25000),
+                category: res.locals.user.accounts[0].categories[0],
                 location: "",
                 date: randomDate()
             }));
@@ -468,10 +473,10 @@ module.exports = {
 
         Transaction.create(transactions)
             .then((transactions)=>{
+                console.error("Developer route ran");
                 return res.redirect("/");
             })
             .catch((err)=>{
-                console.error("Developer route ran");
                 console.error(err);
             });
     }

@@ -14,13 +14,13 @@ let transaction = {
         document.getElementById("transactionTags").innerText = tags;
         document.getElementById("transactionAmount").innerText = `$${transaction.getAbsoluteValue()}`;
         document.getElementById("transactionDate").innerText = transaction.formattedDate("long");
-        document.getElementById("transactionNote").innerText = transaction.note;
+        document.getElementById("transactionNote").innerText = transaction.note ? transaction.note : "";
         document.getElementById("transactionClose").onclick = ()=>{controller.closeModal()};
         document.getElementById("deleteTransaction").onclick = ()=>{this.delete(transaction)};
 
         let editButton = document.getElementById("transactionEdit");
-        if(transaction.category.id === undefined){
-            editButton.innerText = "Edit"
+        if(transaction.category.name === "Discretionary"){
+            editButton.innerText = "Edit";
             editButton.classList.add("green");
             editButton.classList.remove("red");
             editButton.onclick = ()=>{this.edit(transaction)};
@@ -57,7 +57,7 @@ let transaction = {
         let data = {
             transaction: transaction.id,
             tags: document.getElementById("transactionEditTags").value.split(" "),
-            amount: document.getElementById("transactionEditAmount").value * 100,
+            amount: -parseInt(document.getElementById("transactionEditAmount").value * 100),
             location: document.getElementById("transactionEditLocation").value,
             date: document.getElementById("transactionEditDate").valueAsDate,
             note: document.getElementById("transactionEditNote").value

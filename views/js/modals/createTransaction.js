@@ -3,18 +3,12 @@ const Income = require("../classes/category").Income;
 let createTransaction = {
     display: function(category){
         let form = document.getElementById("createTransactionForm");
-        let amount = document.getElementById("createTransactionAmount");
+        form.querySelector("input").focus();
         form.reset();
+        form.onsubmit = ()=>{this.submit(category)};
         
         document.getElementById("createTransactionDate").valueAsDate = new Date();
-        
-        if(category === undefined){
-            amount.value = 0;
-            form.onsubmit = ()=>{this.submit()};
-        }else{
-            amount.value = category.amount;
-            form.onsubmit = ()=>{this.submit(category)};
-        }
+        document.getElementById("createTransactionAmount").value = category.amount;
 
         document.getElementById("createTransactionCancel").onclick = ()=>{controller.closeModal()};
     },

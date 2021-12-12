@@ -1,6 +1,7 @@
 let createIncome = {
     display: function(){
         let form = document.getElementById("createIncomeForm");
+        form.querySelector("input").focus();
         form.reset();
         form.onsubmit = ()=>{this.submit()};
         document.getElementById("createIncomeCancel").onclick = ()=>{controller.closeModal()};

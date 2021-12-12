@@ -41,13 +41,21 @@
     #transactionsDisplay{
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
         width: 37%;
         max-height: 95vh;
         overflow-y: auto;
-        margin: auto 0;
     }
 
     #anal{
         width: 37%;
+        max-height: 95%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #anal > *{
+        max-height: 45%;
     }

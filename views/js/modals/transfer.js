@@ -3,6 +3,7 @@ let transfer = {
         let form = document.getElementById("transferForm");
         form.onsubmit = ()=>{this.submit()};
         form.reset();
+        document.getElementById("transferAmount").focus();
         
         document.getElementById("transferFrom").innerText = user.getAccount().name;
         document.getElementById("transferCancel").onclick = ()=>{controller.closeModal()};

@@ -4,6 +4,7 @@ let enter = {
     display: function(){
         document.getElementById("registerForm").onsubmit = ()=>{this.register()};
         document.getElementById("loginForm").onsubmit = ()=>{this.login()};
+        document.getElementById("loginEmail").focus();
     },
 
     register: function(){
@@ -15,9 +16,7 @@ let enter = {
             confirmPassword: document.getElementById("registerConfirm").value
         }
 
-        if(data.password !== data.confirmPassword){
-            return;
-        }
+        if(data.password !== data.confirmPassword) return;
 
         let loader = document.getElementById("loaderContainer");
         loader.style.display = "flex";
@@ -69,13 +68,15 @@ let enter = {
             .then((response)=>{
                 if(typeof(response) === "string"){
                     controller.createBanner(response, "error");
+
+                    throw "error";
                 }else{
                     user = new User(response.accounts);
                     user.updateAll();
                     controller.closeModal();
-                }
 
-                return fetch(`/transactions/${user.getAccount().id}`);
+                    return fetch(`/transactions/${user.getAccount().id}`);
+                }
             })
             .then(r=>r.json())
             .then((response)=>{
@@ -87,10 +88,11 @@ let enter = {
                         account.addTransaction(response[i], false);
                     }
 
-                    state.all();
+                    state.render();
                 }
             })
             .catch((err)=>{
+                if(err === "error") return;
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
             })
             .finally(()=>{

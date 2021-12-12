@@ -23,7 +23,8 @@ let esbuildOptions = {
     bundle: true,
     minify: false,
     keepNames: true,
-    outfile: "./views/bundle.js"
+    outfile: "./views/bundle.js",
+    sourcemap: true
 };
 
 let cssmergerOptions = {
@@ -50,7 +51,11 @@ if(process.env.NODE_ENV === "production"){
     mongooseOptions.auth = {authSource: "admin"};
     mongooseOptions.user = "website";
     mongooseOptions.pass = process.env.MONGODB_PASS;
+    
     esbuildOptions.minify = true;
+    esbuildOptions.keepNames = true;
+    esbuildOptions.sourcemap = false;
+
     cssmergerOptions.minimize = true;
 }
 

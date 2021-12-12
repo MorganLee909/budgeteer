@@ -24,62 +24,64 @@ controller = {
         for(let i = 0; i < pages.length; i++){
             pages[i].style.display = "none";
         }
-
+        
         document.getElementById(page).style.display = "flex";
     },
 
     openModal: function(modal, data){
+        let displayFunk = {};
         let modals = document.querySelectorAll(".modal");
         for(let i = 0; i < modals.length; i++){
             modals[i].style.display = "none";
         }
 
-        let container = document.getElementById("modalContainer");
-        container.style.display = "flex";
-        if(user !== null && user.getAccount() !== undefined){
-            container.onclick = ()=>{controller.closeModal()};
-        }
-
         switch(modal){
             case "enter":
                 modal = document.getElementById("enterModal");
-                enterModal.display();
+                displayFunk = enterModal.display.bind(enterModal);
                 break;
             case "newAccount":
                 modal = document.getElementById("newAccountModal");
-                newAccountModal.display();
+                displayFunk = newAccountModal.display.bind(newAccountModal);
                 break;
             case "createIncome":
                 modal = document.getElementById("createIncomeModal");
-                createIncomeModal.display();
+                displayFunk = createIncomeModal.display.bind(createIncomeModal);
                 break;
             case "createBill":
                 modal = document.getElementById("createBillModal");
-                createBillModal.display();
+                displayFunk = createBillModal.display.bind(createBillModal);
                 break;
             case "createAllowance":
                 modal = document.getElementById("createAllowanceModal");
-                createAllowanceModal.display();
+                displayFunk = createAllowanceModal.display.bind(createAllowanceModal);
                 break;
             case "createTransaction":
                 modal = document.getElementById("createTransactionModal");
-                createTransactionModal.display(data);
+                displayFunk = ()=>{createTransactionModal.display(data)};
+                displayFunk = displayFunk.bind(createTransactionModal);
                 break;
             case "transaction":
                 modal = document.getElementById("transactionModal");
-                transactionModal.display(data);
+                displayFunk = ()=>{transactionModal.display(data)};
+                displayFunk = displayFunk.bind(transactionModal);
                 break;
             case "switchAccount":
                 modal = document.getElementById("switchAccountModal");
-                switchAccountModal.display();
+                displayFunk = switchAccountModal.display.bind(switchAccountModal);
+                displayFunk = displayFunk.bind(switchAccountModal);
                 break;
             case "help":
                 modal = document.getElementById("helpModal");
-                helpModal.display();
+                displayFunk = helpModal.display.bind(helpModal);
                 break;
             case "transfer":
+                if(user.accounts.length === 1){
+                    controller.createBanner("No other account to transfer to", "error");
+                    return;
+                }
                 modal = document.getElementById("transferModal");
-                transferModal.display();
+                displayFunk = transferModal.display.bind(transferModal);
                 break;
             case "restoreCategory":
                 let categories = user
@@ -88,7 +90,8 @@ controller = {
                     .filter(c => c.constructor.name === data && c.removed === true);
                 if(categories.length > 0){
                     modal = document.getElementById("restoreCategoryModal");
-                    restoreModal.display(categories);
+                    displayFunk = ()=>{restoreModal.display(categories)};
+                    displayFunk = displayFunk.bind(restoreModal);
                 }else{
                     controller.openModal(`create${data}`);
                     return;
@@ -96,11 +99,19 @@ controller = {
                 break;
             case "editCategory":
                 modal = document.getElementById("editCategoryModal");
-                editCategoryModal.display(data);
+                displayFunk = ()=>{editCategoryModal.display(data)};
+                displayFunk = displayFunk.bind(editCategoryModal);
                 break;
         }
 
+        let container = document.getElementById("modalContainer");
+        container.style.display = "flex";
+        if(user !== null && user.getAccount() !== undefined){
+            container.onclick = ()=>{controller.closeModal()};
+        }
+
         modal.style.display = "flex";
+        displayFunk();
         modal.onclick = ()=>{event.stopPropagation()};
     },
 
@@ -147,12 +158,19 @@ state = {
         home.populateTransactions();
         home.populateCategories();
         home.populateStats();
+        transactionsPage.filter();
     },
     
     all: function(){
         home.all();
+        transactionsPage.filter();
     },
 
+    render: function(){
+        transactionsPage.display();
+        home.all();
+        transactionsPage.filter();
+    }
 }
 
 let loader = document.getElementById("loaderContainer");
@@ -163,6 +181,7 @@ fetch("/session")
     .then((response)=>{
         if(typeof(response) === "string"){
             controller.openModal("enter");
+            if(response === "error") throw "enter";
             throw "noUser";
         }else{
             user = new User(response.accounts);
@@ -172,18 +191,22 @@ fetch("/session")
     })
     .then(response => response.json())
     .then((response)=>{
-
         let account = user.getAccount();
         for(let i = 0; i < response.length; i++){
             account.addTransaction(response[i], false);
         }
 
-        home.all();
-        transactionsPage.display();
+        state.render();
     })
     .catch((err)=>{
-        if(err !== "noUser"){
-            controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
+        switch(err){
+            case "error":
+                controller.createBanner("INCORRECT EMAIL OR PASSWORD", "error");
+                break;
+            case "enter":
+                break;
+            default:
+                controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
         }
     })
     .finally(()=>{
@@ -191,3 +214,7 @@ fetch("/session")
     });
 
 home.buttons();
+document.onkeydown = (e)=>{
+    if(!user) return;
+    if(e.keyCode === 27) controller.closeModal();
+}

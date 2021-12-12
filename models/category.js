@@ -51,5 +51,6 @@ module.exports = {
     Income: Income,
     Bill: Bill,
     Allowance: Allowance,
+    Category: Category,
     CategorySchema: CategorySchema
 };
