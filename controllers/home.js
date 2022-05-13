@@ -122,6 +122,7 @@ module.exports = {
             })
             .catch((err)=>{
                 if(typeof(err) === "string") return res.json(err);
+                console.error(err);
                 return res.json("ERROR: UNABLE TO CREATE NEW USER");
             });
     },
@@ -152,6 +153,7 @@ module.exports = {
                 return res.json(account);
             })
             .catch((err)=>{
+                console.error(err);
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO CREATE ACCOUNT");
             });
@@ -177,6 +179,7 @@ module.exports = {
                 return res.json({balance: account.balance});
             })
             .catch((err)=>{
+                console.error(err);
                 return res.json("ERROR: UNABLE TO UPDATE BALANCE");
             })
     },
@@ -343,6 +346,7 @@ module.exports = {
                 return res.json(transaction);
             })
             .catch((err)=>{
+                console.error(err);
                 return res.json("ERROR: UNABLE TO UPDATE THE TRANSACTION");
             });
     },
@@ -380,6 +384,7 @@ module.exports = {
                 return res.json({});
             })
             .catch((err)=>{
+                console.error(err);
                 return res.json("ERROR: UNABLE TO DELETE TRANSACTION");
             });
     },
@@ -428,6 +433,7 @@ module.exports = {
                 return res.json([response[0], response[1]]);
             })
             .catch((err)=>{
+                console.error(err);
                 if(err instanceof ValidationError) return res.json(err.errors[Object.keys(err.errors)[0]].properties.message);
                 return res.json("ERROR: UNABLE TO UPDATE DATA");
             });
