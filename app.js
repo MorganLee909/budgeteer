@@ -19,11 +19,11 @@ let mongooseOptions = {
 };
 
 let esbuildOptions = {
-    entryPoints: ["./views/js/index.js"],
+    entryPoints: [`${__dirname}/views/js/index.js`],
     bundle: true,
     minify: false,
     keepNames: true,
-    outfile: "./views/bundle.js",
+    outfile: `${__dirname}/views/bundle.js`,
     sourcemap: true
 };
 
@@ -61,7 +61,7 @@ if(process.env.NODE_ENV === "production"){
 
 mongoose.connect("mongodb://127.0.0.1:27017/", mongooseOptions);
 esbuild.buildSync(esbuildOptions);
-cssmerger(["./views/css/"], "./views/bundle.css", cssmergerOptions);
+cssmerger([`${__dirname}/views/css/`], `${__dirname}/views/bundle.css`, cssmergerOptions);
 
 app.use(compression());
 app.use(session({
@@ -73,7 +73,7 @@ app.use(session({
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-require("./routes")(app);
+require(`${__dirname}/routes`)(app);
 
 if(process.env.NODE_ENV === "production"){
     httpsServer.listen(process.env.HTTPS_PORT, ()=>{});

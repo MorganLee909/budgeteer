@@ -10,7 +10,7 @@ const ValidationError = require("mongoose").Error.ValidationError;
 
 module.exports = {
     render: function(req, res){
-        res.render("./index.ejs");
+        res.render(`${__dirname}/index.ejs`);
     },
 
     /*
