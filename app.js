@@ -58,4 +58,8 @@ app.use(express.json());
 
 require(`${__dirname}/routes`)(app);
 
-module.exports = app;
+if(process.env.NODE_ENV === "production"){
+    module.exports = app;
+}else{
+    app.listen(process.env.PORT);
+}
