@@ -139,8 +139,14 @@ let home = {
         document.getElementById("statsBills").innerText = `$${account.getTotalBills()}`;
         document.getElementById("statsAllowances").innerText = `$${account.getTotalAllowances()}`;
 
+        let startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
         for(let i = 0; i < account.transactions.length; i++){
-            if(account.transactions[i].category.name === "Discretionary") discretionary += account.transactions[i].amount;
+            if(
+                account.transactions[i].category.name === "Discretionary" &&
+                new Date(account.transactions[i].date) > startOfMonth
+            ) discretionary += account.transactions[i].amount;
         }
 
         document.getElementById("statsRemainingDiscretionary").innerText = `$${discretionary.toFixed(2)}`;
