@@ -1,17 +1,5 @@
 const mongoose = require("mongoose");
 
-let isSanitary = (str)=>{
-    let disallowed = ["\\", "<", ">", "$", "{", "}", "(", ")"];
-
-    for(let j = 0; j < disallowed.length; j++){
-        if(str.includes(disallowed[j])){
-            return false;
-        }
-    }
-
-    return true;
-}
-
 let TransactionSchema = new mongoose.Schema({
     account: {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,10 +14,7 @@ let TransactionSchema = new mongoose.Schema({
     },
     tags: [{
         type: String,
-        validate: {
-            validator: isSanitary,
-            message: "TAG CONTAINS ILLEGAL CHARACTERS"
-        }
+        required: false
     }],
     amount: {
         type: Number,
@@ -37,10 +22,7 @@ let TransactionSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        validate: {
-            validator: isSanitary,
-            message: "LOCATION CONTAINS ILLEGAL CHARACTERS"
-        }
+        required: false
     },
     date: {
         type: Date,
@@ -48,10 +30,7 @@ let TransactionSchema = new mongoose.Schema({
     },
     note: {
         type: String,
-        validate: {
-            validator: isSanitary,
-            message: "NOTE CONTAINS ILLEGAL CHARACTERS"
-        }
+        required: false
     }
 });
 
