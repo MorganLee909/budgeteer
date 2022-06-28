@@ -58,7 +58,4 @@ app.use(express.json());
 
 require(`${__dirname}/routes`)(app);
 
-if(process.env.NODE_ENV === "production"){
-    httpsServer.listen(process.env.HTTPS_PORT, ()=>{});
-}
-app.listen(process.env.PORT, ()=>{});
+module.exports = app;
