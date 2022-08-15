@@ -47,10 +47,10 @@ module.exports = {
         User.findOne({email: email})
             .populate("accounts.categories")
             .then((user)=>{
-                if(user === null) throw "USER WITH THIS EMAIL DOESN'T EXIST";
+                if(user === null) throw "email";
 
                 bcrypt.compare(req.body.password, user.password, (err, response)=>{
-                    if(response === false) throw "INCORRECT PASSWORD";
+                    if(response === false) return res.json("Password does not match email");
 
                     req.session.user = user.session.sessionId;
 
@@ -61,9 +61,12 @@ module.exports = {
                 });
             })
             .catch((err)=>{
-                console.error(err);
-                if(typeof(err) === "string") return res.json(err);
-                return res.json("ERROR: LOGIN FAILED");
+                switch(err){
+                    case "email": res.json("User with this email doesn't exist"); break;
+                    default:
+                        console.error(err);
+                        return res.json("ERROR: Login failed");
+                }
             });
     },
 
