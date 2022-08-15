@@ -52,12 +52,21 @@ module.exports = {
                 bcrypt.compare(req.body.password, user.password, (err, response)=>{
                     if(response === false) return res.json("Password does not match email");
 
+                    let expiry = new Date();
+                    expiry.setDate(expiry.getDate() + 90);
+                    user.session.sessionId = helper.generateId(25);
                     req.session.user = user.session.sessionId;
+                    user.session.expiration = expiry;
+                    user.save().catch((err)=>{
+                        console.error(err);
+                        return res.json("ERROR: Unable to save new user session data");
+                    });
 
-                    user.password = undefined;
-                    user.session = undefined;
+                    let userObject = user.toObject();
+                    userObject.password = undefined;
+                    userObject.session = undefined;
 
-                    return res.json(user);
+                    return res.json(userObject);
                 });
             })
             .catch((err)=>{

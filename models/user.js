@@ -1,5 +1,4 @@
 const Account = require("./account.js").AccountSchema;
-const Category = require("./category.js");
 
 const mongoose = require("mongoose");
 

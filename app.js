@@ -22,7 +22,6 @@ let esbuildOptions = {
     minify: false,
     keepNames: true,
     outfile: `${__dirname}/views/bundle.js`,
-    sourcemap: true
 };
 
 let cssmergerOptions = {
@@ -37,7 +36,6 @@ if(process.env.NODE_ENV === "production"){
     
     esbuildOptions.minify = true;
     esbuildOptions.keepNames = true;
-    esbuildOptions.sourcemap = false;
 
     cssmergerOptions.minimize = true;
 }
@@ -49,6 +47,7 @@ cssmerger([`${__dirname}/views/css/`], `${__dirname}/views/bundle.css`, cssmerge
 app.use(compression());
 app.use(session({
     secret: "Balancing budgets believably by beligerantly brow-beating buyers",
+    sameSite: "lax",
     cookie: {secure: true},
     saveUninitialized: true,
     resave: false

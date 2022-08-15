@@ -180,9 +180,7 @@ fetch("/session")
     .then(response => response.json())
     .then((response)=>{
         if(typeof(response) === "string"){
-            controller.openModal("enter");
-            if(response === "error") throw "enter";
-            throw "noUser";
+            throw "enter";
         }else{
             user = new User(response.accounts);
             
@@ -204,6 +202,7 @@ fetch("/session")
                 controller.createBanner("INCORRECT EMAIL OR PASSWORD", "error");
                 break;
             case "enter":
+                controller.openModal("enter");
                 break;
             default:
                 controller.createBanner("SOMETHING WENT WRONG. PLEASE REFRESH THE PAGE", "error");
