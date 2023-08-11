@@ -207,6 +207,8 @@ class Account{
             transaction.note,
         );
 
+        newTransaction.date.setMinutes(newTransaction.date.getMinutes() + newTransaction.date.getTimezoneOffset());
+
         this.transactions.push(newTransaction);
         if(isNew) this._balance += transaction.amount;
 
