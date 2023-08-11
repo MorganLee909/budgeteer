@@ -90,6 +90,24 @@ class Account{
         return this.categories.filter(c => c.constructor.name === "Income");
     }
 
+    getMonthStart(){
+        let monthStart = this._balance;
+        let from = new Date();
+        from.setDate(0);
+        from.setHours(0, 0, 0, 0);
+        let to = new Date();
+        to.setMonth(to.getMonth() + 1);
+        to.setHours(0, 0, 0, 0);
+        
+        let transactions = this.getTransactions({from: from, to: to});
+
+        for(let i = 0; i < transactions.length; i++){
+            monthStart = monthStart - transactions[i]._amount;
+        }
+
+        return monthStart / 100;
+    }
+
     getTotalIncome(){
         let income = 0;
 
