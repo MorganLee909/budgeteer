@@ -31,6 +31,8 @@ class Income extends Category{
     }
 
     addTransaction(amount){
+        console.log("income.addTransaction");
+        console.trace();
         this.isPaid = true;
         this.oldAmount = this._amount;
         this._amount = amount;

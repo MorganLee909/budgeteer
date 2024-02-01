@@ -5,6 +5,7 @@ class Transaction{
         this._amount = amount;
         this.location = location;
         this.date = new Date(date);
+        this.date.setMinutes(this.date.getMinutes() + this.date.getTimezoneOffset());
         this.note = note;
         this.category = user.getAccount().getCategory(category);
 
@@ -12,7 +13,7 @@ class Transaction{
         monthStart.setDate(1);
         monthStart.setHours(0, 0, 0, 0);
 
-        if(this.date > monthStart) this.category.addTransaction(this._amount);
+        if(this.date >= monthStart) this.category.addTransaction(this._amount);
     }
 
     //amount
